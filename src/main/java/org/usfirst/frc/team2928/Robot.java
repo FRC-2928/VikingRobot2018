@@ -14,7 +14,7 @@ import org.usfirst.frc.team2928.commands.ShiftDown;
 import org.usfirst.frc.team2928.subsystems.*;
 
 /**
- * Robot for 2017.
+ * Robot for 2018.
  */
 public class Robot extends IterativeRobot {
 
