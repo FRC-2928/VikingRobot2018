@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team2928.autonomous.*;
-import org.usfirst.frc.team2928.commands.ConstantDrive;
-import org.usfirst.frc.team2928.commands.ShiftDown;
-import org.usfirst.frc.team2928.subsystems.*;
+//import org.usfirst.frc.team2928.autonomous.*;
+//import org.usfirst.frc.team2928.commands.ConstantDrive;
+//import org.usfirst.frc.team2928.commands.ShiftDown;
+//import org.usfirst.frc.team2928.subsystems.*;
 
 /**
  * Robot for 2018.

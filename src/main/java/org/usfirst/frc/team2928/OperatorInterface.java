@@ -3,7 +3,7 @@ package org.usfirst.frc.team2928;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team2928.commands.*;
+//import org.usfirst.frc.team2928.commands.*;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ public class OperatorInterface {
 
     // PORTS GO HERE
 
-    private ArrayList<JoystickButton> buttons = new ArrayList<JoystickButton>();
+    private ArrayList<JoystickButton> buttons = new ArrayList<>();
 
     // JOYSTICKS AND BUTTONS ARE DEFINED HERE
 
@@ -23,9 +23,10 @@ public class OperatorInterface {
 
     //We're assuming same drive setup as last year.
     public double getDriveY() {
-        return -driveStick.getY();
+        //return -driveStick.getY();
+        return 0d;
     }
     public double getDriveX(){
-        return driveStick.getX();
+        return 0d;
     }
 }
