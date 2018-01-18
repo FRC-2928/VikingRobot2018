@@ -9,10 +9,7 @@ import java.util.ArrayList;
 
 public class OperatorInterface {
 
-    // PORTS GO HERE
-
-    private ArrayList<JoystickButton> buttons = new ArrayList<>();
-
+    private static final Joystick driveStick = new Joystick(0);
     // JOYSTICKS AND BUTTONS ARE DEFINED HERE
 
     public OperatorInterface() {
@@ -23,10 +20,9 @@ public class OperatorInterface {
 
     //We're assuming same drive setup as last year.
     public double getDriveY() {
-        //return -driveStick.getY();
-        return 0d;
+        return -driveStick.getY();
     }
     public double getDriveX(){
-        return 0d;
+        return -driveStick.getX();
     }
 }

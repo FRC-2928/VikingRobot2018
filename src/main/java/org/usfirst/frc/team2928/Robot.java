@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team2928.Subsystem.Drivebase;
 //import org.usfirst.frc.team2928.autonomous.*;
 //import org.usfirst.frc.team2928.commands.ConstantDrive;
 //import org.usfirst.frc.team2928.commands.ShiftDown;
@@ -25,6 +26,9 @@ public class Robot extends IterativeRobot {
     //TODO: add to these command groups to make the robot do anything during auto.
     private static SendableChooser<Command> autoSelector;
     private static Compressor compressor = new Compressor();
+
+    public static final Drivebase drivebase = new Drivebase();
+    public static final OperatorInterface oi = new OperatorInterface();
 
     @Override
     public void robotInit() {
