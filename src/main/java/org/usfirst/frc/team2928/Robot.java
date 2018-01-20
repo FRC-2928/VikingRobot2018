@@ -9,10 +9,8 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2928.Subsystem.Drivebase;
-//import org.usfirst.frc.team2928.autonomous.*;
-//import org.usfirst.frc.team2928.commands.ConstantDrive;
-//import org.usfirst.frc.team2928.commands.ShiftDown;
-//import org.usfirst.frc.team2928.subsystems.*;
+import org.usfirst.frc.team2928.Subsystem.Shoulder;
+import org.usfirst.frc.team2928.Subsystem.Transmission;
 
 /**
  * Robot for 2018.
@@ -29,6 +27,8 @@ public class Robot extends IterativeRobot {
 
     public static final Drivebase drivebase = new Drivebase();
     public static final OperatorInterface oi = new OperatorInterface();
+    public static final Transmission transmission = new Transmission();
+    public static final Shoulder shoulder = new Shoulder();
 
     @Override
     public void robotInit() {
@@ -61,5 +61,6 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
     }
 }
