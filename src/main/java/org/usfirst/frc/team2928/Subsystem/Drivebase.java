@@ -6,9 +6,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2928.Command.JoystickDrive;
 import org.usfirst.frc.team2928.RobotConstants;
 import org.usfirst.frc.team2928.RobotMap;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,9 +46,13 @@ public class Drivebase extends Subsystem {
 
         drive = new DifferentialDrive(left, right);
     }
+        public void drive(double move, double rotate) {
+            drive.arcadeDrive(move, rotate);
+            SmartDashboard.putNumber("gyro", getAngle());
+        }
 
-    public void drive(double move, double rotate)
-    {
-        drive.arcadeDrive(move, rotate);
-    }
+        public double getAngle()
+        {
+            throw new NotImplementedException();
+        }
 }

@@ -2,7 +2,10 @@ package org.usfirst.frc.team2928.Subsystem;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2928.RobotMap;
+
+import static org.usfirst.frc.team2928.Subsystem.Transmission.GearState.LOW;
 
 public class Transmission extends Subsystem {
 
@@ -26,12 +29,13 @@ public class Transmission extends Subsystem {
 
     public void shift(GearState state)
     {
-        shiftSolenoid.set(state == GearState.LOW);
+        shiftSolenoid.set(state == LOW);
+        SmartDashboard.putString("Gear", state == GearState.LOW ? "Low" : "High");
     }
 
     public GearState getGear()
     {
-        return shiftSolenoid.get() ? GearState.HIGH : GearState.LOW;
+        return shiftSolenoid.get() ? GearState.HIGH : LOW;
     }
 
     @Override
