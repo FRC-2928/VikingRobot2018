@@ -3,6 +3,7 @@ package org.usfirst.frc.team2928.Subsystem;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team2928.Command.TransmissionWatchdog;
 import org.usfirst.frc.team2928.RobotMap;
 
 import static org.usfirst.frc.team2928.Subsystem.Transmission.GearState.LOW;
@@ -40,6 +41,6 @@ public class Transmission extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-
+        new TransmissionWatchdog().start();
     }
 }

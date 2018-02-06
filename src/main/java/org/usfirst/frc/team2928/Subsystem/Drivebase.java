@@ -18,9 +18,9 @@ import java.util.List;
 
 public class Drivebase extends Subsystem {
 
-    private final WPI_TalonSRX left;
+    public final WPI_TalonSRX left;
     private final WPI_TalonSRX leftSlave;
-    private final WPI_TalonSRX right;
+    public final WPI_TalonSRX right;
     private final WPI_TalonSRX rightSlave;
 
     private DifferentialDrive drive;
@@ -34,6 +34,7 @@ public class Drivebase extends Subsystem {
     // TODO: Do we need to keep left/rightSlave around?
     public Drivebase() {
         left = new WPI_TalonSRX(RobotMap.TALON_FRONT_LEFT);
+
         leftSlave = new WPI_TalonSRX(RobotMap.TALON_BACK_RIGHT);
         leftSlave.set(ControlMode.Follower, left.getBaseID());
 
