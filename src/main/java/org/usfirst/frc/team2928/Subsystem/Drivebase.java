@@ -2,7 +2,6 @@ package org.usfirst.frc.team2928.Subsystem;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -12,10 +11,6 @@ import org.usfirst.frc.team2928.Conversions;
 import org.usfirst.frc.team2928.RobotConstants;
 import org.usfirst.frc.team2928.RobotMap;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class Drivebase extends Subsystem {
 
@@ -46,10 +41,15 @@ public class Drivebase extends Subsystem {
 
         for (WPI_TalonSRX t : new WPI_TalonSRX[] {left, right})
         {
-            t.config_kP(0, RobotConstants.DRIVE_P, RobotConstants.TALON_TIMEOUT_MS);
-            t.config_kI(0, RobotConstants.DRIVE_I, RobotConstants.TALON_TIMEOUT_MS);
-            t.config_kD(0, RobotConstants.DRIVE_D, RobotConstants.TALON_TIMEOUT_MS);
-            t.config_kF(0, RobotConstants.DRIVE_F, RobotConstants.TALON_TIMEOUT_MS);
+            t.config_kP(RobotConstants.DRIVE_PID_POSITION_SLOT, RobotConstants.DRIVE_POSITION_P, RobotConstants.TALON_TIMEOUT_MS);
+            t.config_kI(RobotConstants.DRIVE_PID_POSITION_SLOT, RobotConstants.DRIVE_POSITION_I, RobotConstants.TALON_TIMEOUT_MS);
+            t.config_kD(RobotConstants.DRIVE_PID_POSITION_SLOT, RobotConstants.DRIVE_POSITION_D, RobotConstants.TALON_TIMEOUT_MS);
+            t.config_kF(RobotConstants.DRIVE_PID_POSITION_SLOT, RobotConstants.DRIVE_POSITION_F, RobotConstants.TALON_TIMEOUT_MS);
+
+            t.config_kP(RobotConstants.DRIVE_PID_VELOCITY_SLOT, RobotConstants.DRIVE_VELOCITY_P, RobotConstants.TALON_TIMEOUT_MS);
+            t.config_kI(RobotConstants.DRIVE_PID_VELOCITY_SLOT, RobotConstants.DRIVE_VELOCITY_I, RobotConstants.TALON_TIMEOUT_MS);
+            t.config_kD(RobotConstants.DRIVE_PID_VELOCITY_SLOT, RobotConstants.DRIVE_VELOCITY_D, RobotConstants.TALON_TIMEOUT_MS);
+            t.config_kF(RobotConstants.DRIVE_PID_VELOCITY_SLOT, RobotConstants.DRIVE_VELOCITY_F, RobotConstants.TALON_TIMEOUT_MS);
 
             t.configMotionCruiseVelocity((int)(maxTicksPer100ms*0.75), RobotConstants.TALON_TIMEOUT_MS);
             t.configMotionAcceleration((int)(maxTicksPer100ms*0.30), RobotConstants.TALON_TIMEOUT_MS);
@@ -58,6 +58,58 @@ public class Drivebase extends Subsystem {
 
         drive = new DifferentialDrive(left, right);
     }
+
+    public void arcadeDrive(double xSpeed, double zRotate, boolean xSquared)
+    {
+        double leftOutput;
+        double rightOutput;
+        if (xSquared)
+        {
+            xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
+            zRotate = Math.copySign(zRotate * zRotate, zRotate);
+        }
+
+        double maxInput = Math.copySign(Math.max(Math.abs(xSpeed), Math.abs(zRotate)), xSpeed);
+        if (xSpeed >= 0.0)
+        {
+            if(zRotate >= 0.0)
+            {
+                leftOutput = maxInput;
+                rightOutput = xSpeed - zRotate;
+            } else
+            {
+                leftOutput = xSpeed + zRotate;
+                rightOutput = maxInput;
+            }
+        } else
+        {
+            if(zRotate >= 0.0)
+            {
+                leftOutput = xSpeed + zRotate;
+                rightOutput = maxInput;
+            } else
+            {
+                leftOutput = maxInput;
+                rightOutput = xSpeed - zRotate;
+            }
+        }
+        leftOutput = limit(leftOutput, -1, 1);
+        rightOutput = limit(-rightOutput, -1, 1);
+
+        left.set(ControlMode.Velocity, leftOutput * Conversions.FeetToTicks(RobotConstants.MAX_FEET_PER_SECOND));
+        right.set(ControlMode.Velocity, rightOutput * Conversions.FeetToTicks(RobotConstants.MAX_FEET_PER_SECOND));
+    }
+
+    protected double limit(double value, double min, double max) {
+        if (value > max) {
+            return max;
+        }
+        if (value < min) {
+            return min;
+        }
+        return value;
+    }
+
     public void drive(double move, double rotate) {
         drive.arcadeDrive(move, rotate, false);
         SmartDashboard.putNumber("gyro", getAngle());
