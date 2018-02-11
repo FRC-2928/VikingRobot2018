@@ -11,6 +11,7 @@ public class RobotMap {
     public static final int TALON_INTAKE_LEFT = 6;
     public static final int TALON_INTAKE_RIGHT = 7;
 
+    public static final int PIGEON = 0;
     // Solenoids
     public static final int SOLENOID_TRANSMISSION = 0;
     public static final int SOLENOID_GRABBER = 1;

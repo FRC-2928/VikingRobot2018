@@ -10,4 +10,14 @@ public class Conversions {
     {
         return ticks * RobotConstants.WHEEL_CIRCUMFERENCE_FEET / RobotConstants.DRIVE_TICKS_PER_ROTATION;
     }
+
+    public static double FeetToMeters(double feet)
+    {
+        return 0.3048 * feet;
+    }
+
+    public static double MetersToFeet(double meters)
+    {
+        return meters / 0.3048;
+    }
 }

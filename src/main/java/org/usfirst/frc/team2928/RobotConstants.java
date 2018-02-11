@@ -7,7 +7,7 @@ public class RobotConstants {
     public static final double MAX_FEET_PER_SECOND = 19.5;
     public static final double NULL_ZONE_RANGE = 90d;
 
-    public static final double DRIVE_TICKS_PER_ROTATION = 0;
+    public static final int DRIVE_TICKS_PER_ROTATION = 0;
     public static final double DRIVE_POSITION_P = 0.2;
     public static final double DRIVE_POSITION_I = 0;
     public static final double DRIVE_POSITION_D = 0;

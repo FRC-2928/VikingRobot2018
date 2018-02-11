@@ -3,14 +3,19 @@ package org.usfirst.frc.team2928.Subsystem;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.followers.EncoderFollower;
+import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team2928.Command.JoystickDrive;
 import org.usfirst.frc.team2928.Conversions;
 import org.usfirst.frc.team2928.RobotConstants;
 import org.usfirst.frc.team2928.RobotMap;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Drivebase extends Subsystem {
 
@@ -19,8 +24,17 @@ public class Drivebase extends Subsystem {
     public final WPI_TalonSRX right;
     private final WPI_TalonSRX rightSlave;
 
+    private PigeonIMU pigeon;
     private DifferentialDrive drive;
 
+    private boolean closedLoop;
+
+
+    public Trajectory.Config config;
+    private EncoderFollower leftFollower;
+    private EncoderFollower rightFollower;
+
+    private TankModifier trajectory;
     @Override
     protected void initDefaultCommand() {
         setDefaultCommand(new JoystickDrive());
@@ -57,13 +71,20 @@ public class Drivebase extends Subsystem {
         }
 
         drive = new DifferentialDrive(left, right);
+
+        pigeon = new PigeonIMU(RobotMap.PIGEON);
+
+        closedLoop = false;
+        config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.06, 6, 2.0, 60);
+
+
     }
 
-    public void arcadeDrive(double xSpeed, double zRotate, boolean xSquared)
+    public void arcadeDrive(double xSpeed, double zRotate, boolean squaredInputs)
     {
         double leftOutput;
         double rightOutput;
-        if (xSquared)
+        if (squaredInputs)
         {
             xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
             zRotate = Math.copySign(zRotate * zRotate, zRotate);
@@ -111,17 +132,55 @@ public class Drivebase extends Subsystem {
     }
 
     public void drive(double move, double rotate) {
-        drive.arcadeDrive(move, rotate, false);
+        if (closedLoop)
+            this.arcadeDrive(move, rotate, true);
+        else
+            drive.arcadeDrive(move, rotate, true);
         SmartDashboard.putNumber("gyro", getAngle());
     }
 
     public double getAngle()
     {
-        throw new NotImplementedException();
+        double[] angles = {0, 0, 0};
+        pigeon.getRawGyro(angles);
+        return angles[2];
     }
 
-    public void setClosedLoop()
+    public void setClosedLoop(boolean closedLoop)
     {
+        this.closedLoop = closedLoop;
+    }
 
+    public void setTrajectory(TankModifier mod)
+    {
+        trajectory = mod;
+        initEncoders();
+    }
+
+    public void initEncoders()
+    {
+        leftFollower = new EncoderFollower(trajectory.getLeftTrajectory());
+        rightFollower = new EncoderFollower(trajectory.getRightTrajectory());
+        left.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
+        right.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
+        leftFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, Conversions.FeetToMeters(RobotConstants.WHEEL_CIRCUMFERENCE_FEET/Math.PI));
+        rightFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, Conversions.FeetToMeters(RobotConstants.WHEEL_CIRCUMFERENCE_FEET/Math.PI));
+    }
+
+    public int[] getEncoders()
+    {
+        return new int[] {left.getSelectedSensorPosition(0), right.getSelectedSensorPosition(0)};
+    }
+
+    public void trajectoryDrive()
+    {
+        int[] encoderValues = getEncoders();
+        double l = leftFollower.calculate(encoderValues[0]);
+        double r = rightFollower.calculate(encoderValues[1]);
+        double desiredHeading = Pathfinder.r2d(leftFollower.getHeading());
+        double headingError = Pathfinder.boundHalfDegrees(desiredHeading - getAngle());
+        double turn = 0.8 * (-1.0/80.0) * headingError;
+        left.set(l + turn);
+        right.set(r - turn);
     }
 }
