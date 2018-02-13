@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
         compressor.start();
         CameraServer.getInstance().startAutomaticCapture(0);
         autoSelector = new SendableChooser<>();
-        autoSelector.addDefault("Drive Forward", new DriveForward(1));
+        autoSelector.addDefault("Drive Forward", new DriveForward(2));
         SmartDashboard.putData("Auto Chooser", autoSelector);
         oi = new OperatorInterface();
     }
