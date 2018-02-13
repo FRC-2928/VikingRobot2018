@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team2928.Autonomous.DriveForward;
 import org.usfirst.frc.team2928.Subsystem.Drivebase;
+import org.usfirst.frc.team2928.Subsystem.Grabber;
 import org.usfirst.frc.team2928.Subsystem.Shoulder;
 import org.usfirst.frc.team2928.Subsystem.Transmission;
 
@@ -26,20 +28,19 @@ public class Robot extends IterativeRobot {
     private static Compressor compressor = new Compressor();
 
     public static final Drivebase drivebase = new Drivebase();
-    public static final OperatorInterface oi = new OperatorInterface();
     public static final Transmission transmission = new Transmission();
     public static final Shoulder shoulder = new Shoulder();
+    public static final Grabber grabber = new Grabber();
+    public static OperatorInterface oi;
 
     @Override
     public void robotInit() {
         compressor.start();
         CameraServer.getInstance().startAutomaticCapture(0);
         autoSelector = new SendableChooser<>();
-        // SET UP AUTONOMOUS CHOICES HERE
-
-        // VISION TRACKING SETUP GOES HERE
-
-        // OPERATOR INTERFACE GOES HERE
+        autoSelector.addDefault("Drive Forward", new DriveForward(1));
+        SmartDashboard.putData("Auto Chooser", autoSelector);
+        oi = new OperatorInterface();
     }
 
     @Override

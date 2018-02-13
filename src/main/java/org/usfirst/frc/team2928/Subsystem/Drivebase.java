@@ -77,7 +77,7 @@ public class Drivebase extends Subsystem {
         closedLoop = false;
         config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.06, 6, 2.0, 60);
 
-
+        setClosedLoop(true);
     }
 
     public void arcadeDrive(double xSpeed, double zRotate, boolean squaredInputs)
@@ -142,8 +142,8 @@ public class Drivebase extends Subsystem {
     public double getAngle()
     {
         double[] angles = {0, 0, 0};
-        pigeon.getRawGyro(angles);
-        return angles[2];
+        pigeon.getYawPitchRoll(angles);
+        return angles[0];
     }
 
     public void setClosedLoop(boolean closedLoop)
@@ -151,20 +151,23 @@ public class Drivebase extends Subsystem {
         this.closedLoop = closedLoop;
     }
 
-    public void setTrajectory(TankModifier mod)
+    public void setWaypoints(Waypoint[] points)
     {
-        trajectory = mod;
-        initEncoders();
+        Trajectory traj = Pathfinder.generate(points, config);
+        this.trajectory = new TankModifier(traj).modify(RobotConstants.AXLE_LENGTH_METERS);
+        initSensors();
     }
 
-    public void initEncoders()
+    public void initSensors()
     {
         leftFollower = new EncoderFollower(trajectory.getLeftTrajectory());
         rightFollower = new EncoderFollower(trajectory.getRightTrajectory());
+        leftFollower.configurePIDVA(RobotConstants.PATHFINDER_P, RobotConstants.PATHFINDER_I, RobotConstants.PATHFINDER_D, RobotConstants.PATHFINDER_VELOCTIY_RATIO, RobotConstants.PATHFINDER_ACCEL);
         left.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
         right.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
         leftFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, Conversions.FeetToMeters(RobotConstants.WHEEL_CIRCUMFERENCE_FEET/Math.PI));
         rightFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, Conversions.FeetToMeters(RobotConstants.WHEEL_CIRCUMFERENCE_FEET/Math.PI));
+        pigeon.setYaw(0, 10);
     }
 
     public int[] getEncoders()
@@ -182,5 +185,10 @@ public class Drivebase extends Subsystem {
         double turn = 0.8 * (-1.0/80.0) * headingError;
         left.set(l + turn);
         right.set(r - turn);
+    }
+
+    public boolean doneWithTrajectory()
+    {
+        return leftFollower.isFinished() && rightFollower.isFinished();
     }
 }
