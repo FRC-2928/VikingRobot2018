@@ -10,11 +10,11 @@ public class DriveForward extends Command {
     public DriveForward(double distance)
     {
         waypoints = new Waypoint[] {new Waypoint(0, distance, 0)};
-        requires(Robot.drivebase);
     }
 
     public void initialize()
     {
+        requires(Robot.drivebase);
         Robot.drivebase.setWaypoints(waypoints);
     }
 

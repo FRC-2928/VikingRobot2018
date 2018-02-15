@@ -76,8 +76,6 @@ public class Drivebase extends Subsystem {
 
         closedLoop = false;
         config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.06, 6, 2.0, 60);
-
-        setClosedLoop(true);
     }
 
     public void arcadeDrive(double xSpeed, double zRotate, boolean squaredInputs)
@@ -117,6 +115,7 @@ public class Drivebase extends Subsystem {
         leftOutput = limit(leftOutput, -1, 1);
         rightOutput = limit(-rightOutput, -1, 1);
 
+        // TODO set pid slot
         left.set(ControlMode.Velocity, leftOutput * Conversions.FeetToTicks(RobotConstants.MAX_FEET_PER_SECOND));
         right.set(ControlMode.Velocity, rightOutput * Conversions.FeetToTicks(RobotConstants.MAX_FEET_PER_SECOND));
     }

@@ -9,10 +9,13 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2928.Autonomous.DriveForward;
+import org.usfirst.frc.team2928.Command.JoystickDrive;
 import org.usfirst.frc.team2928.Subsystem.Drivebase;
 import org.usfirst.frc.team2928.Subsystem.Grabber;
 import org.usfirst.frc.team2928.Subsystem.Shoulder;
 import org.usfirst.frc.team2928.Subsystem.Transmission;
+
+import java.util.List;
 
 /**
  * Robot for 2018.
@@ -56,7 +59,6 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         Scheduler.getInstance().removeAll();
-        // Attempt to prevent half the talons from cutting out
         autoSelector.getSelected().start();
     }
 
