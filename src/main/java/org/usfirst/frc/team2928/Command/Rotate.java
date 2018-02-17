@@ -7,25 +7,22 @@ import org.usfirst.frc.team2928.Robot;
 public class Rotate extends Command {
 
     private Waypoint[] trajectory;
+
     @Override
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return Robot.drivebase.doneWithTrajectory();
     }
 
-    public Rotate(double angle)
-    {
-        trajectory = new Waypoint[] {new Waypoint(0, 0, angle)};
+    public Rotate(double angle) {
+        trajectory = new Waypoint[]{new Waypoint(0, 0, angle)};
     }
 
-    public void initialize()
-    {
+    public void initialize() {
         requires(Robot.drivebase);
         Robot.drivebase.setWaypoints(trajectory);
     }
 
-    public void execute()
-    {
+    public void execute() {
         Robot.drivebase.trajectoryDrive();
     }
 

@@ -7,30 +7,25 @@ public class ManualExtension extends Command {
     private double targetPercentage;
     private double delta;
 
-    private double clamp(double value, double min, double max)
-    {
+    private double clamp(double value, double min, double max) {
         return Math.max(min, Math.min(max, value));
     }
 
-    public ManualExtension(double delta)
-    {
+    public ManualExtension(double delta) {
         targetPercentage = 0;
     }
 
-    public void initialize()
-    {
+    public void initialize() {
         requires(Robot.shoulder);
         targetPercentage = Robot.shoulder.getTargetPercentage();
     }
 
-    public void execute()
-    {
+    public void execute() {
         Robot.shoulder.setExtension(clamp(targetPercentage + delta * timeSinceInitialized(), 0, 1));
     }
 
     @Override
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return false;
     }
 }

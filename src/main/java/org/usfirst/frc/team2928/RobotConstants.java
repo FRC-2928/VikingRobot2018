@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2928;
 
 public class RobotConstants {
-    // TODO break this up into other constant classes
+
     public static final int TALON_TIMEOUT_MS = 10;
     public static final int TALON_PRIMARY_CLOSED_LOOP = 0;
     public static final double WHEEL_CIRCUMFERENCE_FEET = 0;

@@ -9,16 +9,16 @@ public class Intake extends Subsystem {
 
     private Solenoid gripper;
     private WPI_TalonSRX angleMotor;
-    // Do we have 2 intakes or 1?
+    // 2 intakes
     private WPI_TalonSRX intakeLeft;
     private WPI_TalonSRX intakeRight;
+
     @Override
     protected void initDefaultCommand() {
 
     }
 
-    public Intake()
-    {
+    public Intake() {
         gripper = new Solenoid(RobotMap.SOLENOID_INTAKE);
         angleMotor = new WPI_TalonSRX(RobotMap.TALON_INTAKE_ANGLE);
         intakeLeft = new WPI_TalonSRX(RobotMap.TALON_INTAKE_LEFT);

@@ -5,16 +5,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team2928.RobotMap;
 
 public class Grabber extends Subsystem {
-    public enum GrabberState
-    {
+    public enum GrabberState {
         OPEN,
         CLOSED;
 
-        public GrabberState toggle()
-        {
+        public GrabberState toggle() {
             return this.equals(CLOSED) ? GrabberState.CLOSED : GrabberState.OPEN;
         }
     }
+
     @Override
     protected void initDefaultCommand() {
         return;
@@ -22,27 +21,28 @@ public class Grabber extends Subsystem {
 
     private Solenoid grabber;
 
-    public Grabber (){
+    public Grabber() {
         grabber = new Solenoid(RobotMap.SOLENOID_GRABBER);
     }
-    public void open(){
+
+    public void open() {
         grabber.set(true);
     }
-    public void close(){
+
+    public void close() {
         grabber.set(false);
     }
 
-    public void set(GrabberState state)
-    {
+    public void set(GrabberState state) {
         // Setting the solenoid to true opens the grabber
         grabber.set(state.equals(GrabberState.OPEN));
     }
-    public GrabberState getGrabberState()
-    {
+
+    public GrabberState getGrabberState() {
         return grabber.get() ? GrabberState.OPEN : GrabberState.CLOSED;
     }
-    public void toggle()
-    {
+
+    public void toggle() {
         set(getGrabberState().toggle());
     }
 

@@ -19,6 +19,6 @@ public class JoystickDrive extends Command {
         double driveX = Robot.oi.getDriveX();
         double driveY = Robot.oi.getDriveY();
         Robot.drivebase.drive(driveX, driveY);
-        SmartDashboard.putNumberArray("Joystick Axes", new double[] {driveX, driveY});
+        SmartDashboard.putNumberArray("Joystick Axes", new double[]{driveX, driveY});
     }
 }

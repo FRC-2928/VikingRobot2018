@@ -13,7 +13,8 @@ public class OperatorInterface {
     private static final Joystick driveStick = new Joystick(0);
     private static final Joystick operatorConsole = new Joystick(1);
     private static final JoystickButton shift = new JoystickButton(operatorConsole, 1);
-    // JOYSTICKS AND BUTTONS ARE DEFINED HERE
+    //setup: private static final JoystickButton toggleGrabber = new JoystickButton(operatorConsole, 2);
+    //JOYSTICKS AND BUTTONS ARE DEFINED HERE
 
     public OperatorInterface() {
         shift.whenPressed(new ToggleShift());
@@ -23,7 +24,8 @@ public class OperatorInterface {
     public double getDriveY() {
         return -driveStick.getY();
     }
-    public double getDriveX(){
+
+    public double getDriveX() {
         return -driveStick.getX();
     }
 }
