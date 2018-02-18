@@ -36,7 +36,7 @@ public class SmartAuto extends Command
         this.target = target;
     }
 
-    private TransformableWaypoint[] generatePath(AutoTarget target)
+    /***private TransformableWaypoint[] generatePath(AutoTarget target)
     {
 
     }
@@ -49,5 +49,5 @@ public class SmartAuto extends Command
         {
             path.add(Waypoints.)
         }
-    }
+    }***/
 }

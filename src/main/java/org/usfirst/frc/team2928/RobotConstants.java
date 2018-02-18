@@ -4,7 +4,7 @@ public class RobotConstants {
 
     public static final int TALON_TIMEOUT_MS = 10;
     public static final int TALON_PRIMARY_CLOSED_LOOP = 0;
-    public static final double WHEEL_CIRCUMFERENCE_FEET = 0;
+    public static final double WHEEL_CIRCUMFERENCE_FEET = 14.0/12.0;
     public static final double MAX_FEET_PER_SECOND = 19.5;
     public static final double NULL_ZONE_RANGE = 90d;
 

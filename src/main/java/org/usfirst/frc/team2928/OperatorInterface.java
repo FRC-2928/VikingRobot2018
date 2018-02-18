@@ -26,6 +26,6 @@ public class OperatorInterface {
     }
 
     public double getDriveX() {
-        return -driveStick.getX();
+        return -driveStick.getZ();
     }
 }
