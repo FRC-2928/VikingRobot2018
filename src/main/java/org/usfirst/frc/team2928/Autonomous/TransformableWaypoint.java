@@ -44,4 +44,9 @@ public class TransformableWaypoint extends Waypoint {
     {
         return new TransformableWaypoint(fieldWidth - this.x, this.y, this.angle);
     }
+
+    public TransformableWaypoint midpoint(TransformableWaypoint other)
+    {
+        return new TransformableWaypoint((this.x + other.x)/2d, (this.y + other.y)/2d, (this.angle + other.angle)/2d);
+    }
 }
