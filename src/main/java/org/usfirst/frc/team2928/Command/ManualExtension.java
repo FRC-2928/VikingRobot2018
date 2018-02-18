@@ -13,10 +13,10 @@ public class ManualExtension extends Command {
 
     public ManualExtension(double delta) {
         targetPercentage = 0;
+        requires(Robot.shoulder);
     }
 
     public void initialize() {
-        requires(Robot.shoulder);
         targetPercentage = Robot.shoulder.getTargetPercentage();
     }
 

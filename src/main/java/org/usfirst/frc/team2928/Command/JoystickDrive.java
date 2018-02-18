@@ -15,9 +15,6 @@ public class JoystickDrive extends Command {
     {
         requires(Robot.drivebase);
     }
-    public void initialize() {
-        requires(Robot.drivebase);
-    }
 
     public void execute() {
         double driveX = Robot.oi.getDriveX();

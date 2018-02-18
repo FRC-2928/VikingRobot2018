@@ -14,10 +14,6 @@ public class TransmissionWatchdog extends Command {
     {
         requires(Robot.transmission);
     }
-    public void initialize()
-    {
-        requires(Robot.transmission);
-    }
 
     public void execute()
     {

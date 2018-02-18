@@ -39,4 +39,9 @@ public class TransformableWaypoint extends Waypoint {
     {
         return shift(-start.x, -start.y);
     }
+
+    public TransformableWaypoint flipSide()
+    {
+        return new TransformableWaypoint(fieldWidth - this.x, this.y, this.angle);
+    }
 }

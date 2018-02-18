@@ -10,12 +10,8 @@ public class Shift extends Command {
 
     public Shift(GearState target)
     {
-        this.target = target;
-    }
-
-    public void initialize()
-    {
         requires(Robot.transmission);
+        this.target = target;
     }
 
     public void execute()

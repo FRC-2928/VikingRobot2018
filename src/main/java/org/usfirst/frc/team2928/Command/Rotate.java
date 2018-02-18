@@ -14,11 +14,11 @@ public class Rotate extends Command {
     }
 
     public Rotate(double angle) {
+        requires(Robot.drivebase);
         trajectory = new Waypoint[]{new Waypoint(0, 0, angle)};
     }
 
     public void initialize() {
-        requires(Robot.drivebase);
         Robot.drivebase.setWaypoints(trajectory);
     }
 

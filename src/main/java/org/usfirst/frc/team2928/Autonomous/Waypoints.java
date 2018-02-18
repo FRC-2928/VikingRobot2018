@@ -1,21 +1,25 @@
 package org.usfirst.frc.team2928.Autonomous;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Waypoints {
-    public static final TransformableWaypoint nearSwitchLeft = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint nearSwitchIntermediateLeft = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint nearSwitchRight = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint nearSwitchIntermediateRight = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint leftLineIntermediateClose = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint leftLineIntermediateFar = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint rightLineIntermediateClose = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint rightLineIntermediateFar = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint scaleLeft = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint scaleIntermediateLeft = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint scaleRight = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint scaleIntermediateRight = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint boxes = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint startLeft = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint startMiddle = new TransformableWaypoint(0, 0);
-    public static final TransformableWaypoint startRight = new TransformableWaypoint(0, 0);
+    private static final Map<String, TransformableWaypoint> leftWaypoints = new HashMap<>();
+    static
+    {
+        leftWaypoints.put("nearSwitch", new TransformableWaypoint(0,0));
+        leftWaypoints.put("nearSwitchIntermediate", new TransformableWaypoint(0, 0));
+        leftWaypoints.put("lineIntermediateClose", new TransformableWaypoint(0,0));
+        leftWaypoints.put("lineIntermediateFar", new TransformableWaypoint(0,0));
+        leftWaypoints.put("scale", new TransformableWaypoint(0,0));
+        leftWaypoints.put("scaleIntermediate", new TransformableWaypoint(0,0));
+        leftWaypoints.put("boxesCenter", new TransformableWaypoint(0,0));
+        leftWaypoints.put("start", new TransformableWaypoint(0,0));
+        leftWaypoints.put("startMiddle", new TransformableWaypoint(0, 0));
+    }
+
+    public static TransformableWaypoint getWaypoint(String location)
+    {
+
+    }
 
 }

@@ -6,9 +6,12 @@ import org.usfirst.frc.team2928.Subsystem.Transmission.GearState;
 
 public class ToggleShift extends Command {
     private GearState target;
-    public void initialize()
+    public ToggleShift()
     {
         requires(Robot.transmission);
+    }
+    public void initialize()
+    {
         target = Robot.transmission.getGear().toggle();
     }
 

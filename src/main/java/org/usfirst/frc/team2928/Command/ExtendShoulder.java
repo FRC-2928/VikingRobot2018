@@ -9,10 +9,6 @@ public class ExtendShoulder extends Command {
     public ExtendShoulder(double target)
     {
         this.target = target;
-    }
-
-    public void initialize()
-    {
         requires(Robot.shoulder);
     }
 
