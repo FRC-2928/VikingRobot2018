@@ -1,10 +1,13 @@
 package org.usfirst.frc.team2928;
 
-import jaci.pathfinder.Waypoint;
-import org.usfirst.frc.team2928.Autonomous.TransformableWaypoint;
-import org.usfirst.frc.team2928.Subsystem.Transmission;
+import static org.usfirst.frc.team2928.Field.Position.LEFT;
 
 public class Field {
+
+    public static double sideAngle(double leftAngle, Position position)
+    {
+        return leftAngle * (position.equals(LEFT) ? 1 : -1);
+    }
 
     public enum Position
     {
@@ -26,29 +29,30 @@ public class Field {
         }
     }
 
+
     public enum Objects
     {
-        SWITCH                      (new TransformableWaypoint(0,0), false),
-        SWITCH_INTERMEDIATE         (new TransformableWaypoint(0,0), false),
-        LINE_INTERMEDIATE_CLOSE     (new TransformableWaypoint(0,0), false),
-        LINE_INTERMEDIATE_FAR       (new TransformableWaypoint(0,0), false),
+        SWITCH                      (new TransformableWaypoint(1.75,4.26), false),
+        SWITCH_INTERMEDIATE         (new TransformableWaypoint(0.77,4.26), false),
         SCALE                       (new TransformableWaypoint(0,0), false),
         SCALE_INTERMEDIATE          (new TransformableWaypoint(0,0), false),
         BOXES                       (new TransformableWaypoint(0,0), true),
-        START                       (new TransformableWaypoint(0,0), false); // START is a special case
+        MIDPOINT                    (new TransformableWaypoint(1.75, 5.85), false),
+        START                       (new TransformableWaypoint(1.45,0.42), false); // START is a special case
 
         private TransformableWaypoint waypoint;
         private boolean centered;
         Objects(TransformableWaypoint waypoint, boolean centered)
         {
             this.waypoint = waypoint;
+            this.centered = centered;
         }
 
         public TransformableWaypoint getWaypoint() {
             if (this.centered)
                 return new TransformableWaypoint(waypoint);
             else if (this.equals(START)) // Our special case, START can be centered or on the side
-                return START.getWaypoint().midpoint(START.getWaypoint().flipSide());
+                return START.getWaypoint(Position.LEFT).midpoint(START.getWaypoint(Position.RIGHT));
             throw new IllegalArgumentException("Non-centered waypoints require a non-middle side, try getWaypoint(Field.Position) instead.");
         }
 

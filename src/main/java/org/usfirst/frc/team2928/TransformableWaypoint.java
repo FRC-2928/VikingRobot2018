@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2928.Autonomous;
+package org.usfirst.frc.team2928;
 
 import jaci.pathfinder.Waypoint;
 
