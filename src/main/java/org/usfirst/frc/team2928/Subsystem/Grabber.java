@@ -10,7 +10,7 @@ public class Grabber extends Subsystem {
         CLOSED;
 
         public GrabberState toggle() {
-            return this.equals(CLOSED) ? GrabberState.CLOSED : GrabberState.OPEN;
+            return this.equals(CLOSED) ? GrabberState.OPEN : GrabberState.CLOSED;
         }
     }
 
@@ -19,7 +19,8 @@ public class Grabber extends Subsystem {
         return;
     }
 
-    private Solenoid grabber;
+    private final Solenoid grabber;
+    private boolean closed = false;
 
     public Grabber() {
         grabber = new Solenoid(RobotMap.SOLENOID_GRABBER);

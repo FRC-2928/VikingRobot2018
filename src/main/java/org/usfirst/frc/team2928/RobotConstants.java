@@ -27,4 +27,6 @@ public class RobotConstants {
     public static final double PATHFINDER_D = 0;
     public static final double PATHFINDER_ACCEL = 0;
     public static final double PATHFINDER_VELOCTIY_RATIO = 1/6;
+
+    public static final long SHIFT_DELAY_MS = 100;
 }

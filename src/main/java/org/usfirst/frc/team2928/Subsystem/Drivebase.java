@@ -48,9 +48,11 @@ public class Drivebase extends Subsystem {
         right = new WPI_TalonSRX(RobotMap.TALON_FRONT_RIGHT);
 
         leftSlave = new WPI_TalonSRX(RobotMap.TALON_BACK_LEFT);
-        leftSlave.set(ControlMode.Follower, left.getBaseID());
+        leftSlave.set(ControlMode.Follower, RobotMap.TALON_FRONT_LEFT);
+        leftSlave.setInverted(true);
         rightSlave = new WPI_TalonSRX(RobotMap.TALON_BACK_RIGHT);
-        rightSlave.set(ControlMode.Follower, right.getBaseID());
+        rightSlave.set(ControlMode.Follower, RobotMap.TALON_FRONT_RIGHT);
+        rightSlave.setInverted(true);
 
         int maxTicksPer100ms = (int) (Conversions.FeetToTicks(RobotConstants.MAX_FEET_PER_SECOND) / 10);
 

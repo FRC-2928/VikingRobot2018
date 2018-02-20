@@ -11,10 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2928.Autonomous.DriveForward;
 import org.usfirst.frc.team2928.Command.JoystickDrive;
-import org.usfirst.frc.team2928.Subsystem.Drivebase;
-import org.usfirst.frc.team2928.Subsystem.Grabber;
-import org.usfirst.frc.team2928.Subsystem.Shoulder;
-import org.usfirst.frc.team2928.Subsystem.Transmission;
+import org.usfirst.frc.team2928.Subsystem.*;
 
 import java.util.List;
 
@@ -31,6 +28,8 @@ public class Robot extends IterativeRobot {
     public static final Transmission transmission = new Transmission();
     public static final Shoulder shoulder = new Shoulder();
     public static final Grabber grabber = new Grabber();
+    public static final Intake intake = new Intake();
+    public static final IntakeClamp intakeClamp = new IntakeClamp();
     public static OperatorInterface oi;
 
     @Override

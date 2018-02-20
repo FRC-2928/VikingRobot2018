@@ -20,7 +20,8 @@ public class TransmissionWatchdog extends Command {
         boolean inHighGear = Robot.transmission.getGear() == Transmission.GearState.HIGH;
         if (Robot.shoulder.getTargetPercentage() >= 0.5 && inHighGear)
         {
-            Robot.transmission.shift(Transmission.GearState.LOW);
+            // Todo: enable once we get the arm working
+            //Robot.transmission.shift(Transmission.GearState.LOW);
         }
     }
 }
