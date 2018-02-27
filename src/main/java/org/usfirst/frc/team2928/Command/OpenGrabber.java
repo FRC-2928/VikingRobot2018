@@ -16,8 +16,7 @@ public class OpenGrabber extends Command {
     }
 
     public void initialize()
-    {
-        Robot.intake.open();
+    { Robot.intakeClamp.open();
     }
 
     public void execute()

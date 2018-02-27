@@ -18,7 +18,6 @@ public class Intake extends Subsystem {
 
         }
 
-    private Solenoid gripper;
     private WPI_TalonSRX angleMotor;
     // 2 intakes
     private Talon intakeLeft;
@@ -30,7 +29,6 @@ public class Intake extends Subsystem {
     }
 
     public Intake() {
-        gripper = new Solenoid(RobotMap.SOLENOID_INTAKE);
         angleMotor = new WPI_TalonSRX(RobotMap.TALON_INTAKE_ANGLE);
         intakeLeft = new Talon(RobotMap.TALON_INTAKE_LEFT);
         intakeRight = new Talon(RobotMap.TALON_INTAKE_RIGHT);
@@ -41,26 +39,4 @@ public class Intake extends Subsystem {
         for (Talon t : new Talon[] {intakeLeft, intakeRight})
             t.set(-power);
     }
-
-    public void open(){
-        gripper.set(false);
-    }
-
-    public void close(){
-        gripper.set(true);
-    }
-
-    private void setGripper(GripperState state){
-        gripper.set(state.equals(GripperState.OPEN));
-    }
-
-    private GripperState getGripperState() {
-        return gripper.get() ? GripperState.OPEN : GripperState.CLOSED;
-    }
-
-    public void toggle() {
-        setGripper(getGripperState().toggle());
-    }
-
-
 }

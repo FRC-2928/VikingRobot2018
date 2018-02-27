@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team2928.RobotMap;
 
 public class Grabber extends Subsystem {
+    private final Solenoid grabber;
+
     public enum GrabberState {
         OPEN,
         CLOSED;
@@ -19,8 +21,6 @@ public class Grabber extends Subsystem {
         return;
     }
 
-    private final Solenoid grabber;
-    private boolean closed = false;
 
     public Grabber() {
         grabber = new Solenoid(RobotMap.SOLENOID_GRABBER);

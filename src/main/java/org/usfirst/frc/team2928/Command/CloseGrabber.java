@@ -17,7 +17,7 @@ public class CloseGrabber extends Command {
 
     public void initialize()
     {
-        Robot.intake.close();
+        Robot.intakeClamp.close();
     }
 
     public void execute()

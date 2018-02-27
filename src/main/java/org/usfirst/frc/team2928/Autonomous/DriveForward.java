@@ -9,12 +9,16 @@ public class DriveForward extends Command {
     private Waypoint[] waypoints;
 
     public DriveForward(double distance) {
-        waypoints = new Waypoint[]{new Waypoint(0, distance, 0)};
+        requires(Robot.drivebase);
+        waypoints = new Waypoint[]{
+                new Waypoint(0,0,0),
+                new Waypoint(0.1, distance, 0)};
     }
 
     public void initialize() {
-        requires(Robot.drivebase);
+        System.out.println("Generating traj");
         Robot.drivebase.setWaypoints(waypoints);
+        System.out.println("Traj generated");
     }
 
     public void execute() {
@@ -23,6 +27,6 @@ public class DriveForward extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.drivebase.doneWithTrajectory();
+        return false;
     }
 }

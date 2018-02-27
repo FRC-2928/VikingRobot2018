@@ -3,7 +3,10 @@ package org.usfirst.frc.team2928.Command;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
 
-public class RunIntake extends Command {
+import static org.usfirst.frc.team2928.Robot.*;
+
+public class MoveSlider extends Command {
+
     private double power;
     @Override
     public boolean isFinished()
@@ -11,24 +14,19 @@ public class RunIntake extends Command {
         return false;
     }
 
-    public RunIntake(double power)
+    public MoveSlider(double power)
     {
-        requires(Robot.intake);
+        requires(Robot.slider);
         this.power = power;
     }
 
     public void initialize()
     {
-        Robot.intake.setIntake(power);
-    }
-
-    public void execute()
-    {
-        System.out.println("Spinning");
+        Robot.slider.setSpeed(-power);
     }
 
     public void end()
     {
-        Robot.intake.setIntake(0.0);
+        Robot.slider.setSpeed(0);
     }
 }

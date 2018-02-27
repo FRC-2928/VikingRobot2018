@@ -54,6 +54,7 @@ public class Drivebase extends Subsystem {
         rightSlave.set(ControlMode.Follower, RobotMap.TALON_FRONT_RIGHT);
         rightSlave.setInverted(true);
 
+        left.setSensorPhase(true);
         int maxTicksPer100ms = (int) (Conversions.FeetToTicks(RobotConstants.MAX_FEET_PER_SECOND) / 10);
 
         for (WPI_TalonSRX t : new WPI_TalonSRX[]{left, right}) {
@@ -69,7 +70,7 @@ public class Drivebase extends Subsystem {
 
             t.configMotionCruiseVelocity((int) (maxTicksPer100ms * 0.75), RobotConstants.TALON_TIMEOUT_MS);
             t.configMotionAcceleration((int) (maxTicksPer100ms * 0.30), RobotConstants.TALON_TIMEOUT_MS);
-            t.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
+            t.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
         }
 
         drive = new DifferentialDrive(left, right);
@@ -129,6 +130,7 @@ public class Drivebase extends Subsystem {
             this.arcadeDrive(move, rotate, true);
         else
             drive.arcadeDrive(move, rotate, true);
+        System.out.println("Driving!");
         SmartDashboard.putNumber("gyro", getAngle());
     }
 
@@ -143,9 +145,13 @@ public class Drivebase extends Subsystem {
     }
 
     public void setWaypoints(Waypoint[] points) {
+        System.out.println("Generating pt 2");
         Trajectory traj = Pathfinder.generate(points, config);
+        System.out.println("Part 3");
         this.trajectory = new TankModifier(traj).modify(RobotConstants.AXLE_LENGTH_METERS);
+        System.out.println("Done");
         initSensors();
+        System.out.println("Sensors inited");
     }
 
     public void initSensors() {
@@ -165,11 +171,13 @@ public class Drivebase extends Subsystem {
 
     public void trajectoryDrive() {
         int[] encoderValues = getEncoders();
+        System.out.println(encoderValues[0] + " " + encoderValues[1]);
         double l = leftFollower.calculate(encoderValues[0]);
         double r = rightFollower.calculate(encoderValues[1]);
         double desiredHeading = Pathfinder.r2d(leftFollower.getHeading());
         double headingError = Pathfinder.boundHalfDegrees(desiredHeading - getAngle());
         double turn = 0.8 * (-1.0 / 80.0) * headingError;
+        System.out.println("Driving");
         left.set(l + turn);
         right.set(r - turn);
     }
