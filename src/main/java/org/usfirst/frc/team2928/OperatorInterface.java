@@ -16,7 +16,7 @@ public class OperatorInterface {
     private static final JoystickButton moveSliderUp = new JoystickButton(driveStick, 5);
     private static final JoystickButton moveSliderDown = new JoystickButton(driveStick, 6);
     private static final JoystickButton outakeButton = new JoystickButton(driveStick, 7);
-    //For moving arprivate static final JoystickButton armToggle = new JoystickButton(driveStick, 8);
+    //For moving arm: private static final JoystickButton armToggle = new JoystickButton(driveStick, 8);
 
     //JOYSTICKS AND BUTTONS ARE DEFINED HERE
 
@@ -24,7 +24,7 @@ public class OperatorInterface {
         shift.whenPressed(new ToggleShift());
         intakeButton.whileHeld(new RunIntake(0.3));
         grabber.whenPressed(new ToggleGrabber());
-        toggleIntake.whenPressed(new ToggleIntake());
+        toggleIntake.whenPressed(new ToggleIntakeClamp());
         moveSliderUp.whileHeld(new MoveSlider(RobotConstants.SLIDER_POWER));
         moveSliderDown.whileHeld(new MoveSlider(-RobotConstants.SLIDER_POWER));
         outakeButton.whileHeld(new RunIntake(-0.8));

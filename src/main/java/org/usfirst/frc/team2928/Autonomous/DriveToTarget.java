@@ -8,30 +8,25 @@ import org.usfirst.frc.team2928.TransformableWaypoint;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriveToTarget extends Command
-{
+public class DriveToTarget extends Command {
 
     private Field.Position startingPosition;
     private AutoTarget target;
 
     @Override
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return false;
     }
 
-    public void goForSwitch()
-    {
+    public void goForSwitch() {
     }
 
-    public DriveToTarget(Field.Position start, AutoTarget target)
-    {
+    DriveToTarget(Field.Position start, AutoTarget target) {
         this.startingPosition = start;
         this.target = target;
     }
 
-    private TransformableWaypoint[] generatePath(AutoTarget target)
-    {
+    private TransformableWaypoint[] generatePath(AutoTarget target) {
         List<TransformableWaypoint> path = new ArrayList<>();
 
         if (target == AutoTarget.SWITCH && startingPosition == Match.getInstance().nearSwitch)
@@ -46,17 +41,15 @@ public class DriveToTarget extends Command
         return path.toArray(new TransformableWaypoint[0]);
     }
 
-    private List<TransformableWaypoint> targetSwitch()
-    {
+    private List<TransformableWaypoint> targetSwitch() {
         List<TransformableWaypoint> path = new ArrayList<>();
         path.add(Field.Objects.SWITCH_INTERMEDIATE.getWaypoint(startingPosition));
-        path.add(Field.Objects.SWITCH_INTERMEDIATE.getWaypoint(startingPosition).rotate(Field.sideAngle(90,startingPosition)));
+        path.add(Field.Objects.SWITCH_INTERMEDIATE.getWaypoint(startingPosition).rotate(Field.sideAngle(90, startingPosition)));
         path.add(Field.Objects.SWITCH.getWaypoint(startingPosition).rotate(Field.sideAngle(90, startingPosition)));
         return path;
     }
 
-    private List<TransformableWaypoint> targetScale()
-    {
+    private List<TransformableWaypoint> targetScale() {
         List<TransformableWaypoint> path = new ArrayList<>();
         if (startingPosition != Field.Position.MIDDLE)
             path.add(Field.Objects.SWITCH_INTERMEDIATE.getWaypoint((startingPosition)));

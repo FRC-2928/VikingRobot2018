@@ -3,9 +3,9 @@ package org.usfirst.frc.team2928.Command;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
 
-public class ToggleIntake extends Command {
+public class ToggleIntakeClamp extends Command {
 
-    public ToggleIntake()
+    public ToggleIntakeClamp()
     {
         requires(Robot.intakeClamp);
     }

@@ -2,7 +2,6 @@ package org.usfirst.frc.team2928.Command;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team2928.Autonomous.SmartAuto;
 import org.usfirst.frc.team2928.Robot;
 
 public class JoystickDrive extends Command {

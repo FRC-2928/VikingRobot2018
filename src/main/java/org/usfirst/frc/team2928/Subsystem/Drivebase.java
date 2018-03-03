@@ -158,10 +158,15 @@ public class Drivebase extends Subsystem {
         leftFollower = new EncoderFollower(trajectory.getLeftTrajectory());
         rightFollower = new EncoderFollower(trajectory.getRightTrajectory());
         leftFollower.configurePIDVA(RobotConstants.PATHFINDER_P, RobotConstants.PATHFINDER_I, RobotConstants.PATHFINDER_D, RobotConstants.PATHFINDER_VELOCTIY_RATIO, RobotConstants.PATHFINDER_ACCEL);
-        left.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
-        right.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
+        zeroSensors();
         leftFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, Conversions.FeetToMeters(RobotConstants.WHEEL_CIRCUMFERENCE_FEET / Math.PI));
         rightFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, Conversions.FeetToMeters(RobotConstants.WHEEL_CIRCUMFERENCE_FEET / Math.PI));
+    }
+
+    public void zeroSensors()
+    {
+        left.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
+        right.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
         pigeon.setYaw(0, 10);
     }
 

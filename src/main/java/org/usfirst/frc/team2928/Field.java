@@ -23,7 +23,7 @@ public class Field {
                 case 'L' : return LEFT;
                 case 'M' : return MIDDLE;
                 case 'R' : return RIGHT;
-                case 'E' : return ERROR;
+                case 'E' :
                 default: return ERROR;
             }
         }
@@ -32,13 +32,13 @@ public class Field {
 
     public enum Objects
     {
-        SWITCH                      (new TransformableWaypoint(1.75,4.26), false),
-        SWITCH_INTERMEDIATE         (new TransformableWaypoint(0.77,4.26), false),
+        SWITCH                      (new TransformableWaypoint(4.26,1.75), false),
+        SWITCH_INTERMEDIATE         (new TransformableWaypoint(4.26,0.77), false),
         SCALE                       (new TransformableWaypoint(0,0), false),
         SCALE_INTERMEDIATE          (new TransformableWaypoint(0,0), false),
         BOXES                       (new TransformableWaypoint(0,0), true),
-        MIDPOINT                    (new TransformableWaypoint(1.75, 5.85), false),
-        START                       (new TransformableWaypoint(1.45,0.42), false); // START is a special case
+        MIDPOINT                    (new TransformableWaypoint(5.85, 1.75), false),
+        START                       (new TransformableWaypoint(0.42,1.45), false); // START is a special case
 
         private TransformableWaypoint waypoint;
         private boolean centered;

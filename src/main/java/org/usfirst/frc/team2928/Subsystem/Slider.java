@@ -13,6 +13,7 @@ public class Slider extends Subsystem
     public Slider()
     {
         talon = new WPI_TalonSRX(RobotMap.TALON_GRABBER_SLIDER);
+        talon.setInverted(true);
     }
 
     public void setSpeed(double power)

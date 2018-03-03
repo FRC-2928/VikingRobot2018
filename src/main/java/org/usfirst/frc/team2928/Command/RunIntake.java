@@ -5,30 +5,25 @@ import org.usfirst.frc.team2928.Robot;
 
 public class RunIntake extends Command {
     private double power;
+
     @Override
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return false;
     }
 
-    public RunIntake(double power)
-    {
+    public RunIntake(double power) {
         requires(Robot.intake);
         this.power = power;
     }
 
-    public void initialize()
-    {
+    public void initialize() {
         Robot.intake.setIntake(power);
     }
 
-    public void execute()
-    {
-        System.out.println("Spinning");
+    public void execute() {
     }
 
-    public void end()
-    {
+    public void end() {
         Robot.intake.setIntake(0.0);
     }
 }

@@ -22,7 +22,7 @@ public class MoveSlider extends Command {
 
     public void initialize()
     {
-        Robot.slider.setSpeed(-power);
+        Robot.slider.setSpeed(power);
     }
 
     public void end()
