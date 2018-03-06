@@ -78,7 +78,9 @@ public class Drivebase extends Subsystem {
         pigeon = new PigeonIMU(RobotMap.PIGEON);
 
         closedLoop = false;
-        config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.06, 6, 2.0, 60);
+        config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH,
+                RobotConstants.PATHFINDER_TIME_INTERVAL, RobotConstants.PATHFINDER_VELOCTIY,
+                RobotConstants.PATHFINDER_ACCEL, 60);
     }
 
     public void arcadeDrive(double xSpeed, double zRotate, boolean squaredInputs) {
@@ -148,7 +150,7 @@ public class Drivebase extends Subsystem {
         System.out.println("Generating pt 2");
         Trajectory traj = Pathfinder.generate(points, config);
         System.out.println("Part 3");
-        this.trajectory = new TankModifier(traj).modify(RobotConstants.AXLE_LENGTH_METERS);
+        this.trajectory = new TankModifier(traj).modify(RobotConstants.AXLE_LENGTH_FEET);
         System.out.println("Done");
         initSensors();
         System.out.println("Sensors inited");
@@ -157,14 +159,15 @@ public class Drivebase extends Subsystem {
     public void initSensors() {
         leftFollower = new EncoderFollower(trajectory.getLeftTrajectory());
         rightFollower = new EncoderFollower(trajectory.getRightTrajectory());
-        leftFollower.configurePIDVA(RobotConstants.PATHFINDER_P, RobotConstants.PATHFINDER_I, RobotConstants.PATHFINDER_D, RobotConstants.PATHFINDER_VELOCTIY_RATIO, RobotConstants.PATHFINDER_ACCEL);
+        leftFollower.configurePIDVA(RobotConstants.PATHFINDER_P, RobotConstants.PATHFINDER_I, RobotConstants.PATHFINDER_D, 1d/RobotConstants.PATHFINDER_VELOCTIY, RobotConstants.PATHFINDER_ACCEL);
+        rightFollower.configurePIDVA(RobotConstants.PATHFINDER_P, RobotConstants.PATHFINDER_I, RobotConstants.PATHFINDER_D, 1d/RobotConstants.PATHFINDER_VELOCTIY, RobotConstants.PATHFINDER_ACCEL);
+
         zeroSensors();
-        leftFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, Conversions.FeetToMeters(RobotConstants.WHEEL_CIRCUMFERENCE_FEET / Math.PI));
-        rightFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, Conversions.FeetToMeters(RobotConstants.WHEEL_CIRCUMFERENCE_FEET / Math.PI));
+        leftFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, RobotConstants.WHEEL_CIRCUMFERENCE_FEET / Math.PI);
+        rightFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, RobotConstants.WHEEL_CIRCUMFERENCE_FEET / Math.PI);
     }
 
-    public void zeroSensors()
-    {
+    public void zeroSensors() {
         left.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
         right.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
         pigeon.setYaw(0, 10);

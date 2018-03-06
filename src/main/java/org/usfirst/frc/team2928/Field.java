@@ -32,13 +32,13 @@ public class Field {
 
     public enum Objects
     {
-        SWITCH                      (new TransformableWaypoint(4.26,1.75), false),
-        SWITCH_INTERMEDIATE         (new TransformableWaypoint(4.26,0.77), false),
+        SWITCH                      (new TransformableWaypoint(13.97638,5.74147), false),
+        SWITCH_INTERMEDIATE         (new TransformableWaypoint(13.97638,2.526247), false),
         SCALE                       (new TransformableWaypoint(0,0), false),
         SCALE_INTERMEDIATE          (new TransformableWaypoint(0,0), false),
         BOXES                       (new TransformableWaypoint(0,0), true),
-        MIDPOINT                    (new TransformableWaypoint(5.85, 1.75), false),
-        START                       (new TransformableWaypoint(0.42,1.45), false); // START is a special case
+        MIDPOINT                    (new TransformableWaypoint(19.19291, 5.74147), false),
+        START                       (new TransformableWaypoint(1.377953,4.757218), false); // START is a special case
 
         private TransformableWaypoint waypoint;
         private boolean centered;
