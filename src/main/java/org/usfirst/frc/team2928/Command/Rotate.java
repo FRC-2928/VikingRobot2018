@@ -1,29 +1,36 @@
 package org.usfirst.frc.team2928.Command;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.PIDCommand;
 import jaci.pathfinder.Waypoint;
 import org.usfirst.frc.team2928.Robot;
 
-public class Rotate extends Command {
+public class Rotate extends PIDCommand {
 
-    private Waypoint[] trajectory;
+    public Rotate(double angle)
+    {
+        super(1, 0,0);
+        requires(Robot.drivebase);
+        setSetpoint(angle);
+    }
+
+    public void initialize()
+    {
+        Robot.drivebase.zeroSensors();
+    }
 
     @Override
-    public boolean isFinished() {
-        return Robot.drivebase.doneWithTrajectory();
+    protected double returnPIDInput() {
+        return Robot.drivebase.getAngle();
     }
 
-    public Rotate(double angle) {
-        requires(Robot.drivebase);
-        trajectory = new Waypoint[]{new Waypoint(0, 0, angle)};
+    @Override
+    protected void usePIDOutput(double output) {
+        Robot.drivebase.drive(0, output);
     }
 
-    public void initialize() {
-        Robot.drivebase.setWaypoints(trajectory);
+    @Override
+    protected boolean isFinished() {
+        return false;
     }
-
-    public void execute() {
-        Robot.drivebase.trajectoryDrive();
-    }
-
 }

@@ -13,6 +13,7 @@ public class DriveToTarget extends Command {
     private AutoTarget target;
 
     private Notifier pathfinderNotifier;
+
     @Override
     public boolean isFinished() {
         return false;
@@ -62,18 +63,15 @@ public class DriveToTarget extends Command {
         return path;
     }
 
-    public void initialize()
-    {
+    public void initialize() {
         pathfinderNotifier.startPeriodic(RobotConstants.PATHFINDER_TIME_INTERVAL);
     }
 
-    public void interrupted()
-    {
+    public void interrupted() {
         pathfinderNotifier.stop();
     }
 
-    public void end()
-    {
+    public void end() {
         pathfinderNotifier.stop();
     }
 }
