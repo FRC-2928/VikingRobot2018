@@ -7,9 +7,9 @@ public class RobotMap {
     public static final int TALON_FRONT_RIGHT = 0;
     public static final int TALON_BACK_LEFT = 14;
     public static final int TALON_BACK_RIGHT = 1;
-    public static final int TALON_SHOULDER = 10;
-    public static final int TALON_INTAKE_ANGLE = 4;
-    public static final int TALON_GRABBER_SLIDER = 5;
+    public static final int TALON_4BAR = 10;
+    public static final int TALON_INTAKE_ANGLE = 5; // PeteMobile
+    public static final int TALON_GRABBER_SLIDER = 11;
 
     //Talon
     public static final int TALON_INTAKE_LEFT = 0;

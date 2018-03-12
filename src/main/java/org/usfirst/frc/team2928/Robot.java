@@ -32,6 +32,7 @@ public class Robot extends IterativeRobot {
     public static final Slider slider = new Slider();
     public static final Intake intake = new Intake();
     public static final IntakeClamp intakeClamp = new IntakeClamp();
+    public static final Petemobile petemobile = new Petemobile();
     public static OperatorInterface oi;
 
     @Override
@@ -57,11 +58,17 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         Scheduler.getInstance().removeAll();
         new Shift(Transmission.GearState.HIGH).start();
-        new DriveForward(1).start();
+        new DriveForward(3).start();
     }
 
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+    }
+
+    @Override
+    public void disabledInit()
+    {
+        NotifierManager.getInstance().stopAllNotifiers();
     }
 }

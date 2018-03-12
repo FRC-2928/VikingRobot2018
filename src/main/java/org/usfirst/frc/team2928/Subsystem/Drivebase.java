@@ -2,8 +2,10 @@ package org.usfirst.frc.team2928.Subsystem;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,12 +51,14 @@ public class Drivebase extends Subsystem {
 
         leftSlave = new WPI_TalonSRX(RobotMap.TALON_BACK_LEFT);
         leftSlave.set(ControlMode.Follower, RobotMap.TALON_FRONT_LEFT);
-        leftSlave.setInverted(true);
         rightSlave = new WPI_TalonSRX(RobotMap.TALON_BACK_RIGHT);
         rightSlave.set(ControlMode.Follower, RobotMap.TALON_FRONT_RIGHT);
+
+        right.setInverted(true);
         rightSlave.setInverted(true);
 
         left.setSensorPhase(true);
+        right.setSensorPhase(true);
         int maxTicksPer100ms = (int) (Conversions.FeetToTicks(RobotConstants.MAX_FEET_PER_SECOND) / 10);
 
         for (WPI_TalonSRX t : new WPI_TalonSRX[]{left, right}) {
@@ -68,8 +72,8 @@ public class Drivebase extends Subsystem {
             t.config_kD(RobotConstants.DRIVE_PID_VELOCITY_SLOT, RobotConstants.DRIVE_VELOCITY_D, RobotConstants.TALON_TIMEOUT_MS);
             t.config_kF(RobotConstants.DRIVE_PID_VELOCITY_SLOT, RobotConstants.DRIVE_VELOCITY_F, RobotConstants.TALON_TIMEOUT_MS);
 
-            t.configMotionCruiseVelocity((int) (maxTicksPer100ms * 0.75), RobotConstants.TALON_TIMEOUT_MS);
-            t.configMotionAcceleration((int) (maxTicksPer100ms * 0.30), RobotConstants.TALON_TIMEOUT_MS);
+            //t.configMotionCruiseVelocity((int) (maxTicksPer100ms * 0.75), RobotConstants.TALON_TIMEOUT_MS);
+            //t.configMotionAcceleration((int) (maxTicksPer100ms * 0.30), RobotConstants.TALON_TIMEOUT_MS);
             t.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
         }
 
@@ -132,7 +136,7 @@ public class Drivebase extends Subsystem {
             this.arcadeDrive(move, rotate, true);
         else
             drive.arcadeDrive(move, rotate, true);
-        System.out.println("Driving!");
+        System.out.println("Driving with: " + Boolean.toString(closedLoop) + "\tMove: " + move + "\tRotate: " + rotate);
         SmartDashboard.putNumber("gyro", getAngle());
     }
 
@@ -147,13 +151,9 @@ public class Drivebase extends Subsystem {
     }
 
     public void setWaypoints(Waypoint[] points) {
-        System.out.println("Generating pt 2");
         Trajectory traj = Pathfinder.generate(points, config);
-        System.out.println("Part 3");
         this.trajectory = new TankModifier(traj).modify(RobotConstants.AXLE_LENGTH_FEET);
-        System.out.println("Done");
         initSensors();
-        System.out.println("Sensors inited");
     }
 
     public void initSensors() {
@@ -179,18 +179,31 @@ public class Drivebase extends Subsystem {
 
     public void trajectoryDrive() {
         int[] encoderValues = getEncoders();
-        System.out.println(encoderValues[0] + " " + encoderValues[1]);
+        System.out.println(encoderValues[0] + "\t" + encoderValues[1]);
         double l = leftFollower.calculate(encoderValues[0]);
         double r = rightFollower.calculate(encoderValues[1]);
         double desiredHeading = Pathfinder.r2d(leftFollower.getHeading());
         double headingError = Pathfinder.boundHalfDegrees(desiredHeading - getAngle());
-        double turn = 0.8 * (-1.0 / 80.0) * headingError;
-        System.out.println("Driving");
+        double turn = 0.3 * (-1.0 / 80.0) * headingError;
+        System.out.println(l + "\t" + r + "\t" + turn);
+
         left.set(l + turn);
         right.set(r - turn);
     }
 
     public boolean doneWithTrajectory() {
         return leftFollower.isFinished() && rightFollower.isFinished();
+    }
+
+    // If this ends up in a commit, blame Noah
+    public void stupidDrive(double power)
+    {
+        left.set(ControlMode.PercentOutput, power);
+        right.set(ControlMode.PercentOutput, power);
+    }
+
+    public void setBrakeMode(boolean brake)
+    {
+        left.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
     }
 }

@@ -16,6 +16,13 @@ public class OperatorInterface {
     private static final JoystickButton moveSliderUp = new JoystickButton(driveStick, 5);
     private static final JoystickButton moveSliderDown = new JoystickButton(driveStick, 6);
     private static final JoystickButton outakeButton = new JoystickButton(driveStick, 7);
+    public static final JoystickButton shoulderUp = new JoystickButton(driveStick, 12);
+    public static final JoystickButton shoulderDown = new JoystickButton(driveStick, 11);
+
+    public static final JoystickButton petemobileDown = new JoystickButton(driveStick, 8);
+    public static final JoystickButton petemobileUp = new JoystickButton(driveStick, 9);
+
+
     //For moving arm: private static final JoystickButton armToggle = new JoystickButton(driveStick, 8);
 
     //JOYSTICKS AND BUTTONS ARE DEFINED HERE
@@ -28,6 +35,11 @@ public class OperatorInterface {
         moveSliderUp.whileHeld(new MoveSlider(RobotConstants.SLIDER_POWER));
         moveSliderDown.whileHeld(new MoveSlider(-RobotConstants.SLIDER_POWER));
         outakeButton.whileHeld(new RunIntake(-0.8));
+        shoulderUp.whileHeld(new DriveShoulder(0.7));
+        shoulderDown.whileHeld(new DriveShoulder(-0.5));
+
+        petemobileDown.whileHeld(new AnglePetemobile(-0.5));
+        petemobileUp.whileHeld(new AnglePetemobile(0.6));
     }
 
     //We're assuming same drive setup as last year.

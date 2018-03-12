@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2928.Subsystem;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,7 +22,8 @@ public class Shoulder extends Subsystem {
     // Static fields for talon closed-loop constants
     public Shoulder()
     {
-        motor = new WPI_TalonSRX(RobotMap.TALON_SHOULDER);
+        motor = new WPI_TalonSRX(RobotMap.TALON_4BAR);
+        motor.setInverted(true);
         // pidIDX 0 means primary closed-loop
         motor.configSelectedFeedbackSensor(CTRE_MagEncoder_Relative, RobotConstants.TALON_TIMEOUT_MS, RobotConstants.TALON_TIMEOUT_MS);
         motor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, RobotConstants.TALON_TIMEOUT_MS);
@@ -55,6 +55,10 @@ public class Shoulder extends Subsystem {
         return (double)motor.getClosedLoopTarget(RobotConstants.TALON_PRIMARY_CLOSED_LOOP) / MAX_EXTENSION;
     }
 
+    public void setPower(double power)
+    {
+        motor.set(ControlMode.PercentOutput, power);
+    }
     @Override
     protected void initDefaultCommand() {
 

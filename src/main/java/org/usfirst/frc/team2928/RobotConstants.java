@@ -8,7 +8,7 @@ public class RobotConstants {
     public static final double MAX_FEET_PER_SECOND = 19.5;
     public static final double NULL_ZONE_RANGE = 90d;
 
-    public static final int DRIVE_TICKS_PER_ROTATION = 1540;
+    public static final int DRIVE_TICKS_PER_ROTATION = 1530;
     public static final double DRIVE_POSITION_P = 0.2;
     public static final double DRIVE_POSITION_I = 0;
     public static final double DRIVE_POSITION_D = 0;
@@ -22,14 +22,14 @@ public class RobotConstants {
 
     public static final double AXLE_LENGTH_FEET = 1.875;
 
-    public static final double PATHFINDER_P = 1.2;
+    public static final double PATHFINDER_P = 0.02;
     public static final double PATHFINDER_I = 0.0;
     public static final double PATHFINDER_D = 0;
-    public static final double PATHFINDER_ACCEL = 8;
-    public static final double PATHFINDER_VELOCTIY = 18;
+    public static final double PATHFINDER_ACCEL = 1;
+    public static final double PATHFINDER_VELOCTIY = 4;
     public static final double PATHFINDER_TIME_INTERVAL = 0.05;
 
     public static final long SHIFT_DELAY_MS = 100;
 
-    public static final double SLIDER_POWER = 0.3;
+    public static final double SLIDER_POWER = 0.8;
 }

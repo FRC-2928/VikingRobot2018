@@ -64,14 +64,16 @@ public class DriveToTarget extends Command {
     }
 
     public void initialize() {
-        pathfinderNotifier.startPeriodic(RobotConstants.PATHFINDER_TIME_INTERVAL);
+        Robot.drivebase.setBrakeMode(true);
     }
 
     public void interrupted() {
-        pathfinderNotifier.stop();
+        end();
     }
 
     public void end() {
+        System.out.println("END!");
+        Robot.drivebase.setBrakeMode(false);
         pathfinderNotifier.stop();
     }
 }

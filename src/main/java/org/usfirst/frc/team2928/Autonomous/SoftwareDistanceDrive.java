@@ -38,5 +38,6 @@ public class SoftwareDistanceDrive extends PIDCommand {
     public void usePIDOutput(double output)
     {
         Robot.drivebase.drive(output, 0);
+        System.out.println("Software distance drive");
     }
 }
