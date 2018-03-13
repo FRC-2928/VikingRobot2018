@@ -22,11 +22,11 @@ public class RobotConstants {
 
     public static final double AXLE_LENGTH_FEET = 1.875;
 
-    public static final double PATHFINDER_P = 0.02;
+    public static final double PATHFINDER_P = 1;
     public static final double PATHFINDER_I = 0.0;
     public static final double PATHFINDER_D = 0;
-    public static final double PATHFINDER_ACCEL = 1;
-    public static final double PATHFINDER_VELOCTIY = 4;
+    public static final double PATHFINDER_ACCEL = 4;
+    public static final double PATHFINDER_VELOCTIY = 10;
     public static final double PATHFINDER_TIME_INTERVAL = 0.05;
 
     public static final long SHIFT_DELAY_MS = 100;

@@ -7,21 +7,21 @@ public class CloseGrabber extends Command {
     @Override
     public boolean isFinished()
     {
-        return false;
+        return true;
     }
 
     public CloseGrabber()
     {
-        requires(Robot.intake);
+        requires(Robot.grabber);
     }
 
     public void initialize()
     {
-        Robot.intakeClamp.close();
+        Robot.grabber.close();
     }
 
     public void execute()
     {
-        System.out.println("Opening Intake");
+
     }
 }

@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2928.Robot;
 
+import static org.usfirst.frc.team2928.Robot.drivebase;
+
 public class JoystickDrive extends Command {
 
     @Override
@@ -13,23 +15,20 @@ public class JoystickDrive extends Command {
 
     public JoystickDrive()
     {
-        requires(Robot.drivebase);
+        requires(drivebase);
     }
 
     public void initialize()
     {
-        Robot.drivebase.setClosedLoop(false);
+        drivebase.setClosedLoop(false);
     }
 
     public void execute() {
         double driveX = Robot.oi.getDriveX();
         double driveY = Robot.oi.getDriveY();
 
-        Robot.drivebase.drive(driveX, driveY);
-        SmartDashboard.putNumberArray("Joystick Axes", new double[]{driveX, driveY});
-
+        drivebase.drive(driveX, driveY);
         int[] encoders = Robot.drivebase.getEncoders();
-        SmartDashboard.putNumber("Left encoder", encoders[0]);
-        SmartDashboard.putNumber("Right encoder", encoders[1]);
+        SmartDashboard.putNumberArray("Encoders", new double[] {encoders[0], encoders[1]});
     }
 }

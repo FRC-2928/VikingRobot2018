@@ -159,12 +159,12 @@ public class Drivebase extends Subsystem {
     public void initSensors() {
         leftFollower = new EncoderFollower(trajectory.getLeftTrajectory());
         rightFollower = new EncoderFollower(trajectory.getRightTrajectory());
-        leftFollower.configurePIDVA(RobotConstants.PATHFINDER_P, RobotConstants.PATHFINDER_I, RobotConstants.PATHFINDER_D, 1d/RobotConstants.PATHFINDER_VELOCTIY, RobotConstants.PATHFINDER_ACCEL);
-        rightFollower.configurePIDVA(RobotConstants.PATHFINDER_P, RobotConstants.PATHFINDER_I, RobotConstants.PATHFINDER_D, 1d/RobotConstants.PATHFINDER_VELOCTIY, RobotConstants.PATHFINDER_ACCEL);
+        leftFollower.configurePIDVA(RobotConstants.PATHFINDER_P, RobotConstants.PATHFINDER_I, RobotConstants.PATHFINDER_D, 1d / RobotConstants.PATHFINDER_VELOCTIY, RobotConstants.PATHFINDER_ACCEL);
+        rightFollower.configurePIDVA(RobotConstants.PATHFINDER_P, RobotConstants.PATHFINDER_I, RobotConstants.PATHFINDER_D, 1d / RobotConstants.PATHFINDER_VELOCTIY, RobotConstants.PATHFINDER_ACCEL);
 
         zeroSensors();
         leftFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, RobotConstants.WHEEL_CIRCUMFERENCE_FEET / Math.PI);
-        rightFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, RobotConstants.WHEEL_CIRCUMFERENCE_FEET / Math.PI);
+        rightFollower.configureEncoder(right.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, RobotConstants.WHEEL_CIRCUMFERENCE_FEET / Math.PI);
     }
 
     public void zeroSensors() {
@@ -196,14 +196,12 @@ public class Drivebase extends Subsystem {
     }
 
     // If this ends up in a commit, blame Noah
-    public void stupidDrive(double power)
-    {
+    public void stupidDrive(double power) {
         left.set(ControlMode.PercentOutput, power);
         right.set(ControlMode.PercentOutput, power);
     }
 
-    public void setBrakeMode(boolean brake)
-    {
+    public void setBrakeMode(boolean brake) {
         left.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
     }
 }

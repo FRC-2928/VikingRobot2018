@@ -2,44 +2,43 @@ package org.usfirst.frc.team2928;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import jdk.nashorn.internal.scripts.JO;
 import org.usfirst.frc.team2928.Command.ToggleShift;
 import org.usfirst.frc.team2928.Command.*;
+import org.usfirst.frc.team2928.Subsystem.Transmission;
 
 public class OperatorInterface {
 
     private static final Joystick driveStick = new Joystick(0);
     private static final Joystick operatorConsole = new Joystick(1);
-    private static final JoystickButton shift = new JoystickButton(driveStick, 1);
-    private static final JoystickButton intakeButton = new JoystickButton(driveStick, 2);
-    private static final JoystickButton grabber = new JoystickButton(driveStick, 3);
-    private static final JoystickButton toggleIntake = new JoystickButton(driveStick, 4);
-    private static final JoystickButton moveSliderUp = new JoystickButton(driveStick, 5);
-    private static final JoystickButton moveSliderDown = new JoystickButton(driveStick, 6);
-    private static final JoystickButton outakeButton = new JoystickButton(driveStick, 7);
-    public static final JoystickButton shoulderUp = new JoystickButton(driveStick, 12);
-    public static final JoystickButton shoulderDown = new JoystickButton(driveStick, 11);
 
-    public static final JoystickButton petemobileDown = new JoystickButton(driveStick, 8);
-    public static final JoystickButton petemobileUp = new JoystickButton(driveStick, 9);
+    public static final JoystickButton frontplateUpButton = new JoystickButton(operatorConsole, 7);
+    public static final JoystickButton frontplateDownButton = new JoystickButton(operatorConsole, 6);
+    public static final JoystickButton fourbarUpButton = new JoystickButton(operatorConsole, 5);
+    public static final JoystickButton fourbarDownButton = new JoystickButton(operatorConsole, 4);
+    public static final JoystickButton outtakeButton = new JoystickButton(operatorConsole, 10);
+    public static final JoystickButton intakeButton = new JoystickButton(operatorConsole, 11);
+    public static final JoystickButton gripperButton = new JoystickButton(operatorConsole, 9);
+    public static final JoystickButton intakeOpenButton = new JoystickButton(operatorConsole, 2);
+    public static final JoystickButton intakeCloseButton = new JoystickButton(operatorConsole, 3);
 
+    public static final JoystickButton gearButton = new JoystickButton(driveStick, 9);
 
-    //For moving arm: private static final JoystickButton armToggle = new JoystickButton(driveStick, 8);
-
-    //JOYSTICKS AND BUTTONS ARE DEFINED HERE
 
     OperatorInterface() {
-        shift.whenPressed(new ToggleShift());
-        intakeButton.whileHeld(new RunIntake(0.3));
-        grabber.whenPressed(new ToggleGrabber());
-        toggleIntake.whenPressed(new ToggleIntakeClamp());
-        moveSliderUp.whileHeld(new MoveSlider(RobotConstants.SLIDER_POWER));
-        moveSliderDown.whileHeld(new MoveSlider(-RobotConstants.SLIDER_POWER));
-        outakeButton.whileHeld(new RunIntake(-0.8));
-        shoulderUp.whileHeld(new DriveShoulder(0.7));
-        shoulderDown.whileHeld(new DriveShoulder(-0.5));
+        frontplateUpButton.whileHeld(new MoveSlider(RobotConstants.SLIDER_POWER));
+        frontplateDownButton.whileHeld(new MoveSlider(-RobotConstants.SLIDER_POWER));
+        fourbarUpButton.whileHeld(new DriveShoulder(0.8));
+        fourbarDownButton.whileHeld(new DriveShoulder(-0.6));
+        outtakeButton.whileHeld(new RunIntake(-0.95));
+        intakeButton.whileHeld(new RunIntake(0.6));
+        gripperButton.whenPressed(new CloseGrabber());
+        gripperButton.whenReleased(new OpenGrabber());
+        intakeOpenButton.whenPressed(new OpenIntakeClamp());
+        intakeCloseButton.whenPressed(new CloseIntakeClamp());
 
-        petemobileDown.whileHeld(new AnglePetemobile(-0.5));
-        petemobileUp.whileHeld(new AnglePetemobile(0.6));
+        gearButton.whenPressed(new Shift(Transmission.GearState.LOW));
+        gearButton.whenReleased(new Shift(Transmission.GearState.HIGH));
     }
 
     //We're assuming same drive setup as last year.

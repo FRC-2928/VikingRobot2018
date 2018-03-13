@@ -3,24 +3,22 @@ package org.usfirst.frc.team2928.Command;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
 
-public class OpenGrabber extends Command {
+public class OpenIntakeClamp extends Command {
+
+    public OpenIntakeClamp()
+    {
+        requires(Robot.intakeClamp);
+
+    }
     @Override
     public boolean isFinished()
     {
         return true;
     }
 
-    public OpenGrabber()
-    {
-        requires(Robot.grabber);
-    }
-
     public void initialize()
-    { Robot.grabber.open();
-    }
-
-    public void execute()
     {
-
+        Robot.intakeClamp.open();
     }
+
 }

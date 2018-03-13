@@ -10,7 +10,7 @@ import org.usfirst.frc.team2928.TransformableWaypoint;
 
 public class DriveForward extends Command {
 
-    Notifier notifier;
+    private Notifier notifier;
     private TransformableWaypoint[] waypoints;
 
     public DriveForward(double distance) {
