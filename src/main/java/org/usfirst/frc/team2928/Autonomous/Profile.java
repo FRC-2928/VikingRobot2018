@@ -3,6 +3,7 @@ package org.usfirst.frc.team2928.Autonomous;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
+import org.usfirst.frc.team2928.Conversions;
 import org.usfirst.frc.team2928.RobotConstants;
 
 import java.io.*;
@@ -86,8 +87,8 @@ public class Profile {
         talon.configMotionProfileTrajectoryPeriod(50, RobotConstants.CAN_TIMEOUT_MS);
         for (int i = 0; i < profile.size(); i++)
         {
-            point.position = profile.get(i).get(0) * RobotConstants.DRIVE_TICKS_PER_ROTATION;
-            point.velocity = profile.get(i).get(1) * RobotConstants.DRIVE_TICKS_PER_ROTATION / 600d;
+            point.position = Conversions.FeetToTicks(profile.get(i).get(0));
+            point.velocity = Conversions.FeetToTicks(profile.get(i).get(1))/10d;
             point.headingDeg = 0;
             point.profileSlotSelect0 = 0;
             point.profileSlotSelect1 = 0;
