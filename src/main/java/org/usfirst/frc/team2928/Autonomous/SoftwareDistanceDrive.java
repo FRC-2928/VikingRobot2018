@@ -14,7 +14,7 @@ public class SoftwareDistanceDrive extends PIDCommand {
 
     public SoftwareDistanceDrive(int feet)
     {
-        super(0.8, 0, 0);
+        super(0.00001, 0.0000003, 0);
         requires(Robot.drivebase);
         this.ticks = (int)Conversions.FeetToTicks(feet);
     }
@@ -28,12 +28,13 @@ public class SoftwareDistanceDrive extends PIDCommand {
     public double returnPIDInput()
     {
         int[] encoders = Robot.drivebase.getEncoders();
+        System.out.println(encoders[0] + "\t" + encoders[1]);
         return ((double)(encoders[0] + encoders[1]))/2d;
     }
 
     public void usePIDOutput(double output)
     {
-        Robot.drivebase.drive(output, 0);
-        System.out.println("Software distance drive");
+        Robot.drivebase.drive(0, output);
+        System.out.println(output);
     }
 }

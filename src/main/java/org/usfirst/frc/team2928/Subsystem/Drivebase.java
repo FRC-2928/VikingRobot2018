@@ -55,7 +55,6 @@ public class Drivebase extends Subsystem {
 
             // We use quad encoders on this years robot
             t.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, RobotConstants.CAN_TIMEOUT_MS);
-
             // Invert the encoder readings so a forward move on the robot is a positive change in the encoder reading
             t.setSensorPhase(true);
             // No clue what this does, but the manual says to enable it anyway.

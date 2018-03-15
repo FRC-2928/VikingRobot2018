@@ -17,8 +17,9 @@ public class Profile {
     public Profile(String profileName)
     {
         ClassLoader loader = getClass().getClassLoader();
-        File leftFile = new File(loader.getResource("/profile/" + profileName + "_left.csv").getFile());
-        File rightFile = new File (loader.getResource("/profile/" + profileName + "_right.csv").getFile());
+        File leftFile = new File(loader.getResource("profile/" + profileName + "_left.csv").getFile());
+        File rightFile = new File (loader.getResource("profile/" + profileName + "_right.csv").getFile());
+        System.out.println("Loaded resources");
         RandomAccessFile left;
         RandomAccessFile right;
 

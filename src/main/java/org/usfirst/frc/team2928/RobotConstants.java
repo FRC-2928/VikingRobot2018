@@ -8,10 +8,10 @@ public class RobotConstants {
     public static final double MAX_FEET_PER_SECOND = 19.5;
 
     public static final int DRIVE_TICKS_PER_ROTATION = 1530;
-    public static final double TALON_P = 0;
+    public static final double TALON_P = 0.1;
     public static final double TALON_I = 0;
     public static final double TALON_D = 0;
-    public static final double TALON_F = 0;
+    public static final double TALON_F = 0.07;
     public static final double PROFILE_TICK_MS = 50;
 
     public static final double AXLE_LENGTH_FEET = 1.875;

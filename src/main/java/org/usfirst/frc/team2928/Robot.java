@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2928.Autonomous.FollowProfile;
+import org.usfirst.frc.team2928.Autonomous.SoftwareDistanceDrive;
 import org.usfirst.frc.team2928.Command.ResetSensors;
 import org.usfirst.frc.team2928.Command.Shift;
 import org.usfirst.frc.team2928.Subsystem.*;
@@ -43,6 +44,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
         Scheduler.getInstance().removeAll();
+        drivebase.setBrakeMode(false);
         new ResetSensors().start();
     }
 
@@ -55,9 +57,11 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         Scheduler.getInstance().removeAll();
         new ResetSensors().start();
+        drivebase.setBrakeMode(true);
 
         new Shift(Transmission.GearState.HIGH).start();
-        new FollowProfile("leftSwitchFromLeftSide");
+        //new FollowProfile("tenFeetTest").start();
+        new SoftwareDistanceDrive(10).start();
     }
 
     @Override

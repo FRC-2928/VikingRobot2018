@@ -22,6 +22,8 @@ public class OperatorInterface {
 
     public static final JoystickButton gearButton = new JoystickButton(driveStick, 9);
 
+    public static final JoystickButton intakeUpButtonStick = new JoystickButton(driveStick, 7);
+    public static final JoystickButton intakeDownButtonStick = new JoystickButton(driveStick, 6);
 
     OperatorInterface() {
         frontplateUpButton.whileHeld(new MoveSlider(RobotConstants.SLIDER_POWER));

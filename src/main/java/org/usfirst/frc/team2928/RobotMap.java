@@ -10,6 +10,7 @@ public class RobotMap {
     public static final int TALON_4BAR = 10;
     public static final int TALON_INTAKE_ANGLE = 5; // PeteMobile
     public static final int TALON_GRABBER_SLIDER = 11;
+    public static final int TALON_CLIMBER = 4;
 
     //Talon
     public static final int TALON_INTAKE_LEFT = 0;
@@ -19,6 +20,8 @@ public class RobotMap {
 
     //Solenoids
     public static final int SOLENOID_TRANSMISSION = 0;
-    public static final int SOLENOID_GRABBER = 1; // was 1
-    public static final int SOLENOID_INTAKE = 4; // was 4
+    public static final int SOLENOID_GRABBER = 1;
+    public static final int SOLENOID_INTAKE = 4;
+    public static final int SOLENOID_CLIMBER = 3; // TODO: this
+
 }
