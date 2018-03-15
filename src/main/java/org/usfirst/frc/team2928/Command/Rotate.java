@@ -17,7 +17,7 @@ public class Rotate extends PIDCommand {
 
     @Override
     protected double returnPIDInput() {
-        return Robot.drivebase.getAngle();
+        return Robot.drivebase.getYaw();
     }
 
     @Override

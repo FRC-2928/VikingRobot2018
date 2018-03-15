@@ -25,24 +25,24 @@ public class Shoulder extends Subsystem {
         motor = new WPI_TalonSRX(RobotMap.TALON_4BAR);
         motor.setInverted(true);
         // pidIDX 0 means primary closed-loop
-        motor.configSelectedFeedbackSensor(CTRE_MagEncoder_Relative, RobotConstants.TALON_TIMEOUT_MS, RobotConstants.TALON_TIMEOUT_MS);
-        motor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, RobotConstants.TALON_TIMEOUT_MS);
-        motor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, RobotConstants.TALON_TIMEOUT_MS);
+        motor.configSelectedFeedbackSensor(CTRE_MagEncoder_Relative, RobotConstants.CAN_TIMEOUT_MS, RobotConstants.CAN_TIMEOUT_MS);
+        motor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, RobotConstants.CAN_TIMEOUT_MS);
+        motor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, RobotConstants.CAN_TIMEOUT_MS);
 
-        motor.configNominalOutputForward(0, RobotConstants.TALON_TIMEOUT_MS);
-        motor.configNominalOutputReverse(0, RobotConstants.TALON_TIMEOUT_MS);
-        motor.configPeakOutputForward(1, RobotConstants.TALON_TIMEOUT_MS);
-        motor.configPeakOutputReverse(-1, RobotConstants.TALON_TIMEOUT_MS);
+        motor.configNominalOutputForward(0, RobotConstants.CAN_TIMEOUT_MS);
+        motor.configNominalOutputReverse(0, RobotConstants.CAN_TIMEOUT_MS);
+        motor.configPeakOutputForward(1, RobotConstants.CAN_TIMEOUT_MS);
+        motor.configPeakOutputReverse(-1, RobotConstants.CAN_TIMEOUT_MS);
 
-        motor.configMotionCruiseVelocity(CRUISE_VELOCITY, RobotConstants.TALON_TIMEOUT_MS);
-        motor.configMotionAcceleration(MAX_ACCELERATION, RobotConstants.TALON_TIMEOUT_MS);
-        motor.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
+        motor.configMotionCruiseVelocity(CRUISE_VELOCITY, RobotConstants.CAN_TIMEOUT_MS);
+        motor.configMotionAcceleration(MAX_ACCELERATION, RobotConstants.CAN_TIMEOUT_MS);
+        motor.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.CAN_TIMEOUT_MS);
 
-        motor.config_kP(0, 0.5, RobotConstants.TALON_TIMEOUT_MS);
-        motor.config_kI(0, 0.2, RobotConstants.TALON_TIMEOUT_MS);
-        motor.config_kD(0, 0.0, RobotConstants.TALON_TIMEOUT_MS);
+        motor.config_kP(0, 0.5, RobotConstants.CAN_TIMEOUT_MS);
+        motor.config_kI(0, 0.2, RobotConstants.CAN_TIMEOUT_MS);
+        motor.config_kD(0, 0.0, RobotConstants.CAN_TIMEOUT_MS);
         // We shouldn't need to ever use this one, setting it to 0 just to be safe
-        motor.config_kF(0, 0.0, RobotConstants.TALON_TIMEOUT_MS);
+        motor.config_kF(0, 0.0, RobotConstants.CAN_TIMEOUT_MS);
     }
 
     public void setExtension(double target)

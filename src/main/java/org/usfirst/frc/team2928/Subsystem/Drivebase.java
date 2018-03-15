@@ -1,207 +1,117 @@
 package org.usfirst.frc.team2928.Subsystem;
 
+import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.followers.EncoderFollower;
-import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team2928.Command.JoystickDrive;
-import org.usfirst.frc.team2928.Conversions;
 import org.usfirst.frc.team2928.RobotConstants;
 import org.usfirst.frc.team2928.RobotMap;
 
 public class Drivebase extends Subsystem {
 
-    private final WPI_TalonSRX left;
+    public final WPI_TalonSRX left;
     private final WPI_TalonSRX leftSlave;
-    private final WPI_TalonSRX right;
+    public final WPI_TalonSRX right;
     private final WPI_TalonSRX rightSlave;
+
+    private MotionProfileStatus statusLeft;
+    private MotionProfileStatus statusRight;
 
     private PigeonIMU pigeon;
     private DifferentialDrive drive;
-
-    private boolean closedLoop;
-
-
-    public Trajectory.Config config;
-    private EncoderFollower leftFollower;
-    private EncoderFollower rightFollower;
-
-    private TankModifier trajectory;
 
     @Override
     protected void initDefaultCommand() {
         setDefaultCommand(new JoystickDrive());
     }
 
-    // TODO: constants for talon ports
-    // TODO: Do we need to keep left/rightSlave around?
     public Drivebase() {
+        // Initialize talons
         left = new WPI_TalonSRX(RobotMap.TALON_FRONT_LEFT);
-        right = new WPI_TalonSRX(RobotMap.TALON_FRONT_RIGHT);
-
         leftSlave = new WPI_TalonSRX(RobotMap.TALON_BACK_LEFT);
         leftSlave.set(ControlMode.Follower, RobotMap.TALON_FRONT_LEFT);
+
+        right = new WPI_TalonSRX(RobotMap.TALON_FRONT_RIGHT);
         rightSlave = new WPI_TalonSRX(RobotMap.TALON_BACK_RIGHT);
         rightSlave.set(ControlMode.Follower, RobotMap.TALON_FRONT_RIGHT);
 
+        // Invert the right side of the drivetrain, so both sides go the same way
         right.setInverted(true);
         rightSlave.setInverted(true);
 
-        left.setSensorPhase(true);
-        right.setSensorPhase(true);
-        int maxTicksPer100ms = (int) (Conversions.FeetToTicks(RobotConstants.MAX_FEET_PER_SECOND) / 10);
-
         for (WPI_TalonSRX t : new WPI_TalonSRX[]{left, right}) {
-            t.config_kP(RobotConstants.DRIVE_PID_POSITION_SLOT, RobotConstants.DRIVE_POSITION_P, RobotConstants.TALON_TIMEOUT_MS);
-            t.config_kI(RobotConstants.DRIVE_PID_POSITION_SLOT, RobotConstants.DRIVE_POSITION_I, RobotConstants.TALON_TIMEOUT_MS);
-            t.config_kD(RobotConstants.DRIVE_PID_POSITION_SLOT, RobotConstants.DRIVE_POSITION_D, RobotConstants.TALON_TIMEOUT_MS);
-            t.config_kF(RobotConstants.DRIVE_PID_POSITION_SLOT, RobotConstants.DRIVE_POSITION_F, RobotConstants.TALON_TIMEOUT_MS);
+            // PIDF constants for motion profiling
+            t.config_kP(0, RobotConstants.TALON_P, RobotConstants.CAN_TIMEOUT_MS);
+            t.config_kI(0, RobotConstants.TALON_I, RobotConstants.CAN_TIMEOUT_MS);
+            t.config_kD(0, RobotConstants.TALON_D, RobotConstants.CAN_TIMEOUT_MS);
+            t.config_kF(0, RobotConstants.TALON_F, RobotConstants.CAN_TIMEOUT_MS);
 
-            t.config_kP(RobotConstants.DRIVE_PID_VELOCITY_SLOT, RobotConstants.DRIVE_VELOCITY_P, RobotConstants.TALON_TIMEOUT_MS);
-            t.config_kI(RobotConstants.DRIVE_PID_VELOCITY_SLOT, RobotConstants.DRIVE_VELOCITY_I, RobotConstants.TALON_TIMEOUT_MS);
-            t.config_kD(RobotConstants.DRIVE_PID_VELOCITY_SLOT, RobotConstants.DRIVE_VELOCITY_D, RobotConstants.TALON_TIMEOUT_MS);
-            t.config_kF(RobotConstants.DRIVE_PID_VELOCITY_SLOT, RobotConstants.DRIVE_VELOCITY_F, RobotConstants.TALON_TIMEOUT_MS);
+            // We use quad encoders on this years robot
+            t.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, RobotConstants.CAN_TIMEOUT_MS);
 
-            //t.configMotionCruiseVelocity((int) (maxTicksPer100ms * 0.75), RobotConstants.TALON_TIMEOUT_MS);
-            //t.configMotionAcceleration((int) (maxTicksPer100ms * 0.30), RobotConstants.TALON_TIMEOUT_MS);
-            t.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
+            // Invert the encoder readings so a forward move on the robot is a positive change in the encoder reading
+            t.setSensorPhase(true);
+            // No clue what this does, but the manual says to enable it anyway.
+            t.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, RobotConstants.CAN_TIMEOUT_MS);
         }
 
         drive = new DifferentialDrive(left, right);
 
         pigeon = new PigeonIMU(RobotMap.PIGEON);
-
-        closedLoop = false;
-        config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH,
-                RobotConstants.PATHFINDER_TIME_INTERVAL, RobotConstants.PATHFINDER_VELOCTIY,
-                RobotConstants.PATHFINDER_ACCEL, 60);
-    }
-
-    public void arcadeDrive(double xSpeed, double zRotate, boolean squaredInputs) {
-        double leftOutput;
-        double rightOutput;
-        if (squaredInputs) {
-            xSpeed = Math.copySign(xSpeed * xSpeed, xSpeed);
-            zRotate = Math.copySign(zRotate * zRotate, zRotate);
-        }
-
-        double maxInput = Math.copySign(Math.max(Math.abs(xSpeed), Math.abs(zRotate)), xSpeed);
-        if (xSpeed >= 0.0) {
-            if (zRotate >= 0.0) {
-                leftOutput = maxInput;
-                rightOutput = xSpeed - zRotate;
-            } else {
-                leftOutput = xSpeed + zRotate;
-                rightOutput = maxInput;
-            }
-        } else {
-            if (zRotate >= 0.0) {
-                leftOutput = xSpeed + zRotate;
-                rightOutput = maxInput;
-            } else {
-                leftOutput = maxInput;
-                rightOutput = xSpeed - zRotate;
-            }
-        }
-        leftOutput = limit(leftOutput, -1, 1);
-        rightOutput = limit(-rightOutput, -1, 1);
-
-        // TODO set pid slot
-        left.set(ControlMode.Velocity, leftOutput * Conversions.FeetToTicks(RobotConstants.MAX_FEET_PER_SECOND));
-        right.set(ControlMode.Velocity, rightOutput * Conversions.FeetToTicks(RobotConstants.MAX_FEET_PER_SECOND));
-    }
-
-    private double limit(double value, double min, double max) {
-        if (value > max) {
-            return max;
-        }
-        if (value < min) {
-            return min;
-        }
-        return value;
     }
 
     public void drive(double move, double rotate) {
-        if (closedLoop)
-            this.arcadeDrive(move, rotate, true);
-        else
-            drive.arcadeDrive(move, rotate, true);
-        System.out.println("Driving with: " + Boolean.toString(closedLoop) + "\tMove: " + move + "\tRotate: " + rotate);
-        SmartDashboard.putNumber("gyro", getAngle());
+        drive.arcadeDrive(move, rotate, true);
+        SmartDashboard.putNumber("gyro", getYaw());
     }
 
-    public double getAngle() {
+    public double getYaw() {
         double[] angles = {0, 0, 0};
         pigeon.getYawPitchRoll(angles);
         return angles[0];
     }
 
-    public void setClosedLoop(boolean closedLoop) {
-        this.closedLoop = closedLoop;
-    }
-
-    public void setWaypoints(Waypoint[] points) {
-        Trajectory traj = Pathfinder.generate(points, config);
-        this.trajectory = new TankModifier(traj).modify(RobotConstants.AXLE_LENGTH_FEET);
-        initSensors();
-    }
-
-    public void initSensors() {
-        leftFollower = new EncoderFollower(trajectory.getLeftTrajectory());
-        rightFollower = new EncoderFollower(trajectory.getRightTrajectory());
-        leftFollower.configurePIDVA(RobotConstants.PATHFINDER_P, RobotConstants.PATHFINDER_I, RobotConstants.PATHFINDER_D, 1d / RobotConstants.PATHFINDER_VELOCTIY, RobotConstants.PATHFINDER_ACCEL);
-        rightFollower.configurePIDVA(RobotConstants.PATHFINDER_P, RobotConstants.PATHFINDER_I, RobotConstants.PATHFINDER_D, 1d / RobotConstants.PATHFINDER_VELOCTIY, RobotConstants.PATHFINDER_ACCEL);
-
-        zeroSensors();
-        leftFollower.configureEncoder(left.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, RobotConstants.WHEEL_CIRCUMFERENCE_FEET / Math.PI);
-        rightFollower.configureEncoder(right.getSelectedSensorPosition(0), RobotConstants.DRIVE_TICKS_PER_ROTATION, RobotConstants.WHEEL_CIRCUMFERENCE_FEET / Math.PI);
-    }
-
     public void zeroSensors() {
-        left.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
-        right.setSelectedSensorPosition(0, RobotConstants.TALON_PRIMARY_CLOSED_LOOP, RobotConstants.TALON_TIMEOUT_MS);
-        pigeon.setYaw(0, 10);
+        left.setSelectedSensorPosition(0, 0, RobotConstants.CAN_TIMEOUT_MS);
+        right.setSelectedSensorPosition(0, 0, RobotConstants.CAN_TIMEOUT_MS);
+        pigeon.setYaw(0, RobotConstants.CAN_TIMEOUT_MS);
     }
 
     public int[] getEncoders() {
         return new int[]{left.getSelectedSensorPosition(0), right.getSelectedSensorPosition(0)};
     }
 
-    public void trajectoryDrive() {
-        int[] encoderValues = getEncoders();
-        System.out.println(encoderValues[0] + "\t" + encoderValues[1]);
-        double l = leftFollower.calculate(encoderValues[0]);
-        double r = rightFollower.calculate(encoderValues[1]);
-        double desiredHeading = Pathfinder.r2d(leftFollower.getHeading());
-        double headingError = Pathfinder.boundHalfDegrees(desiredHeading - getAngle());
-        double turn = 0.3 * (-1.0 / 80.0) * headingError;
-        System.out.println(l + "\t" + r + "\t" + turn);
-
-        left.set(l + turn);
-        right.set(r - turn);
-    }
-
-    public boolean doneWithTrajectory() {
-        return leftFollower.isFinished() && rightFollower.isFinished();
-    }
-
-    // If this ends up in a commit, blame Noah
-    public void stupidDrive(double power) {
-        left.set(ControlMode.PercentOutput, power);
-        right.set(ControlMode.PercentOutput, power);
-    }
-
     public void setBrakeMode(boolean brake) {
         left.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
+    }
+
+    public void profileDrive()
+    {
+        left.getMotionProfileStatus(statusLeft);
+        right.getMotionProfileStatus(statusRight);
+
+        right.set(ControlMode.MotionProfile, statusRight.isLast ? 2 : 1); // Hold if at last point
+        left.set(ControlMode.MotionProfile, statusLeft.isLast ? 2 : 1);
+
+    }
+
+    public boolean doneWithProfile()
+    {
+        return statusLeft.isLast && statusRight.isLast;
+    }
+
+    public void resetTalons()
+    {
+        left.clearMotionProfileTrajectories();
+        left.set(ControlMode.PercentOutput, 0);
+        right.clearMotionProfileTrajectories();
+        right.set(ControlMode.PercentOutput, 0);
     }
 }

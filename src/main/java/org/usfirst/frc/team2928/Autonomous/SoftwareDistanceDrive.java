@@ -1,12 +1,8 @@
 package org.usfirst.frc.team2928.Autonomous;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import org.usfirst.frc.team2928.Conversions;
 import org.usfirst.frc.team2928.Robot;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.util.ArrayList;
 
 public class SoftwareDistanceDrive extends PIDCommand {
     private int ticks;

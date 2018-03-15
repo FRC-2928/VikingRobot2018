@@ -2,8 +2,6 @@ package org.usfirst.frc.team2928;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import jdk.nashorn.internal.scripts.JO;
-import org.usfirst.frc.team2928.Command.ToggleShift;
 import org.usfirst.frc.team2928.Command.*;
 import org.usfirst.frc.team2928.Subsystem.Transmission;
 

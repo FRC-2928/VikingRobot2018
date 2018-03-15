@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotifierManager {
-
     private static NotifierManager instance;
     private List<Notifier> notifiers;
 
@@ -17,26 +16,23 @@ public class NotifierManager {
 
     public static NotifierManager getInstance()
     {
-        if (instance == null)
-        {
-            instance = new NotifierManager();
-        }
-        return instance;
-    }
-    public Notifier runNotifer(Runnable command, double timeStep)
-    {
-        Notifier n = new Notifier(command);
-        n.startPeriodic(timeStep);
-        notifiers.add(n);
-        return n;
+        if (instance != null)
+            return instance;
+        return instance = new NotifierManager();
     }
 
-    public void stopAllNotifiers()
+    public Notifier runNotifier(Runnable runnable, double interval)
     {
-        for(int i = 0; i < notifiers.size(); i++)
-        {
+        Notifier notifier = new Notifier(runnable);
+        notifier.startPeriodic(interval);
+        return notifier;
+    }
+
+    public void stopAll()
+    {
+        for (int i = notifiers.size() - 1; i >= 0; i--) {
             notifiers.get(i).stop();
+            notifiers.remove(i);
         }
-        notifiers.removeAll(notifiers);
     }
 }

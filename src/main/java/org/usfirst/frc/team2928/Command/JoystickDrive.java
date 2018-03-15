@@ -20,7 +20,6 @@ public class JoystickDrive extends Command {
 
     public void initialize()
     {
-        drivebase.setClosedLoop(false);
     }
 
     public void execute() {

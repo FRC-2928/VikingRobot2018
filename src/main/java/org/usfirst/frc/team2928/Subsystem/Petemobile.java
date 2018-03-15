@@ -6,8 +6,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team2928.RobotMap;
 
-import java.nio.ReadOnlyBufferException;
-
 public class Petemobile extends Subsystem {
     TalonSRX angleMotor;
 

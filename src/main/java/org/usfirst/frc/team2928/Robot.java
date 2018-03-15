@@ -1,21 +1,16 @@
 package org.usfirst.frc.team2928;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team2928.Autonomous.DriveForward;
-import org.usfirst.frc.team2928.Command.JoystickDrive;
+import org.usfirst.frc.team2928.Autonomous.FollowProfile;
 import org.usfirst.frc.team2928.Command.ResetSensors;
 import org.usfirst.frc.team2928.Command.Shift;
 import org.usfirst.frc.team2928.Subsystem.*;
-
-import java.util.List;
 
 /**
  * Robot for 2018.
@@ -40,7 +35,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         compressor.start();
         autoSelector = new SendableChooser<>();
-        autoSelector.addDefault("Drive Forward", new DriveForward(2));
+        autoSelector.addDefault("Drive Forward", new WaitCommand(0));
         SmartDashboard.putData("Auto Chooser", autoSelector);
         oi = new OperatorInterface();
     }
@@ -62,7 +57,7 @@ public class Robot extends IterativeRobot {
         new ResetSensors().start();
 
         new Shift(Transmission.GearState.HIGH).start();
-        //new DriveForward(3).start();
+        new FollowProfile("leftSwitchFromLeftSide");
     }
 
     @Override
@@ -73,6 +68,5 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledInit()
     {
-        NotifierManager.getInstance().stopAllNotifiers();
     }
 }
