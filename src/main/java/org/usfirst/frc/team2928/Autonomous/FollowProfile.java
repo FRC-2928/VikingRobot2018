@@ -27,7 +27,7 @@ public class FollowProfile extends Command {
         profile.feedTalons(Robot.drivebase.left, Robot.drivebase.right);
         notifier = NotifierManager.getInstance().runNotifier(
                 Robot.drivebase::profileDrive,
-                (RobotConstants.PROFILE_TICK_MS/1000)/2); // No clue why we /2 it, but the manual says to.
+                ((double)RobotConstants.PROFILE_TICK_MS/1000d)/2d); // No clue why we /2 it, but the manual says to.
     }
 
     @Override

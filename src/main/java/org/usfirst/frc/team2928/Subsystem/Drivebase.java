@@ -99,6 +99,9 @@ public class Drivebase extends Subsystem {
         right.set(ControlMode.MotionProfile, statusRight.isLast ? 2 : 1); // Hold if at last point
         left.set(ControlMode.MotionProfile, statusLeft.isLast ? 2 : 1);
 
+        left.processMotionProfileBuffer();
+        right.processMotionProfileBuffer();
+
     }
 
     public boolean doneWithProfile()

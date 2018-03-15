@@ -7,59 +7,49 @@ import org.usfirst.frc.team2928.RobotConstants;
 
 import java.io.*;
 import java.nio.Buffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Profile {
 
 
-    double[][] leftProfile;
-    double[][] rightProfile;
+    List<List<Double>> leftProfile;
+    List<List<Double>> rightProfile;
     public Profile(String profileName)
     {
-        ClassLoader loader = getClass().getClassLoader();
-        File leftFile = new File(loader.getResource("profile/" + profileName + "_left.csv").getFile());
-        File rightFile = new File (loader.getResource("profile/" + profileName + "_right.csv").getFile());
-        System.out.println("Loaded resources");
-        RandomAccessFile left;
-        RandomAccessFile right;
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
-        try {
-            left = new RandomAccessFile(leftFile, "r");
-            right = new RandomAccessFile(rightFile, "r");
-        } catch(FileNotFoundException e)
+        try
         {
-            e.printStackTrace();
-            return;
-        }
+        InputStream leftStream = loader.getResource("profile/" + profileName + "_left.csv").openStream();
+        InputStream rightStream = loader.getResource("profile/" + profileName + "_right.csv").openStream();
+        BufferedReader left = new BufferedReader(new InputStreamReader(leftStream));
+        BufferedReader right = new BufferedReader(new InputStreamReader(rightStream));
+
 
         leftProfile = fillProfile(left);
         rightProfile = fillProfile(right);
-
-
-    }
-
-    private double[][] fillProfile(RandomAccessFile f)
-    {
-        String line;
-        int lines = 0;
-        try {
-            while(f.readLine() != null)
-                lines++;
-            f.seek(0);
-        } catch (IOException e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
 
-        double[][] profile = new double[lines][3];
-        int currentLine = 0;
+    }
+
+    private List<List<Double>> fillProfile(BufferedReader br)
+    {
+        List<List<Double>> profile = new ArrayList<>();
+        String line;
         try {
-            while ((line = f.readLine()) != null)
+            while ((line = br.readLine()) != null)
             {
+                profile.add(new ArrayList<>());
                 String[] values = line.split(",");
                 if (values[0] == null || values[0] == " ")
                     continue;
                 for (int i = 0; i < 3; i++)
-                    profile[currentLine][i] = Double.parseDouble(values[i]);
+                    profile.get(profile.size() - 1).add(Double.parseDouble(values[i]));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,22 +78,22 @@ public class Profile {
         return retval;
     }
 
-    private void feedTalon(WPI_TalonSRX talon, double[][] profile)
+    private void feedTalon(WPI_TalonSRX talon, List<List<Double>> profile)
     {
         TrajectoryPoint point = new TrajectoryPoint();
 
         talon.clearMotionProfileTrajectories();
         talon.configMotionProfileTrajectoryPeriod(50, RobotConstants.CAN_TIMEOUT_MS);
-        for (int i = 0; i < profile.length; i++)
+        for (int i = 0; i < profile.size(); i++)
         {
-            point.position = profile[i][0] * RobotConstants.DRIVE_TICKS_PER_ROTATION;
-            point.velocity = profile[i][1] * RobotConstants.DRIVE_TICKS_PER_ROTATION / 600d;
+            point.position = profile.get(i).get(0) * RobotConstants.DRIVE_TICKS_PER_ROTATION;
+            point.velocity = profile.get(i).get(1) * RobotConstants.DRIVE_TICKS_PER_ROTATION / 600d;
             point.headingDeg = 0;
             point.profileSlotSelect0 = 0;
             point.profileSlotSelect1 = 0;
-            point.timeDur = GetTrajectoryDuration((int)profile[i][2]);
+            point.timeDur = GetTrajectoryDuration((int)profile.get(i).get(2).doubleValue());
             point.zeroPos = i == 0;
-            point.isLastPoint = i == (profile.length - 1);
+            point.isLastPoint = i == (profile.size() - 1);
             talon.pushMotionProfileTrajectory(point);
         }
     }
