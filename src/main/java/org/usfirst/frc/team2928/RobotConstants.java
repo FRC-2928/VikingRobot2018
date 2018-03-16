@@ -7,7 +7,8 @@ public class RobotConstants {
     public static final double WHEEL_CIRCUMFERENCE_FEET = 14.0/12.0;
     public static final double MAX_FEET_PER_SECOND = 19.5;
 
-    public static final int DRIVE_TICKS_PER_ROTATION = 1530;
+    public static final int DRIVE_TICKS_PER_ROTATION_HIGH = 1530;
+    public static final int DRIVE_TICKS_PER_ROTATION_LOW = 0; // TODO: set this
     public static final double TALON_P = 0.1;
     public static final double TALON_I = 0;
     public static final double TALON_D = 0;

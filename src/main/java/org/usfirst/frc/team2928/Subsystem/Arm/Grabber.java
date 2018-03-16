@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2928.Subsystem;
+package org.usfirst.frc.team2928.Subsystem.Arm;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -9,10 +9,10 @@ public class Grabber extends Subsystem {
 
     public enum GrabberState {
         OPEN,
-        CLOSED;
+        CLOSE;
 
         public GrabberState toggle() {
-            return this.equals(CLOSED) ? GrabberState.OPEN : GrabberState.CLOSED;
+            return this.equals(CLOSE) ? GrabberState.OPEN : GrabberState.CLOSE;
         }
     }
 
@@ -40,7 +40,7 @@ public class Grabber extends Subsystem {
     }
 
     public GrabberState getGrabberState() {
-        return grabber.get() ? GrabberState.OPEN : GrabberState.CLOSED;
+        return grabber.get() ? GrabberState.OPEN : GrabberState.CLOSE;
     }
 
     public void toggle() {

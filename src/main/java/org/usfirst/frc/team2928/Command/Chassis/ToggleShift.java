@@ -1,23 +1,18 @@
-package org.usfirst.frc.team2928.Command;
+package org.usfirst.frc.team2928.Command.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
-import org.usfirst.frc.team2928.Subsystem.Transmission.GearState;
+import org.usfirst.frc.team2928.Subsystem.Chassis.Transmission.GearState;
 
 public class ToggleShift extends Command {
     private GearState target;
     public ToggleShift()
     {
-        requires(Robot.transmission);
+        requires(Robot.chassis.transmission);
     }
     public void initialize()
     {
-        target = Robot.transmission.getGear().toggle();
-    }
-
-    public void execute()
-    {
-        Robot.transmission.shift(target);
+        Robot.chassis.transmission.toggle();
     }
 
     @Override

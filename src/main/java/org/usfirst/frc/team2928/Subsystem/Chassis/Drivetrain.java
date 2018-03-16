@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2928.Subsystem;
+package org.usfirst.frc.team2928.Subsystem.Chassis;
 
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -10,11 +10,11 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team2928.Command.JoystickDrive;
+import org.usfirst.frc.team2928.Command.Chassis.JoystickDrive;
 import org.usfirst.frc.team2928.RobotConstants;
 import org.usfirst.frc.team2928.RobotMap;
 
-public class Drivebase extends Subsystem {
+public class Drivetrain extends Subsystem {
 
     public final WPI_TalonSRX left;
     private final WPI_TalonSRX leftSlave;
@@ -32,7 +32,8 @@ public class Drivebase extends Subsystem {
         setDefaultCommand(new JoystickDrive());
     }
 
-    public Drivebase() {
+    public Drivetrain()
+    {
         // Initialize talons
         left = new WPI_TalonSRX(RobotMap.TALON_FRONT_LEFT);
         leftSlave = new WPI_TalonSRX(RobotMap.TALON_BACK_LEFT);
@@ -58,19 +59,30 @@ public class Drivebase extends Subsystem {
             // Invert the encoder readings so a forward move on the robot is a positive change in the encoder reading
             t.setSensorPhase(true);
             // No clue what this does, but the manual says to enable it anyway.
-            t.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, RobotConstants.CAN_TIMEOUT_MS);
+            t.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, (int)RobotConstants.PROFILE_TICK_MS, RobotConstants.CAN_TIMEOUT_MS);
+            // Default is 4% deadband, we want less.
+            t.configNeutralDeadband(0.01, RobotConstants.CAN_TIMEOUT_MS);
         }
 
         drive = new DifferentialDrive(left, right);
 
         pigeon = new PigeonIMU(RobotMap.PIGEON);
+
+        statusLeft = new MotionProfileStatus();
+        statusRight = new MotionProfileStatus();
+
+        setBrakeMode(false);
     }
 
     public void drive(double move, double rotate) {
-        drive.arcadeDrive(move, rotate, true);
-        SmartDashboard.putNumber("gyro", getYaw());
+        this.drive(move, rotate, true);
     }
 
+    public void drive(double move, double rotate, boolean squaredInputs)
+    {
+        drive.arcadeDrive(rotate, move, squaredInputs); // WPILIB is still backwards
+        SmartDashboard.putNumber("gyro", getYaw());
+    }
     public double getYaw() {
         double[] angles = {0, 0, 0};
         pigeon.getYawPitchRoll(angles);

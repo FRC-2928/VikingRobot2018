@@ -1,14 +1,12 @@
-package org.usfirst.frc.team2928.Command;
+package org.usfirst.frc.team2928.Command.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
 
-public class OpenIntakeClamp extends Command {
-
-    public OpenIntakeClamp()
+public class ResetSensors extends Command {
+    public ResetSensors()
     {
-        requires(Robot.intakeClamp);
-
+        requires(Robot.chassis.drivetrain);
     }
     @Override
     public boolean isFinished()
@@ -18,7 +16,6 @@ public class OpenIntakeClamp extends Command {
 
     public void initialize()
     {
-        Robot.intakeClamp.open();
+        Robot.chassis.drivetrain.zeroSensors();
     }
-
 }

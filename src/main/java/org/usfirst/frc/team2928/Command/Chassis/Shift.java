@@ -1,8 +1,8 @@
-package org.usfirst.frc.team2928.Command;
+package org.usfirst.frc.team2928.Command.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
-import org.usfirst.frc.team2928.Subsystem.Transmission.GearState;
+import org.usfirst.frc.team2928.Subsystem.Chassis.Transmission.GearState;
 
 public class Shift extends Command {
 
@@ -10,13 +10,13 @@ public class Shift extends Command {
 
     public Shift(GearState target)
     {
-        requires(Robot.transmission);
+        requires(Robot.chassis.transmission);
         this.target = target;
     }
 
     public void execute()
     {
-        Robot.transmission.shift(target);
+        Robot.chassis.transmission.shift(target);
     }
 
     @Override

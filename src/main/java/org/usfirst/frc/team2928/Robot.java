@@ -7,33 +7,35 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team2928.Autonomous.FollowProfile;
 import org.usfirst.frc.team2928.Autonomous.SoftwareDistanceDrive;
-import org.usfirst.frc.team2928.Command.ResetSensors;
-import org.usfirst.frc.team2928.Command.Shift;
-import org.usfirst.frc.team2928.Subsystem.*;
+import org.usfirst.frc.team2928.Command.Chassis.ResetSensors;
+import org.usfirst.frc.team2928.Command.Chassis.Shift;
+import org.usfirst.frc.team2928.Subsystem.Arm.Arm;
+import org.usfirst.frc.team2928.Subsystem.Chassis.Chassis;
+import org.usfirst.frc.team2928.Subsystem.Chassis.Transmission;
+import org.usfirst.frc.team2928.Subsystem.Intake.Intake;
 
 /**
  * Robot for 2018.
  */
 public class Robot extends IterativeRobot {
 
-    //TODO: add to these command groups to make the robot do anything during auto.
+    //TODO: add auto options
     private static SendableChooser<Command> autoSelector;
-    private static Compressor compressor = new Compressor();
+    private static Compressor compressor;
 
-    public static final Drivebase drivebase = new Drivebase();
-    public static final Transmission transmission = new Transmission();
-    public static final Shoulder shoulder = new Shoulder();
-    public static final Grabber grabber = new Grabber();
-    public static final Slider slider = new Slider();
-    public static final Intake intake = new Intake();
-    public static final IntakeClamp intakeClamp = new IntakeClamp();
-    public static final Petemobile petemobile = new Petemobile();
+    public static Arm arm;
+    public static Chassis chassis;
+    public static Intake intake;
     public static OperatorInterface oi;
 
     @Override
     public void robotInit() {
+        compressor = new Compressor();
+        arm = new Arm();
+        chassis = new Chassis();
+        intake = new Intake();
+
         compressor.start();
         autoSelector = new SendableChooser<>();
         autoSelector.addDefault("Drive Forward", new WaitCommand(0));
@@ -44,7 +46,6 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
         Scheduler.getInstance().removeAll();
-        drivebase.setBrakeMode(false);
         new ResetSensors().start();
     }
 
@@ -57,9 +58,8 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         Scheduler.getInstance().removeAll();
         new ResetSensors().start();
-        drivebase.setBrakeMode(true);
 
-        new Shift(Transmission.GearState.HIGH).start();
+        new Shift(Transmission.GearState.LOW).start();
         //new FollowProfile("tenFeetTest").start();
         new SoftwareDistanceDrive(10).start();
     }
@@ -72,5 +72,14 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledInit()
     {
+        Scheduler.getInstance().removeAll();
+        NotifierManager.getInstance().stopAll();
+        new ResetSensors().start();
+    }
+
+    @Override
+    public void disabledPeriodic()
+    {
+        Scheduler.getInstance().run();
     }
 }

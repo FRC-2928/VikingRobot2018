@@ -5,12 +5,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
 import org.usfirst.frc.team2928.Conversions;
 import org.usfirst.frc.team2928.RobotConstants;
+import org.usfirst.frc.team2928.Subsystem.Chassis.Transmission;
 
 import java.io.*;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Profile {
 
@@ -87,8 +86,8 @@ public class Profile {
         talon.configMotionProfileTrajectoryPeriod(50, RobotConstants.CAN_TIMEOUT_MS);
         for (int i = 0; i < profile.size(); i++)
         {
-            point.position = Conversions.FeetToTicks(profile.get(i).get(0));
-            point.velocity = Conversions.FeetToTicks(profile.get(i).get(1))/10d;
+            point.position = Conversions.FeetToTicks(profile.get(i).get(0), Transmission.GearState.LOW);
+            point.velocity = Conversions.FeetToTicks(profile.get(i).get(1), Transmission.GearState.LOW)/10d;
             point.headingDeg = 0;
             point.profileSlotSelect0 = 0;
             point.profileSlotSelect1 = 0;

@@ -1,9 +1,9 @@
-package org.usfirst.frc.team2928.Command;
+package org.usfirst.frc.team2928.Command.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
 
-public class RunIntake extends Command {
+public class RunMotors extends Command {
     private double power;
 
     @Override
@@ -11,19 +11,19 @@ public class RunIntake extends Command {
         return false;
     }
 
-    public RunIntake(double power) {
-        requires(Robot.intake);
+    public RunMotors(double power) {
+        requires(Robot.intake.motors);
         this.power = power;
     }
 
     public void initialize() {
-        Robot.intake.setIntake(power);
+        Robot.intake.motors.set(power);
     }
 
     public void execute() {
     }
 
     public void end() {
-        Robot.intake.setIntake(0.0);
+        Robot.intake.motors.set(0d);
     }
 }

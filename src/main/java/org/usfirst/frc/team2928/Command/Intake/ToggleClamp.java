@@ -1,18 +1,18 @@
-package org.usfirst.frc.team2928.Command;
+package org.usfirst.frc.team2928.Command.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
 
-public class ToggleIntakeClamp extends Command {
+public class ToggleClamp extends Command {
 
-    public ToggleIntakeClamp()
+    public ToggleClamp()
     {
-        requires(Robot.intakeClamp);
+        requires(Robot.intake.clamp);
     }
 
     public void initialize()
     {
-        Robot.intakeClamp.toggle();
+        Robot.intake.clamp.toggle();
     }
 
     @Override

@@ -1,24 +1,13 @@
-package org.usfirst.frc.team2928.Subsystem;
+package org.usfirst.frc.team2928.Subsystem.Intake;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team2928.RobotMap;
 
-public class Intake extends Subsystem {
+public class Motors extends Subsystem {
 
-    public enum GripperState{
-        OPEN,
-        CLOSED;
-
-        public GripperState toggle() {
-            return this.equals(CLOSED) ? GripperState.OPEN : GripperState.CLOSED;
-        }
-
-        }
-
-    private WPI_TalonSRX angleMotor;
-    // 2 intakes
+    // 2 intake motors
     private Talon intakeLeft;
     private Talon intakeRight;
 
@@ -27,15 +16,16 @@ public class Intake extends Subsystem {
 
     }
 
-    public Intake() {
-        angleMotor = new WPI_TalonSRX(RobotMap.TALON_INTAKE_ANGLE);
+    public Motors() {
         intakeLeft = new Talon(RobotMap.TALON_INTAKE_LEFT);
         intakeRight = new Talon(RobotMap.TALON_INTAKE_RIGHT);
+        intakeLeft.setInverted(true);
+        intakeRight.setInverted(true);
     }
 
-    public void setIntake(double power)
+    public void set(double power)
     {
         for (Talon t : new Talon[] {intakeLeft, intakeRight})
-            t.set(-power);
+            t.set(power);
     }
 }

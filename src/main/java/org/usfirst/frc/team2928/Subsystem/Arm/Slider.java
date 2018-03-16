@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2928.Subsystem;
+package org.usfirst.frc.team2928.Subsystem.Arm;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,7 +16,7 @@ public class Slider extends Subsystem
         talon.setInverted(false);
     }
 
-    public void setSpeed(double power)
+    public void setPower(double power)
     {
         talon.set(power);
     }

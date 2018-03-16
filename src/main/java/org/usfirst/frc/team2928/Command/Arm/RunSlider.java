@@ -1,9 +1,9 @@
-package org.usfirst.frc.team2928.Command;
+package org.usfirst.frc.team2928.Command.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
 
-public class MoveSlider extends Command {
+public class RunSlider extends Command {
 
     private double power;
     @Override
@@ -12,19 +12,19 @@ public class MoveSlider extends Command {
         return false;
     }
 
-    public MoveSlider(double power)
+    public RunSlider(double power)
     {
-        requires(Robot.slider);
+        requires(Robot.arm.slider);
         this.power = power;
     }
 
     public void initialize()
     {
-        Robot.slider.setSpeed(power);
+        Robot.arm.slider.setPower(power);
     }
 
     public void end()
     {
-        Robot.slider.setSpeed(0);
+        Robot.arm.slider.setPower(0);
     }
 }

@@ -1,25 +1,25 @@
-package org.usfirst.frc.team2928.Command;
+package org.usfirst.frc.team2928.Command.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
 
-public class AnglePetemobile extends Command {
+public class RunAngle extends Command {
 
     private double power;
 
-    public AnglePetemobile(double power){
-        requires(Robot.petemobile);
+    public RunAngle(double power){
+        requires(Robot.intake.angle);
         this.power = power;
     }
 
     public void initialize()
     {
-        Robot.petemobile.setPower(power);
+        Robot.intake.angle.setPower(power);
     }
 
     public void end()
     {
-        Robot.petemobile.setPower(0);
+        Robot.intake.angle.setPower(0);
     }
 
     public void interrupted()

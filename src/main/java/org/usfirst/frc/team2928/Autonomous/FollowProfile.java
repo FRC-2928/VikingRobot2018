@@ -12,32 +12,32 @@ public class FollowProfile extends Command {
     private Notifier notifier;
     public FollowProfile(Profile profile)
     {
-        requires(Robot.drivebase);
+        requires(Robot.chassis.drivetrain);
         this.profile = profile;
     }
 
     public FollowProfile(String profileName)
     {
-        requires(Robot.drivebase);
+        requires(Robot.chassis.drivetrain);
         this.profile = new Profile(profileName);
     }
 
     public void initialize()
     {
-        profile.feedTalons(Robot.drivebase.left, Robot.drivebase.right);
+        profile.feedTalons(Robot.chassis.drivetrain.left, Robot.chassis.drivetrain.right);
         notifier = NotifierManager.getInstance().runNotifier(
-                Robot.drivebase::profileDrive,
-                ((double)RobotConstants.PROFILE_TICK_MS/1000d)/2d); // No clue why we /2 it, but the manual says to.
+                Robot.chassis.drivetrain::profileDrive,
+                (RobotConstants.PROFILE_TICK_MS/1000d)/2d); // No clue why we /2 it, but the manual says to.
     }
 
     @Override
     protected boolean isFinished() {
-        return Robot.drivebase.doneWithProfile();
+        return Robot.chassis.drivetrain.doneWithProfile();
     }
 
     public void end()
     {
 
-        Robot.drivebase.resetTalons();
+        Robot.chassis.drivetrain.resetTalons();
     }
 }

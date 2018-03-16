@@ -1,10 +1,8 @@
-package org.usfirst.frc.team2928.Command;
+package org.usfirst.frc.team2928.Command.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2928.Robot;
-
-import static org.usfirst.frc.team2928.Robot.drivebase;
 
 public class JoystickDrive extends Command {
 
@@ -15,7 +13,7 @@ public class JoystickDrive extends Command {
 
     public JoystickDrive()
     {
-        requires(drivebase);
+        requires(Robot.chassis.drivetrain);
     }
 
     public void initialize()
@@ -26,9 +24,8 @@ public class JoystickDrive extends Command {
         double driveX = Robot.oi.getDriveX();
         double driveY = Robot.oi.getDriveY();
 
-        drivebase.drive(driveX, driveY);
-        int[] encoders = Robot.drivebase.getEncoders();
+        Robot.chassis.drivetrain.drive(driveY, driveX);
+        int[] encoders = Robot.chassis.drivetrain.getEncoders();
         SmartDashboard.putNumberArray("Encoders", new double[] {encoders[0], encoders[1]});
-        System.out.println(encoders[0] + "\t" + encoders[1]);
     }
 }

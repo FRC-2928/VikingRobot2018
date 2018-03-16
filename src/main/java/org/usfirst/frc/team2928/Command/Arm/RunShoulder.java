@@ -1,21 +1,21 @@
-package org.usfirst.frc.team2928.Command;
+package org.usfirst.frc.team2928.Command.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
 
-public class DriveShoulder extends Command {
+public class RunShoulder extends Command {
 
     private double power;
-    public DriveShoulder(double power)
+    public RunShoulder(double power)
     {
-        requires(Robot.shoulder);
+        requires(Robot.arm.shoulder);
         this.power = power;
     }
 
     @Override
     public void initialize()
     {
-        Robot.shoulder.setPower(power);
+        Robot.arm.shoulder.setPower(power);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class DriveShoulder extends Command {
 
     public void end()
     {
-        Robot.shoulder.setPower(0);
+        Robot.arm.shoulder.setPower(0);
     }
 
     public void interrupted()
