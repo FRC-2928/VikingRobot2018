@@ -10,6 +10,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team2928.Autonomous.Profile;
 import org.usfirst.frc.team2928.Command.Chassis.JoystickDrive;
 import org.usfirst.frc.team2928.RobotConstants;
 import org.usfirst.frc.team2928.RobotMap;
@@ -26,6 +27,8 @@ public class Drivetrain extends Subsystem {
 
     private PigeonIMU pigeon;
     private DifferentialDrive drive;
+
+    private Profile profile;
 
     @Override
     protected void initDefaultCommand() {
@@ -103,6 +106,13 @@ public class Drivetrain extends Subsystem {
         left.setNeutralMode(brake ? NeutralMode.Brake : NeutralMode.Coast);
     }
 
+    public void setProfile(Profile profile)
+    {
+        this.profile = profile;
+        for (int i = 0; i < 32; i++)
+            profile.sendNextPoint(left, right);
+    }
+
     public void profileDrive()
     {
         left.getMotionProfileStatus(statusLeft);
@@ -114,6 +124,11 @@ public class Drivetrain extends Subsystem {
         left.processMotionProfileBuffer();
         right.processMotionProfileBuffer();
 
+        if (statusLeft.btmBufferCnt < 32 && !doneWithProfile())
+        {
+            for (int i = 0; i < 32; i++)
+                profile.sendNextPoint(left, right);
+        }
     }
 
     public boolean doneWithProfile()
@@ -127,5 +142,6 @@ public class Drivetrain extends Subsystem {
         left.set(ControlMode.PercentOutput, 0);
         right.clearMotionProfileTrajectories();
         right.set(ControlMode.PercentOutput, 0);
+        zeroSensors();
     }
 }

@@ -12,7 +12,7 @@ public class RobotConstants {
     public static final double TALON_P = 0.1;
     public static final double TALON_I = 0;
     public static final double TALON_D = 0;
-    public static final double TALON_F = 0.07;
+    public static final double TALON_F = 0.07; // TODO: calculate with formula in
     public static final double PROFILE_TICK_MS = 50;
 
     public static final double AXLE_LENGTH_FEET = 1.875;

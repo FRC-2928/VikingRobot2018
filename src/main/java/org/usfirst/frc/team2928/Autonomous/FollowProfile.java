@@ -24,10 +24,11 @@ public class FollowProfile extends Command {
 
     public void initialize()
     {
-        profile.feedTalons(Robot.chassis.drivetrain.left, Robot.chassis.drivetrain.right);
+        Robot.chassis.drivetrain.resetTalons();
+        Robot.chassis.drivetrain.setProfile(profile);
         notifier = NotifierManager.getInstance().runNotifier(
                 Robot.chassis.drivetrain::profileDrive,
-                (RobotConstants.PROFILE_TICK_MS/1000d)/2d); // No clue why we /2 it, but the manual says to.
+                (RobotConstants.PROFILE_TICK_MS/1000d)/2d); // Run faster than the profile tick
     }
 
     @Override
