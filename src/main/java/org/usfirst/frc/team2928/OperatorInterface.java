@@ -26,17 +26,17 @@ public class OperatorInterface {
     private static final Joystick driveStick = new Joystick(0);
     private static final Joystick operatorConsole = new Joystick(1);
 
-    public static final JoystickButton frontplateUpButton = new JoystickButton(operatorConsole, 7);
-    public static final JoystickButton frontplateDownButton = new JoystickButton(operatorConsole, 6);
-    public static final JoystickButton fourbarUpButton = new JoystickButton(operatorConsole, 5);
-    public static final JoystickButton fourbarDownButton = new JoystickButton(operatorConsole, 4);
-    public static final JoystickButton outtakeButton = new JoystickButton(operatorConsole, 10);
-    public static final JoystickButton intakeButton = new JoystickButton(operatorConsole, 11);
-    public static final JoystickButton gripperButton = new JoystickButton(operatorConsole, 9);
-    public static final JoystickButton intakeOpenButton = new JoystickButton(operatorConsole, 2);
-    public static final JoystickButton intakeCloseButton = new JoystickButton(operatorConsole, 3);
+    private static final JoystickButton frontplateUpButton = new JoystickButton(operatorConsole, 7);
+    private static final JoystickButton frontplateDownButton = new JoystickButton(operatorConsole, 6);
+    private static final JoystickButton fourbarUpButton = new JoystickButton(operatorConsole, 5);
+    private static final JoystickButton fourbarDownButton = new JoystickButton(operatorConsole, 4);
+    private static final JoystickButton outtakeButton = new JoystickButton(operatorConsole, 10);
+    private static final JoystickButton intakeButton = new JoystickButton(operatorConsole, 11);
+    private static final JoystickButton gripperButton = new JoystickButton(operatorConsole, 9);
+    private static final JoystickButton intakeOpenButton = new JoystickButton(operatorConsole, 2);
+    private static final JoystickButton intakeCloseButton = new JoystickButton(operatorConsole, 3);
 
-    public static final JoystickButton gearButton = new JoystickButton(driveStick, 9);
+    private static final JoystickButton gearButton = new JoystickButton(driveStick, 9);
 
     OperatorInterface() {
         frontplateUpButton.whileHeld(new RunSlider(RobotConstants.SLIDER_POWER));

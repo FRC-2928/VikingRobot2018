@@ -37,7 +37,7 @@ public class FollowProfile extends Command {
 
     public void end()
     {
-
+        notifier.stop();
         Robot.chassis.drivetrain.resetTalons();
     }
 }

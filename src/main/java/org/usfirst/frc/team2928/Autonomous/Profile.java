@@ -72,7 +72,7 @@ public class Profile {
         retval = retval.valueOf(durationMs);
 		/* check that it is valid */
         if (retval.value != durationMs) {
-            DriverStation.getInstance().reportError("Trajectory Duration not supported - use configMotionProfileTrajectoryPeriod instead", false);
+            DriverStation.reportError("Trajectory Duration not supported - use configMotionProfileTrajectoryPeriod instead", false);
         }
 		/* pass to caller */
         return retval;

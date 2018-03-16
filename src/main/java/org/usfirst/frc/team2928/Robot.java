@@ -18,12 +18,11 @@ import org.usfirst.frc.team2928.Subsystem.Intake.Intake;
 /**
  * Robot for 2018.
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class Robot extends IterativeRobot {
 
-    //TODO: add auto options
-    private static SendableChooser<Command> autoSelector;
-    private static Compressor compressor;
-
+    private SendableChooser<Command> autoSelector;
+    private Compressor compressor;
     public static Arm arm;
     public static Chassis chassis;
     public static Intake intake;
@@ -38,7 +37,7 @@ public class Robot extends IterativeRobot {
 
         compressor.start();
         autoSelector = new SendableChooser<>();
-        autoSelector.addDefault("Drive Forward", new WaitCommand(0));
+        autoSelector.addDefault("Do Nothing", new WaitCommand(0));
         SmartDashboard.putData("Auto Chooser", autoSelector);
         oi = new OperatorInterface();
     }

@@ -11,14 +11,13 @@ public class Grabber extends Subsystem {
         OPEN,
         CLOSE;
 
-        public GrabberState toggle() {
+        GrabberState toggle() {
             return this.equals(CLOSE) ? GrabberState.OPEN : GrabberState.CLOSE;
         }
     }
 
     @Override
     protected void initDefaultCommand() {
-        return;
     }
 
 

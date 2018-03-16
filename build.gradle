@@ -26,10 +26,15 @@ deploy {
 // Defining my dependencies. In this case, WPILib (+ friends), CTRE Phoenix (Talon SRX)
 // and NavX.
 dependencies {
+    //noinspection GroovyAssignabilityCheck
     compile wpilib()
+    //noinspection GroovyAssignabilityCheck
     compile ctre()
+    //noinspection GroovyAssignabilityCheck
     compile navx()
+    //noinspection GroovyAssignabilityCheck
     compile openrio.powerup.matchData()
+    //noinspection GroovyAssignabilityCheck
     compile pathfinder()
 }
 
