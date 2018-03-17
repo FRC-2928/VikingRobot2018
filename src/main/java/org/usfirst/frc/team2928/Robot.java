@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team2928.Autonomous.NaiveDistance;
 import org.usfirst.frc.team2928.Autonomous.SoftwareDistanceDrive;
+import org.usfirst.frc.team2928.Autonomous.Unfold;
 import org.usfirst.frc.team2928.Command.Chassis.ResetSensors;
 import org.usfirst.frc.team2928.Command.Chassis.Shift;
 import org.usfirst.frc.team2928.Subsystem.Arm.Arm;
@@ -58,9 +60,9 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().removeAll();
         new ResetSensors().start();
 
-        new Shift(Transmission.GearState.LOW).start();
+        new Shift(Transmission.GearState.HIGH).start();
         //new FollowProfile("tenFeetTest").start();
-        new SoftwareDistanceDrive(10).start();
+        new Unfold(new NaiveDistance(10)).start();
     }
 
     @Override

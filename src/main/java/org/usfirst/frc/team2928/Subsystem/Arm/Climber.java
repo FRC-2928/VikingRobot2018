@@ -9,6 +9,7 @@ public class Climber extends Subsystem {
     private final Solenoid climber;
     private final WPI_TalonSRX talon;
 
+    private ClimberState lastState;
     public enum ClimberState {
         RATCHETED,
         FREE;
@@ -29,7 +30,7 @@ public class Climber extends Subsystem {
         talon.setInverted(true);
     }
 
-    public void setRatchet(ClimberState state) {
+    private void setRatchet(ClimberState state) {
         // Setting the solenoid to true opens the grabber
         climber.set(state.equals(ClimberState.RATCHETED));
     }

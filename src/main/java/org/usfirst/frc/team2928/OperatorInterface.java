@@ -7,6 +7,7 @@ import org.usfirst.frc.team2928.Command.Arm.RunSlider;
 import org.usfirst.frc.team2928.Command.Arm.RunShoulder;
 import org.usfirst.frc.team2928.Command.Arm.SetGrabber;
 import org.usfirst.frc.team2928.Command.Chassis.Shift;
+import org.usfirst.frc.team2928.Command.Intake.RunAngle;
 import org.usfirst.frc.team2928.Command.Intake.RunMotors;
 import org.usfirst.frc.team2928.Command.Intake.SetClamp;
 import org.usfirst.frc.team2928.Subsystem.Arm.Grabber;
@@ -41,6 +42,8 @@ public class OperatorInterface {
 
     private static final JoystickButton gearButton = new JoystickButton(driveStick, 9);
 
+    public static final JoystickButton angleIntakeUpButton = new JoystickButton(driveStick, 6);
+    public static final JoystickButton angleIntakeDownButton = new JoystickButton(driveStick, 7);
     OperatorInterface() {
         frontplateUpButton.whileHeld(new RunSlider(RobotConstants.SLIDER_POWER));
         frontplateDownButton.whileHeld(new RunSlider(-RobotConstants.SLIDER_POWER));
@@ -57,6 +60,9 @@ public class OperatorInterface {
 
         gearButton.whenPressed(new Shift(Transmission.GearState.LOW));
         gearButton.whenReleased(new Shift(Transmission.GearState.HIGH));
+
+        angleIntakeUpButton.whileHeld(new RunAngle(0.7));
+        angleIntakeDownButton.whileHeld(new RunAngle(-0.6));
     }
 
     //We're assuming same drive setup as last year.

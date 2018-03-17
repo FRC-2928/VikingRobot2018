@@ -12,7 +12,7 @@ public class NaiveDistance extends Command {
     public NaiveDistance(double feet)
     {
         requires(Robot.chassis.drivetrain);
-        this.ticks = (int)Conversions.FeetToTicks(feet, Transmission.GearState.LOW);
+        this.ticks = (int)Conversions.FeetToTicks(feet, Transmission.GearState.HIGH);
     }
 
     public void initialize()
