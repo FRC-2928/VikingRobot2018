@@ -12,7 +12,9 @@ import static org.usfirst.frc.team2928.Subsystem.Chassis.Transmission.GearState.
 
 public class Transmission extends Subsystem {
 
-    private final Solenoid shiftSolenoid;
+    private final Solenoid shiftSolenoidLow;
+    private final Solenoid shiftSolenoidHigh;
+    private GearState currentState;
 
     private long lastShift = 0;
 
@@ -29,7 +31,11 @@ public class Transmission extends Subsystem {
 
     public Transmission()
     {
-        shiftSolenoid = new Solenoid(RobotMap.SOLENOID_TRANSMISSION);
+        shiftSolenoidLow = new Solenoid(RobotMap.SOLENOID_TRANSMISSION_LOW);
+        shiftSolenoidHigh = new Solenoid(RobotMap.SOLENOID_TRANSMISSION_HIGH);
+        shiftSolenoidLow.set(true);
+        shiftSolenoidHigh.set(false);
+        currentState = LOW;
     }
 
     public void shift(GearState state)
@@ -37,7 +43,17 @@ public class Transmission extends Subsystem {
         long time = currentTimeMillis();
         if ((time - lastShift) > RobotConstants.SHIFT_DELAY_MS)
         {
-            shiftSolenoid.set(state == HIGH);
+            if (state == HIGH)
+            {
+                shiftSolenoidHigh.set(true);
+                shiftSolenoidLow.set(false);
+            }
+            else
+            {
+                shiftSolenoidHigh.set(false);
+                shiftSolenoidLow.set(true);
+            }
+            currentState = state;
             lastShift = time;
         }
         SmartDashboard.putString("Gear", state == GearState.LOW ? "Low" : "High");
@@ -50,7 +66,7 @@ public class Transmission extends Subsystem {
 
     public GearState getGear()
     {
-        return shiftSolenoid.get() ? HIGH : LOW;
+        return currentState;
     }
 
     @Override

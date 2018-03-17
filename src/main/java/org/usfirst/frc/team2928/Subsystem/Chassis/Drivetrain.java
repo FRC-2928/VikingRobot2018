@@ -65,6 +65,9 @@ public class Drivetrain extends Subsystem {
             t.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, (int)RobotConstants.PROFILE_TICK_MS, RobotConstants.CAN_TIMEOUT_MS);
             // Default is 4% deadband, we want less.
             t.configNeutralDeadband(0.01, RobotConstants.CAN_TIMEOUT_MS);
+
+            t.configOpenloopRamp(1.5, RobotConstants.CAN_TIMEOUT_MS);
+
         }
 
         drive = new DifferentialDrive(left, right);
@@ -85,6 +88,7 @@ public class Drivetrain extends Subsystem {
     {
         drive.arcadeDrive(rotate, move, squaredInputs); // WPILIB is still backwards
         SmartDashboard.putNumber("gyro", getYaw());
+        System.out.println(left.getSelectedSensorVelocity(0));
     }
     public double getYaw() {
         double[] angles = {0, 0, 0};

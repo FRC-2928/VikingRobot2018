@@ -2,6 +2,7 @@ package org.usfirst.frc.team2928;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team2928.Command.Arm.RunClimber;
 import org.usfirst.frc.team2928.Command.Arm.RunSlider;
 import org.usfirst.frc.team2928.Command.Arm.RunShoulder;
 import org.usfirst.frc.team2928.Command.Arm.SetGrabber;
@@ -35,6 +36,8 @@ public class OperatorInterface {
     private static final JoystickButton gripperButton = new JoystickButton(operatorConsole, 9);
     private static final JoystickButton intakeOpenButton = new JoystickButton(operatorConsole, 2);
     private static final JoystickButton intakeCloseButton = new JoystickButton(operatorConsole, 3);
+    private static final JoystickButton climberOutButton = new JoystickButton(driveStick, 11);
+    private static final JoystickButton climberInButton = new JoystickButton(driveStick, 10);
 
     private static final JoystickButton gearButton = new JoystickButton(driveStick, 9);
 
@@ -49,6 +52,8 @@ public class OperatorInterface {
         gripperButton.whenReleased(new SetGrabber(Grabber.GrabberState.OPEN));
         intakeOpenButton.whenPressed(new SetClamp(Clamp.ClampState.OPEN));
         intakeCloseButton.whenPressed(new SetClamp(Clamp.ClampState.CLOSE));
+        climberOutButton.whileHeld(new RunClimber(0.5));
+        climberInButton.whileHeld(new RunClimber(-0.5));
 
         gearButton.whenPressed(new Shift(Transmission.GearState.LOW));
         gearButton.whenReleased(new Shift(Transmission.GearState.HIGH));

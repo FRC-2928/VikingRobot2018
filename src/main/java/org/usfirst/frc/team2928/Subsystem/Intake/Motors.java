@@ -9,7 +9,6 @@ public class Motors extends Subsystem {
 
     // 2 intake motors
     private Talon intakeLeft;
-    private Talon intakeRight;
 
     @Override
     protected void initDefaultCommand() {
@@ -18,14 +17,11 @@ public class Motors extends Subsystem {
 
     public Motors() {
         intakeLeft = new Talon(RobotMap.TALON_INTAKE_LEFT);
-        intakeRight = new Talon(RobotMap.TALON_INTAKE_RIGHT);
         intakeLeft.setInverted(true);
-        intakeRight.setInverted(true);
     }
 
     public void set(double power)
     {
-        for (Talon t : new Talon[] {intakeLeft, intakeRight})
-            t.set(power);
+        intakeLeft.set(power);
     }
 }

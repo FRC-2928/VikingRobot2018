@@ -14,14 +14,16 @@ public class RobotMap {
 
     //Talon
     public static final int TALON_INTAKE_LEFT = 0;
-    public static final int TALON_INTAKE_RIGHT = 1;
+
 
     public static final int PIGEON = 3;
 
     //Solenoids
-    public static final int SOLENOID_TRANSMISSION = 0;
-    public static final int SOLENOID_GRABBER = 1;
-    public static final int SOLENOID_INTAKE = 4;
-    public static final int SOLENOID_CLIMBER = 3; // TODO: this
+    public static final int SOLENOID_TRANSMISSION_LOW = 2;
+    public static final int SOLENOID_TRANSMISSION_HIGH = 1;
+    public static final int SOLENOID_GRABBER = 3;
+    public static final int SOLENOID_INTAKE_IN = 5;
+    public static final int SOLENOID_INTAKE_OUT = 4;
+    public static final int SOLENOID_CLIMBER = 0;
 
 }
