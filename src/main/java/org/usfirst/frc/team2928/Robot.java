@@ -62,7 +62,7 @@ public class Robot extends IterativeRobot {
 
         new Shift(Transmission.GearState.HIGH).start();
         //new FollowProfile("tenFeetTest").start();
-        new Unfold(new NaiveDistance(10)).start();
+        new Unfold(new NaiveDistance(15)).start();
     }
 
     @Override
