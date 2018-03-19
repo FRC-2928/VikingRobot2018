@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc.team2928.Command.Arm.RunShoulder;
 import org.usfirst.frc.team2928.Command.Arm.SetGrabber;
 import org.usfirst.frc.team2928.Command.Chassis.ConstantDrive;
+import org.usfirst.frc.team2928.MotionProfiling.FollowProfile;
 import org.usfirst.frc.team2928.Subsystem.Arm.Grabber;
 
 public class SwitchAuto extends CommandGroup {

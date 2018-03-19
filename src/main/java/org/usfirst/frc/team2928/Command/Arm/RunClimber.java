@@ -2,7 +2,6 @@ package org.usfirst.frc.team2928.Command.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
-import org.usfirst.frc.team2928.Subsystem.Arm.Climber;
 
 public class RunClimber extends Command {
 

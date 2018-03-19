@@ -25,7 +25,7 @@ public class JoystickDrive extends Command {
         double driveY = Robot.oi.getDriveY();
 
         Robot.chassis.drivetrain.drive(driveY, driveX);
-        int[] encoders = Robot.chassis.drivetrain.getEncoders();
+        int[] encoders = Robot.chassis.drivetrain.getEncoderPositions();
         SmartDashboard.putNumberArray("Encoders", new double[] {encoders[0], encoders[1]});
     }
 }

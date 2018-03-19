@@ -7,11 +7,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team2928.Autonomous.NaiveDistance;
-import org.usfirst.frc.team2928.Autonomous.SoftwareDistanceDrive;
 import org.usfirst.frc.team2928.Autonomous.Unfold;
 import org.usfirst.frc.team2928.Command.Chassis.ResetSensors;
 import org.usfirst.frc.team2928.Command.Chassis.Shift;
+import org.usfirst.frc.team2928.MotionProfiling.FollowProfile;
 import org.usfirst.frc.team2928.Subsystem.Arm.Arm;
 import org.usfirst.frc.team2928.Subsystem.Chassis.Chassis;
 import org.usfirst.frc.team2928.Subsystem.Chassis.Transmission;
@@ -62,7 +61,8 @@ public class Robot extends IterativeRobot {
 
         new Shift(Transmission.GearState.HIGH).start();
         //new FollowProfile("tenFeetTest").start();
-        new Unfold(new NaiveDistance(15)).start();
+        new Unfold().start();
+        new FollowProfile("tenFeetTest").start();
     }
 
     @Override
@@ -74,7 +74,6 @@ public class Robot extends IterativeRobot {
     public void disabledInit()
     {
         Scheduler.getInstance().removeAll();
-        NotifierManager.getInstance().stopAll();
         new ResetSensors().start();
     }
 
