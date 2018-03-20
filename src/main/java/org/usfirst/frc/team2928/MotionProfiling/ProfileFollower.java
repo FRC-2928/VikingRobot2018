@@ -23,10 +23,6 @@ public class ProfileFollower {
             processMotionProfileBufferPeriodic();
             followProfilePeriodic();
         });
-        followProfile = new Notifier(() -> {
-            System.out.println("followProfile notifier");
-            //followProfilePeriodic();
-        });
     }
 
     public void setProfiles(Profile[] profiles)
