@@ -119,11 +119,8 @@ public class Drivetrain extends Subsystem {
 
     public void resetTalons()
     {
-        left.clearMotionProfileTrajectories();
-        left.set(ControlMode.PercentOutput, 0);
-        right.clearMotionProfileTrajectories();
-        right.set(ControlMode.PercentOutput, 0);
-        zeroEncoders();
+        left.reset();
+        right.reset();
     }
 
     public void startProfileDrive()

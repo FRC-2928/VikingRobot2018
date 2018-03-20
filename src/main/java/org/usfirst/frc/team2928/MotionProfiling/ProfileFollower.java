@@ -45,7 +45,7 @@ public class ProfileFollower {
         for (VikingSRX v : new VikingSRX[] {left, right})
         {
             v.sendNextPoint(); // It's ok if this fails, we won't lose any points
-            v.processMotionProfileBuffer();
+            v.processMotionProfileBuffer(); // Move points from the top buffer to the bottom buffer
         }
     }
 

@@ -15,6 +15,7 @@ public class FollowProfile extends Command {
 
     public void initialize()
     {
+        Robot.chassis.drivetrain.setProfiles(profiles);
         Robot.chassis.drivetrain.startProfileDrive();
     }
 

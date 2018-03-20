@@ -32,7 +32,6 @@ public class VikingSRX extends WPI_TalonSRX {
         config_kF(0, gains.f, RobotConstants.CAN_TIMEOUT_MS);
     }
 
-    // Assumes that the caller will make sure that we actually want to do this, will only waste cycles otherwise though
     public boolean sendNextPoint()
     {
         if (profile == null)
@@ -63,6 +62,7 @@ public class VikingSRX extends WPI_TalonSRX {
 
     public void followInit()
     {
+        set(ControlMode.PercentOutput, 0);
         pointsSent = 0;
         zeroEncoder();
         clearMotionProfileTrajectories();
@@ -73,6 +73,8 @@ public class VikingSRX extends WPI_TalonSRX {
         set(ControlMode.PercentOutput, 0);
         clearMotionProfileTrajectories();
         zeroEncoder();
+        pointsSent = 0;
+        profile = null;
     }
 
     public int getEncoderPosition()
