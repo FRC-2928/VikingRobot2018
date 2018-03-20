@@ -12,7 +12,7 @@ public class FollowProfile extends Command {
         ProfileLoader profileLoader = new ProfileLoader();
         profiles = profileLoader.loadProfile(profileName);
     }
-
+    
     public void initialize()
     {
         Robot.chassis.drivetrain.setProfiles(profiles);
