@@ -14,11 +14,6 @@ public class Profile {
         this.pointData = pointData;
     }
 
-    public int size()
-    {
-        return pointData.size();
-    }
-
     public TrajectoryPoint getPoint(int index)
     {
         TrajectoryPoint point = new TrajectoryPoint();
@@ -49,5 +44,10 @@ public class Profile {
         }
 		/* pass to caller */
         return retval;
+    }
+	
+    public int size()
+    {
+        return pointData.size();
     }
 }
