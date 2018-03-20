@@ -12,7 +12,6 @@ public class ProfileFollower {
     private VikingSRX right;
 
     public Notifier processBuffer;
-    public Notifier followProfile;
 
     public ProfileFollower(VikingSRX left, VikingSRX right)
     {
@@ -79,8 +78,7 @@ public class ProfileFollower {
         }
         initFollowProfile();
         System.out.println("Starting notifiers");
-        processBuffer.startPeriodic(RobotConstants.PROFILE_TICK_MS/2000); // We must process the buffer faster than we execute it
-        followProfile.startPeriodic(RobotConstants.PROFILE_TICK_MS/1000);
+        processBuffer.startPeriodic(RobotConstants.PROFILE_TICK_MS/2000);
         System.out.println("Notifiers started");
     }
 
@@ -90,6 +88,5 @@ public class ProfileFollower {
         left.reset();
         right.reset();
         processBuffer.stop();
-        followProfile.stop();
     }
 }
