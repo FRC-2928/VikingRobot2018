@@ -46,6 +46,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
         Scheduler.getInstance().removeAll();
+        chassis.drivetrain.stopProfileDrive();
+
         new ResetSensors().start();
     }
 
@@ -59,9 +61,9 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().removeAll();
         new ResetSensors().start();
 
-        new Shift(Transmission.GearState.HIGH).start();
+        new Shift(Transmission.GearState.LOW).start();
         //new FollowProfile("tenFeetTest").start();
-        new Unfold().start();
+        //new Unfold().start();
         new FollowProfile("tenFeetTest").start();
     }
 
@@ -74,6 +76,7 @@ public class Robot extends IterativeRobot {
     public void disabledInit()
     {
         Scheduler.getInstance().removeAll();
+        chassis.drivetrain.stopProfileDrive();
         new ResetSensors().start();
     }
 

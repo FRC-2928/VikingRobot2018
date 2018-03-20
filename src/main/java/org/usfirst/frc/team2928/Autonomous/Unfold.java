@@ -10,9 +10,9 @@ public class Unfold extends CommandGroup {
     public Unfold()
     {
         addSequential(new SetClamp(Clamp.ClampState.CLOSE));
-        addSequential(new RunShoulder(0.6), 3);
+        addSequential(new RunShoulder(0.6), 1.5);
         addSequential(new SetClamp(Clamp.ClampState.OPEN));
-        addSequential(new RunShoulder(-0.4), 2);
+        addSequential(new RunShoulder(-0.4), 1);
     }
 
     public Unfold(Command afterUnfold)

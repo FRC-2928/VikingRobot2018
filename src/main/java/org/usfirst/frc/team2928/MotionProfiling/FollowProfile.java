@@ -24,7 +24,7 @@ public class FollowProfile extends Command {
     @Override
     public boolean isFinished()
     {
-        return Robot.chassis.drivetrain.doneWithProfile();
+        return false;
     }
 
     public void end()

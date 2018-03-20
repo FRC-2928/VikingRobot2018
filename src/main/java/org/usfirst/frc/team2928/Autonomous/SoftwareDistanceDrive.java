@@ -28,8 +28,8 @@ public class SoftwareDistanceDrive extends PIDCommand {
 
     public double returnPIDInput()
     {
-        int[] encoders = Robot.chassis.drivetrain.getEncoderPositions();
-        return ((double)(encoders[0] + encoders[1]))/2d;
+        double[] encoders = Robot.chassis.drivetrain.getEncoderPositions();
+        return (encoders[0] + encoders[1])/2d;
     }
 
     public void usePIDOutput(double output)

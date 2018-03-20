@@ -87,12 +87,12 @@ public class SwitchAuto extends CommandGroup {
         addSequential(new FollowProfile(approachProfile));
         if (dropBox) {
             addSequential(new RunShoulder(0.8), 1); // TODO: Time this to properly drop the box
-            addSequential(new ConstantDrive(0.4), 1);
+            addSequential(new ConstantDrive(0.4, 1));
             addSequential(new SetGrabber(Grabber.GrabberState.OPEN));
             addSequential(new WaitCommand(0.5));
             addSequential(new SetGrabber(Grabber.GrabberState.CLOSE));
             addSequential(new RunShoulder(-0.6), 1);
-            addSequential(new ConstantDrive(-0.4), 2);
+            addSequential(new ConstantDrive(-0.4,2));
         }
 
         if (exitProfile != null)

@@ -56,8 +56,8 @@ public class Drivetrain extends Subsystem {
             v.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, (int)RobotConstants.PROFILE_TICK_MS, RobotConstants.CAN_TIMEOUT_MS);
             // Default is 4% deadband, we want less.
             v.configNeutralDeadband(0.01, RobotConstants.CAN_TIMEOUT_MS);
-            v.configMotionProfileTrajectoryPeriod((int)RobotConstants.PROFILE_TICK_MS, RobotConstants.CAN_TIMEOUT_MS);
-            v.configOpenloopRamp(0.4, RobotConstants.CAN_TIMEOUT_MS);
+            v.configMotionProfileTrajectoryPeriod(0, RobotConstants.CAN_TIMEOUT_MS);
+            v.configOpenloopRamp(0.3, RobotConstants.CAN_TIMEOUT_MS);
         }
 
         drive = new DifferentialDrive(left, right);
@@ -76,7 +76,14 @@ public class Drivetrain extends Subsystem {
     {
         drive.arcadeDrive(rotate, move, squaredInputs); // WPILIB is still backwards
         SmartDashboard.putNumber("gyro", getYaw());
+        SmartDashboard.putNumberArray("Encoder Velocity", getEncoderVelocities());
+        SmartDashboard.putNumberArray("Encoder Position", getEncoderPositions());
+        if (getEncoderVelocities()[0] > SmartDashboard.getNumber("MaxVel", 0))
+            SmartDashboard.putNumber("MaxVel", getEncoderVelocities()[0]);
+        SmartDashboard.putNumber("Move", move);
+        SmartDashboard.putNumber("EncLeft", getEncoderPositions()[0]);
     }
+
     public double getYaw() {
         double[] angles = {0, 0, 0};
         pigeon.getYawPitchRoll(angles);
@@ -99,13 +106,13 @@ public class Drivetrain extends Subsystem {
         right.zeroEncoder();
     }
 
-    public int[] getEncoderPositions() {
-        return new int[]{left.getEncoderPosition(), right.getEncoderPosition()};
+    public double[] getEncoderPositions() {
+        return new double[]{left.getEncoderPosition(), right.getEncoderPosition()};
     }
 
-    public int[] getEncoderVelocities()
+    public double[] getEncoderVelocities()
     {
-        return new int[]{left.getEncoderVelocity(), right.getEncoderVelocity()};
+        return new double[]{left.getEncoderVelocity(), right.getEncoderVelocity()};
     }
 
     public void setBrakeMode(boolean brake) {

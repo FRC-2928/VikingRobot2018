@@ -55,8 +55,8 @@ public class OperatorInterface {
         gripperButton.whenReleased(new SetGrabber(Grabber.GrabberState.OPEN));
         intakeOpenButton.whenPressed(new SetClamp(Clamp.ClampState.OPEN));
         intakeCloseButton.whenPressed(new SetClamp(Clamp.ClampState.CLOSE));
-        climberOutButton.whileHeld(new RunClimber(0.5));
-        climberInButton.whileHeld(new RunClimber(-0.5));
+        climberOutButton.whileHeld(new RunClimber(-0.5));
+        climberInButton.whileHeld(new RunClimber(-1));
 
         gearButton.whenPressed(new Shift(Transmission.GearState.LOW));
         gearButton.whenReleased(new Shift(Transmission.GearState.HIGH));

@@ -18,8 +18,15 @@ public class ProfileFollower {
     {
         this.left = left;
         this.right = right;
-        processBuffer = new Notifier(this::processMotionProfileBufferPeriodic);
-        followProfile = new Notifier(this::followProfilePeriodic);
+        processBuffer = new Notifier(() -> {
+            System.out.println("processBuffer notifier");
+            processMotionProfileBufferPeriodic();
+            followProfilePeriodic();
+        });
+        followProfile = new Notifier(() -> {
+            System.out.println("followProfile notifier");
+            //followProfilePeriodic();
+        });
     }
 
     public void setProfiles(Profile[] profiles)
@@ -38,6 +45,7 @@ public class ProfileFollower {
             for (int i = 0; i < 64; i++)
                 v.sendNextPoint(); // Get some initial points
         }
+        System.out.println("Init Follow Profile");
     }
 
     public void processMotionProfileBufferPeriodic()
@@ -47,6 +55,7 @@ public class ProfileFollower {
             v.sendNextPoint(); // It's ok if this fails, we won't lose any points
             v.processMotionProfileBuffer(); // Move points from the top buffer to the bottom buffer
         }
+        System.out.println("ProcessBuffer");
     }
 
     public void followProfilePeriodic()
@@ -55,6 +64,7 @@ public class ProfileFollower {
         MotionProfileStatus statusR = right.getStatus();
         left.set(ControlMode.MotionProfile, statusL.isLast ? 2 : 1);
         right.set(ControlMode.MotionProfile, statusR.isLast ? 2 : 1);
+        System.out.println("followProfile");
     }
 
     public boolean doneWithProfile()
@@ -66,17 +76,23 @@ public class ProfileFollower {
 
     public void startFollowing()
     {
+        System.out.println("startFollowing");
         if (left.profile == null || right.profile == null) {
             System.err.println("Call setProfiles before attempting to follow a profile");
             return;
         }
         initFollowProfile();
-        processBuffer.startPeriodic(RobotConstants.PROFILE_TICK_MS/2); // We must process the buffer faster than we execute it
-        followProfile.startPeriodic(RobotConstants.PROFILE_TICK_MS);
+        System.out.println("Starting notifiers");
+        processBuffer.startPeriodic(RobotConstants.PROFILE_TICK_MS/2000); // We must process the buffer faster than we execute it
+        followProfile.startPeriodic(RobotConstants.PROFILE_TICK_MS/1000);
+        System.out.println("Notifiers started");
     }
 
     public void stopFollowing()
     {
+        System.out.println("stopFollowing");
+        left.reset();
+        right.reset();
         processBuffer.stop();
         followProfile.stop();
     }

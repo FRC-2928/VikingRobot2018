@@ -34,6 +34,7 @@ public class VikingSRX extends WPI_TalonSRX {
 
     public boolean sendNextPoint()
     {
+        System.out.println("sendN");
         if (profile == null)
         {
             System.err.println("Attempted to load null profile to talon.");

@@ -2,7 +2,7 @@ plugins {
     id "java"
     id "eclipse"
     id "idea"
-    id "jaci.openrio.gradle.GradleRIO" version "2018.03.06"
+    id "jaci.openrio.gradle.GradleRIO" version "2018.01.15"
 }
 
 def TEAM = 2928
@@ -14,6 +14,8 @@ deploy {
     targets {
         target("roborio", jaci.openrio.gradle.frc.RoboRIO) {
             team = TEAM
+            addresses << "10.29.28.2"
+            timeout = 40
         }
     }
     artifacts {

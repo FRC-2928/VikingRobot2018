@@ -12,14 +12,14 @@ public class ConstantDrive extends Command {
         return false;
     }
 
-    public ConstantDrive(double power)
+    public ConstantDrive(double power, double timeout)
     {
         requires(Robot.chassis.drivetrain);
         this.power = power;
+        setTimeout(timeout);
     }
 
-    public void initialize()
-    {
+    public void execute() {
         Robot.chassis.drivetrain.drive(power, 0, false);
     }
 

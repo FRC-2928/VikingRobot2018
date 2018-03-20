@@ -13,8 +13,6 @@ public class RunClimber extends Command {
 
     @Override
     public void initialize() {
-        if (power < 0.5)
-        //Robot.arm.climber.setRatchet(Climber.ClimberState.FREE);
         Robot.arm.climber.runClimber(power);
     }
 
