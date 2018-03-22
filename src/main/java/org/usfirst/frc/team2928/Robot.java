@@ -1,12 +1,15 @@
 package org.usfirst.frc.team2928;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team2928.Autonomous.DelayedRaise;
 import org.usfirst.frc.team2928.Autonomous.Unfold;
 import org.usfirst.frc.team2928.Command.Chassis.ResetSensors;
 import org.usfirst.frc.team2928.Command.Chassis.Shift;
@@ -40,12 +43,14 @@ public class Robot extends IterativeRobot {
         autoSelector = new SendableChooser<>();
         autoSelector.addDefault("Do Nothing", new WaitCommand(0));
         SmartDashboard.putData("Auto Chooser", autoSelector);
+        CameraServer.getInstance().startAutomaticCapture();
         oi = new OperatorInterface();
     }
 
     @Override
     public void teleopInit() {
         Scheduler.getInstance().removeAll();
+        new Shift(Transmission.GearState.LOW).start();
         chassis.drivetrain.stopProfileDrive();
 
         new ResetSensors().start();
@@ -64,7 +69,8 @@ public class Robot extends IterativeRobot {
         new Shift(Transmission.GearState.LOW).start();
         //new FollowProfile("tenFeetTest").start();
         //new Unfold().start();
-        new FollowProfile("tenFeetTest").start();
+        new FollowProfile("leftSwitchFromCenter").start();
+        new DelayedRaise(1.5).start();
     }
 
     @Override

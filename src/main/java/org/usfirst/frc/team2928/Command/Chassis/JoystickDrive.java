@@ -18,6 +18,7 @@ public class JoystickDrive extends Command {
 
     public void initialize()
     {
+        Robot.chassis.drivetrain.setMotorSafetyEnabled(true);
     }
 
     public void execute() {

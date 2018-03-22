@@ -8,10 +8,10 @@ public class RobotConstants {
     public static final double MAX_FEET_PER_SECOND = 19.5;
 
     public static final int DRIVE_TICKS_PER_ROTATION_HIGH = 1530;
-    public static final int DRIVE_TICKS_PER_ROTATION_LOW = 2320; // TODO: set this
+    public static final int DRIVE_TICKS_PER_ROTATION_LOW = 4000; // TODO: set this
 
-    public static final int DRIVE_TICKS_PER_FOOT = 2060;
-    public static final double TALON_P = 5;
+    public static final int DRIVE_TICKS_PER_FOOT = 4000;
+    public static final double TALON_P = 1.5;
     public static final double TALON_I = 0;
     public static final double TALON_D = 0.1;
     public static final double TALON_F = .616; // .616 is calculated kF

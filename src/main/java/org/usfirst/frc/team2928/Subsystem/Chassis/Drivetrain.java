@@ -66,6 +66,7 @@ public class Drivetrain extends Subsystem {
         setBrakeMode(false);
 
         profileFollower = new ProfileFollower(left, right);
+        setMotorSafetyEnabled(true);
     }
 
     public void drive(double move, double rotate) {
@@ -143,5 +144,10 @@ public class Drivetrain extends Subsystem {
     public void setProfiles(Profile[] profiles)
     {
         profileFollower.setProfiles(profiles);
+    }
+
+    public void setMotorSafetyEnabled(boolean safety)
+    {
+        drive.setSafetyEnabled(safety);
     }
 }
