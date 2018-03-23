@@ -12,9 +12,9 @@ public class Field {
         {
             switch (Character.toLowerCase(c))
             {
-                case 'L': return LEFT;
-                case 'R': return RIGHT;
-                case 'M': return MIDDLE;
+                case 'l': return LEFT;
+                case 'r': return RIGHT;
+                case 'm': return MIDDLE;
                 default: return null;
             }
         }

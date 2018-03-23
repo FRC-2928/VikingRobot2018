@@ -15,6 +15,7 @@ public class MidSwitchAuto extends CommandGroup {
     {
         String approachProfile = null;
         String exitProfile = null;
+        addSequential(new Unfold());
         switch (target)
         {
             case MIDDLE:
@@ -63,7 +64,7 @@ public class MidSwitchAuto extends CommandGroup {
                 .wait(0.1)
                 .addCommand(new RunShoulder(.8), 0.3);
 
-        addSequential(new Unfold());
+
         addParallel(driveCommandGroup.build());
         addParallel(armCommandGroup.build());
     }

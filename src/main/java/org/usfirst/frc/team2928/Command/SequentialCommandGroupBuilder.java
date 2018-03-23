@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SequentialCommandGroupBuilder {
@@ -21,6 +22,10 @@ public class SequentialCommandGroupBuilder {
         }
     }
 
+    public SequentialCommandGroupBuilder()
+    {
+        commands = new ArrayList<>();
+    }
     public SequentialCommandGroupBuilder addCommand(Command command, double timeout)
     {
         commands.add(new Pair<>(command, timeout));
@@ -34,8 +39,7 @@ public class SequentialCommandGroupBuilder {
 
     public SequentialCommandGroupBuilder wait(double timeout)
     {
-        addCommand(new WaitCommand(timeout));
-        return this;
+        return addCommand(new WaitCommand(timeout));
     }
 
     public CommandGroup build()
