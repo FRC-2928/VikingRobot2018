@@ -3,14 +3,13 @@ package org.usfirst.frc.team2928;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team2928.Autonomous.DelayedRaise;
-import org.usfirst.frc.team2928.Autonomous.Unfold;
+import org.usfirst.frc.team2928.Autonomous.Auto;
+import org.usfirst.frc.team2928.Autonomous.CrossLine;
+import org.usfirst.frc.team2928.Autonomous.MidSwitchAuto;
 import org.usfirst.frc.team2928.Command.Chassis.ResetSensors;
 import org.usfirst.frc.team2928.Command.Chassis.Shift;
 import org.usfirst.frc.team2928.MotionProfiling.FollowProfile;
@@ -25,7 +24,7 @@ import org.usfirst.frc.team2928.Subsystem.Intake.Intake;
 @SuppressWarnings("FieldCanBeLocal")
 public class Robot extends IterativeRobot {
 
-    private SendableChooser<Command> autoSelector;
+    private SendableChooser<Auto> autoSelector;
     private Compressor compressor;
     public static Arm arm;
     public static Chassis chassis;
@@ -41,7 +40,10 @@ public class Robot extends IterativeRobot {
 
         compressor.start();
         autoSelector = new SendableChooser<>();
-        autoSelector.addDefault("Do Nothing", new WaitCommand(0));
+        autoSelector.addDefault("Do Nothing", Auto.NOTHING);
+        autoSelector.addObject("Switch from center", Auto.SWITCH);
+        autoSelector.addObject("Switch and line from center", Auto.SWITCH_LINE);
+        autoSelector.addObject("Line from side", Auto.LINE);
         SmartDashboard.putData("Auto Chooser", autoSelector);
         CameraServer.getInstance().startAutomaticCapture();
         oi = new OperatorInterface();
@@ -64,13 +66,40 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         Scheduler.getInstance().removeAll();
-        new ResetSensors().start();
+        while (!Field.getInstance().update()) try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
+        new ResetSensors().start();
         new Shift(Transmission.GearState.LOW).start();
-        //new FollowProfile("tenFeetTest").start();
-        //new Unfold().start();
-        new FollowProfile("leftSwitchFromCenter").start();
-        new DelayedRaise(1.5).start();
+
+        Auto auto = autoSelector.getSelected();
+        switch (auto)
+        {
+            case SWITCH:
+            {
+                new MidSwitchAuto(Field.getInstance().getNearSwitch(), false).start();
+                break;
+            }
+            case SWITCH_LINE:
+            {
+                new MidSwitchAuto(Field.getInstance().getNearSwitch(), true).start();
+                break;
+            }
+            case LINE:
+            {
+                new CrossLine().start();
+                break;
+            }
+            default:
+            {
+                new WaitCommand(15).start();
+            }
+        }
+
+
     }
 
     @Override

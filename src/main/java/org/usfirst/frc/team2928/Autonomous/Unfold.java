@@ -14,16 +14,4 @@ public class Unfold extends CommandGroup {
         addSequential(new SetClamp(Clamp.ClampState.OPEN));
         addSequential(new RunShoulder(-0.4), 1);
     }
-
-    public Unfold(Command afterUnfold)
-    {
-        this();
-        addSequential(afterUnfold);
-    }
-
-    public Unfold(Command afterUnfold, double timeout)
-    {
-        this();
-        addSequential(afterUnfold, timeout);
-    }
 }

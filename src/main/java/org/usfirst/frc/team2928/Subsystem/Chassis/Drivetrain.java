@@ -61,6 +61,7 @@ public class Drivetrain extends Subsystem {
         }
 
         drive = new DifferentialDrive(left, right);
+        drive.setSafetyEnabled(false);
 
         pigeon = new PigeonIMU(RobotMap.PIGEON);
         setBrakeMode(false);
