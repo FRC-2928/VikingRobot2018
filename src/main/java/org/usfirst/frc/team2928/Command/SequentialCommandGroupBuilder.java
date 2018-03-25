@@ -3,8 +3,7 @@ package org.usfirst.frc.team2928.Command;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
-import javafx.util.Pair;
-
+import org.usfirst.frc.team2928.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,10 @@ public class SequentialCommandGroupBuilder {
         {
             for (Pair<Command, Double> c : commands)
             {
-                addSequential(c.getKey(), c.getValue());
+                if (c.getValue() >= 0)
+                    addSequential(c.getKey(), c.getValue());
+                else
+                    addSequential(c.getKey());
             }
         }
     }

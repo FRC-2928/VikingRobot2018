@@ -50,19 +50,19 @@ public class OperatorInterface {
         fourbarUpButton.whileHeld(new RunShoulder(0.8));
         fourbarDownButton.whileHeld(new RunShoulder(-0.6));
         outtakeButton.whileHeld(new RunMotors(-0.95));
-        intakeButton.whileHeld(new RunMotors(0.6));
+        intakeButton.whileHeld(new RunMotors(0.45));
         gripperButton.whenPressed(new SetGrabber(Grabber.GrabberState.CLOSE));
         gripperButton.whenReleased(new SetGrabber(Grabber.GrabberState.OPEN));
         intakeOpenButton.whenPressed(new SetClamp(Clamp.ClampState.OPEN));
         intakeCloseButton.whenPressed(new SetClamp(Clamp.ClampState.CLOSE));
         climberOutButton.whileHeld(new RunClimber(-0.5));
-        climberInButton.whileHeld(new RunClimber(-1));
+        climberInButton.whileHeld(new RunClimber(1));
 
         gearButton.whenPressed(new Shift(Transmission.GearState.LOW));
         gearButton.whenReleased(new Shift(Transmission.GearState.HIGH));
 
-        angleIntakeUpButton.whileHeld(new RunAngle(0.7));
-        angleIntakeDownButton.whileHeld(new RunAngle(-0.6));
+        angleIntakeUpButton.whileHeld(new RunAngle(1));
+        angleIntakeDownButton.whileHeld(new RunAngle(-1));
     }
 
     //We're assuming same drive setup as last year.

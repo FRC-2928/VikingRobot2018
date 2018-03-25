@@ -15,7 +15,6 @@ public class MidSwitchAuto extends CommandGroup {
     {
         String approachProfile = null;
         String exitProfile = null;
-        addSequential(new Unfold());
         switch (target)
         {
             case MIDDLE:
@@ -46,12 +45,12 @@ public class MidSwitchAuto extends CommandGroup {
         driveCommandGroup
                 .addCommand(new FollowProfile(approachProfile), 4.3) // Takes 4.15 seconds to drive to the switch
                 .addCommand(new OneShotCommand(Robot.chassis.drivetrain::stopProfileDrive, Robot.chassis.drivetrain)) // This should be called by FollowProfile.end(), but we should be sure, and we don't have time to test
+                .wait(0.25)
+                .addCommand(new FollowProfile("reverseFiveFeet"), 2.8) // Takes 2.7 seconds to drive back five feet
+                .addCommand(new OneShotCommand(Robot.chassis.drivetrain::stopProfileDrive, Robot.chassis.drivetrain))
                 .wait(0.25);
         if (crossLine) {
             driveCommandGroup
-                    .addCommand(new FollowProfile("reverseFiveFeet"), 2.8) // Takes 2.7 seconds to drive back five feet
-                    .addCommand(new OneShotCommand(Robot.chassis.drivetrain::stopProfileDrive, Robot.chassis.drivetrain))
-                    .wait(0.25)
                     .addCommand(new FollowProfile(exitProfile), 4.6) // Takes 4.45 seconds to drive past the line
                     .addCommand(new OneShotCommand(Robot.chassis.drivetrain::stopProfileDrive, Robot.chassis.drivetrain));
         }
@@ -66,6 +65,7 @@ public class MidSwitchAuto extends CommandGroup {
 
 
         addParallel(driveCommandGroup.build());
-        addParallel(armCommandGroup.build());
+        addSequential(armCommandGroup.build());
+        addSequential(new Unfold());
     }
 }

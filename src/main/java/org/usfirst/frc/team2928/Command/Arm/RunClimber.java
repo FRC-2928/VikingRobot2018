@@ -12,7 +12,7 @@ public class RunClimber extends Command {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         Robot.arm.climber.runClimber(power);
     }
 

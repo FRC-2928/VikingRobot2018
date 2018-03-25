@@ -23,6 +23,7 @@ public class Grabber extends Subsystem {
 
     public Grabber() {
         grabber = new Solenoid(RobotMap.SOLENOID_GRABBER);
+        set(GrabberState.CLOSE);
     }
 
     public void open() {

@@ -9,7 +9,9 @@ public class Climber extends Subsystem {
     private final Solenoid climber;
     private final WPI_TalonSRX talon;
 
-    private ClimberState lastState = ClimberState.FREE;
+    private double lastPower;
+    private int backDriveCounter;
+    public static final int BACKDRIVE_CYCLES = 5;
     public enum ClimberState {
         RATCHETED,
         FREE;
@@ -27,31 +29,43 @@ public class Climber extends Subsystem {
     public Climber() {
         talon = new WPI_TalonSRX(RobotMap.TALON_CLIMBER);
         climber = new Solenoid(RobotMap.SOLENOID_CLIMBER);
-        talon.setInverted(true);
-        setRatchet(ClimberState.FREE);
+        setRatchet(ClimberState.RATCHETED);
+        lastPower = 0;
+        backDriveCounter = BACKDRIVE_CYCLES;
     }
 
     private void setRatchet(ClimberState state) {
         // Setting the solenoid to true opens the climber
-        if (state == ClimberState.FREE && lastState == ClimberState.RATCHETED)
-            talon.set(-1);
-        try {
-            Thread.sleep(20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        climber.set(state.equals(ClimberState.RATCHETED));
-
-        lastState = state;
+        climber.set(state.equals(ClimberState.FREE));
     }
 
     public void runClimber(double power)
     {
-        if (power > 0)
-            setRatchet(ClimberState.FREE);
-
-        if (power < 0)
+        if (power < 0) {
+            if (lastPower >= 0 && backDriveCounter > 0)
+            {
+                talon.set(0.4);
+                backDriveCounter--;
+                if (backDriveCounter == 0)
+                    lastPower = power;
+            } else
+            {
+                setRatchet(ClimberState.FREE);
+                talon.set(power);
+                backDriveCounter = BACKDRIVE_CYCLES;
+                lastPower = power;
+            }
+        }
+        if (power > 0) {
             setRatchet(ClimberState.RATCHETED);
-        talon.set(power);
+            talon.set(power);
+            backDriveCounter = BACKDRIVE_CYCLES;
+            lastPower = power;
+        }
+        if (power == 0)
+        {
+            talon.set(0);
+            backDriveCounter = BACKDRIVE_CYCLES;
+        }
     }
 }
