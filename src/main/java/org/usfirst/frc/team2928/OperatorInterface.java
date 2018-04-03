@@ -50,7 +50,7 @@ public class OperatorInterface {
         fourbarUpButton.whileHeld(new RunShoulder(0.8));
         fourbarDownButton.whileHeld(new RunShoulder(-0.6));
         outtakeButton.whileHeld(new RunMotors(-0.95));
-        intakeButton.whileHeld(new RunMotors(0.45));
+        intakeButton.whileHeld(new RunMotors(0.60));
         gripperButton.whenPressed(new SetGrabber(Grabber.GrabberState.CLOSE));
         gripperButton.whenReleased(new SetGrabber(Grabber.GrabberState.OPEN));
         intakeOpenButton.whenPressed(new SetClamp(Clamp.ClampState.OPEN));

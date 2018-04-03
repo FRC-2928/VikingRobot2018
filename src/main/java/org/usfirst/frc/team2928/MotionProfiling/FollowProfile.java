@@ -12,9 +12,8 @@ public class FollowProfile extends Command {
         ProfileLoader profileLoader = new ProfileLoader();
         profiles = profileLoader.loadProfile(profileName);
     }
-    
-    public void initialize()
-    {
+
+    public void initialize() {
         Robot.chassis.drivetrain.setMotorSafetyEnabled(false);
         Robot.chassis.drivetrain.setProfiles(profiles);
         Robot.chassis.drivetrain.startProfileDrive();
@@ -23,18 +22,15 @@ public class FollowProfile extends Command {
     // We don't need an execute method because all the profile following happens in Notifiers, on a different thread
 
     @Override
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return false;
     }
 
-    public void end()
-    {
+    public void end() {
         Robot.chassis.drivetrain.stopProfileDrive();
     }
 
-    public void interrupted()
-    {
+    public void interrupted() {
         end();
     }
 }

@@ -8,20 +8,17 @@ public class Shift extends Command {
 
     private GearState target;
 
-    public Shift(GearState target)
-    {
+    public Shift(GearState target) {
         requires(Robot.chassis.transmission);
         this.target = target;
     }
 
-    public void execute()
-    {
+    public void execute() {
         Robot.chassis.transmission.shift(target);
     }
 
     @Override
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return true;
     }
 }

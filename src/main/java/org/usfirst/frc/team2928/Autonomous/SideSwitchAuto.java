@@ -24,11 +24,11 @@ public class SideSwitchAuto extends CommandGroup {
             SequentialCommandGroupBuilder armCommand = new SequentialCommandGroupBuilder();
             driveCommand.addCommand(new FollowProfile(approachProfile), 4.1);
             armCommand
-                    .wait(1.3)
+                    .delay(1.3)
                     .addCommand(new RunShoulder(0.8), 1.8)
-                    .wait(0.6)
+                    .delay(0.6)
                     .addCommand(new SetGrabber(Grabber.GrabberState.OPEN))
-                    .wait(0.1)
+                    .delay(0.1)
                     .addCommand(new RunShoulder(.8), 0.3);
             addParallel(driveCommand.build());
             addSequential(armCommand.build());

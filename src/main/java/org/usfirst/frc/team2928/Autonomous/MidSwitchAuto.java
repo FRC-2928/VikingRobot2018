@@ -11,31 +11,25 @@ import org.usfirst.frc.team2928.Robot;
 import org.usfirst.frc.team2928.Subsystem.Arm.Grabber;
 
 public class MidSwitchAuto extends CommandGroup {
-    public MidSwitchAuto(Field.FieldPosition target, boolean crossLine)
-    {
+    public MidSwitchAuto(Field.FieldPosition target, boolean crossLine) {
         String approachProfile = null;
         String exitProfile = null;
-        switch (target)
-        {
-            case MIDDLE:
-            {
+        switch (target) {
+            case MIDDLE: {
                 System.err.println("MidSwitchAuto called with Field.instance.nearSwitch == FieldPosition.MIDDLE, but there is no middle switch!");
                 return;
             }
-            case LEFT:
-            {
+            case LEFT: {
                 approachProfile = "leftSwitchFromCenter";
                 exitProfile = "crossLineFromBehindLeftSwitch";
                 break;
             }
-            case RIGHT:
-            {
+            case RIGHT: {
                 approachProfile = "rightSwitchFromCenter";
                 exitProfile = "crossLineFromBehindRightSwitch";
                 break;
             }
-            default:
-            {
+            default: {
                 System.err.println("MidSwitchAuto called with an invalid value of Field.instance.nearSwitch");
             }
         }
@@ -45,10 +39,10 @@ public class MidSwitchAuto extends CommandGroup {
         driveCommandGroup
                 .addCommand(new FollowProfile(approachProfile), 4.3) // Takes 4.15 seconds to drive to the switch
                 .addCommand(new OneShotCommand(Robot.chassis.drivetrain::stopProfileDrive, Robot.chassis.drivetrain)) // This should be called by FollowProfile.end(), but we should be sure, and we don't have time to test
-                .wait(0.25)
+                .delay(0.25)
                 .addCommand(new FollowProfile("reverseFiveFeet"), 2.8) // Takes 2.7 seconds to drive back five feet
                 .addCommand(new OneShotCommand(Robot.chassis.drivetrain::stopProfileDrive, Robot.chassis.drivetrain))
-                .wait(0.25);
+                .delay(0.25);
         if (crossLine) {
             driveCommandGroup
                     .addCommand(new FollowProfile(exitProfile), 4.6) // Takes 4.45 seconds to drive past the line
@@ -56,11 +50,11 @@ public class MidSwitchAuto extends CommandGroup {
         }
 
         armCommandGroup
-                .wait(1.3)
+                .delay(1.3)
                 .addCommand(new RunShoulder(0.8), 1.8)
-                .wait(0.6)
+                .delay(0.6)
                 .addCommand(new SetGrabber(Grabber.GrabberState.OPEN))
-                .wait(0.1)
+                .delay(0.1)
                 .addCommand(new RunShoulder(.8), 0.3);
 
 

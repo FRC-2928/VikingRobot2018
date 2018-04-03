@@ -83,36 +83,29 @@ public class Robot extends IterativeRobot {
         new Shift(Transmission.GearState.LOW).start();
 
         Auto auto = autoSelector.getSelected();
-        switch (auto)
-        {
-            case MID_SWITCH:
-            {
+        switch (auto) {
+            case MID_SWITCH: {
                 new MidSwitchAuto(Field.getInstance().getNearSwitch(), false).start();
                 break;
             }
-            case MID_SWITCH_LINE:
-            {
+            case MID_SWITCH_LINE: {
                 new MidSwitchAuto(Field.getInstance().getNearSwitch(), true).start();
                 break;
             }
-            case SIDE_SWITCH:
-            {
+            case SIDE_SWITCH: {
                 new SideSwitchAuto(Field.getInstance().getNearSwitch(), startingPositionSelector.getSelected()).start();
                 break;
             }
-            case SIDE_SWITCH_HOOK:
-            {
+            case SIDE_SWITCH_HOOK: {
                 new SideSwitchHookAuto(Field.getInstance().getNearSwitch(), startingPositionSelector.getSelected()).start();
                 break;
             }
-            case LINE:
-            {
+            case LINE: {
                 new CrossLine().start();
                 break;
             }
             case NOTHING:
-            default:
-            {
+            default: {
                 new Unfold().start();
             }
         }
@@ -126,16 +119,14 @@ public class Robot extends IterativeRobot {
     }
 
     @Override
-    public void disabledInit()
-    {
+    public void disabledInit() {
         Scheduler.getInstance().removeAll();
         chassis.drivetrain.stopProfileDrive();
         new ResetSensors().start();
     }
 
     @Override
-    public void disabledPeriodic()
-    {
+    public void disabledPeriodic() {
         Scheduler.getInstance().run();
     }
 }
