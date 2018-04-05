@@ -1,9 +1,14 @@
 package org.usfirst.frc.team2928.Subsystem.Arm;
 
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team2928.RobotConstants;
 import org.usfirst.frc.team2928.RobotMap;
+
+import static com.ctre.phoenix.motorcontrol.LimitSwitchSource.FeedbackConnector;
 
 public class Climber extends Subsystem {
     private final Solenoid climber;
@@ -28,6 +33,8 @@ public class Climber extends Subsystem {
 
     public Climber() {
         talon = new WPI_TalonSRX(RobotMap.TALON_CLIMBER);
+        talon.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, RobotConstants.CAN_TIMEOUT_MS);
+        talon.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, RobotConstants.CAN_TIMEOUT_MS);
         climber = new Solenoid(RobotMap.SOLENOID_CLIMBER);
         setRatchet(ClimberState.RATCHETED);
         lastPower = 0;

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2928;
 
+import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -12,6 +13,7 @@ import org.usfirst.frc.team2928.Command.Chassis.DistanceDrive;
 import org.usfirst.frc.team2928.Command.Chassis.ResetSensors;
 import org.usfirst.frc.team2928.Command.Chassis.Rotate;
 import org.usfirst.frc.team2928.Command.Chassis.Shift;
+import org.usfirst.frc.team2928.Command.OneShotCommand;
 import org.usfirst.frc.team2928.Subsystem.Arm.Arm;
 import org.usfirst.frc.team2928.Subsystem.Arm.Grabber;
 import org.usfirst.frc.team2928.Subsystem.Chassis.Chassis;
@@ -41,8 +43,8 @@ public class Robot extends IterativeRobot {
 
         compressor.start();
         autoSelector = new SendableChooser<>();
-        autoSelector.addDefault("Do Nothing [Works]", Auto.NOTHING);
-        autoSelector.addObject("Switch [Middle works, sides experimental]", Auto.SWITCH);
+        autoSelector.addObject("Do Nothing [Works]", Auto.NOTHING);
+        autoSelector.addDefault("Switch [Middle works, sides experimental]", Auto.SWITCH);
         autoSelector.addObject("Side of switch [Middle works, sides experimental", Auto.SIDE_SWITCH_HOOK);
         autoSelector.addObject("Cross line [From side][Works]", Auto.LINE);
         autoSelector.addObject("Scale [From side][Experimental]", Auto.SCALE);
@@ -54,8 +56,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto Chooser", autoSelector);
 
         startingPositionSelector = new SendableChooser<>();
-        startingPositionSelector.addDefault("Left", Field.FieldPosition.LEFT);
-        startingPositionSelector.addObject("Middle", Field.FieldPosition.MIDDLE);
+        startingPositionSelector.addObject("Left", Field.FieldPosition.LEFT);
+        startingPositionSelector.addDefault("Middle", Field.FieldPosition.MIDDLE);
         startingPositionSelector.addObject("Right", Field.FieldPosition.RIGHT);
         SmartDashboard.putData("Starting Position", startingPositionSelector);
         CameraServer.getInstance().startAutomaticCapture();
@@ -65,6 +67,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
         Scheduler.getInstance().removeAll();
+        chassis.drivetrain.resetTalons();
+        chassis.drivetrain.setMotorSafetyEnabled(true);
         new Shift(Transmission.GearState.LOW).start();
         chassis.drivetrain.stopProfileDrive();
 
@@ -79,6 +83,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         Scheduler.getInstance().removeAll();
+        chassis.drivetrain.setMotorSafetyEnabled(false);
         new SetGrabber(Grabber.GrabberState.CLOSE).start();
         while (!Field.getInstance().update()) try {
             Thread.sleep(50);

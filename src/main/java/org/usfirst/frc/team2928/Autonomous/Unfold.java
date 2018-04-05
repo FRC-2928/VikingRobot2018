@@ -11,7 +11,8 @@ public class Unfold extends CommandGroup {
         addSequential(new SetClamp(Clamp.ClampState.CLOSE));
         addSequential(new RunShoulder(0.6), 1.5);
         addSequential(new SetClamp(Clamp.ClampState.OPEN));
-        addParallel(new RunAngle(-1), -1.5);
-        addSequential(new RunShoulder(-0.4), 1);
+        addParallel(new RunAngle(-1), 1.5);
+        addSequential(new RunShoulder(-0.3), 1);
+        addSequential(new SetClamp(Clamp.ClampState.CLOSE));
     }
 }

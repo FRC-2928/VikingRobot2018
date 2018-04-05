@@ -47,6 +47,7 @@ public class ScaleAuto extends CommandGroup {
                 .delay(0.2)
                 .addParallel(new SetClamp(Clamp.ClampState.OPEN))
                 .addSequential(new RunAngle(-1), 1.5)
+                .addParallel(new SetClamp(Clamp.ClampState.CLOSE))
                 .addSequential(new RunShoulder(-0.5), 2);
 
         addParallel(driveCommand.build());

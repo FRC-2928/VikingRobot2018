@@ -24,6 +24,7 @@ public class MagicScaleAuto extends CommandGroup {
             addParallel(new SetClamp(Clamp.ClampState.OPEN));
             addParallel(new RunAngle(-1), 2);
             addSequential(new DistanceDrive(27 - 1.54));
+            addParallel(new SetClamp(Clamp.ClampState.CLOSE));
             addSequential(new WaitCommand(0.2));
             addSequential(new Rotate(target == Field.FieldPosition.LEFT ? -90 : 90));
             addSequential(new WaitCommand(0.2));
