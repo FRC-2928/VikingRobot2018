@@ -32,8 +32,8 @@ public class OperatorInterface {
     private static final JoystickButton frontplateDownButton = new JoystickButton(operatorConsole, 6);
     private static final JoystickButton fourbarUpButton = new JoystickButton(operatorConsole, 5);
     private static final JoystickButton fourbarDownButton = new JoystickButton(operatorConsole, 4);
-    private static final JoystickButton outtakeButton = new JoystickButton(operatorConsole, 10);
-    private static final JoystickButton intakeButton = new JoystickButton(operatorConsole, 11);
+    private static final JoystickButton outtakeButton = new JoystickButton(driveStick, 2);
+    private static final JoystickButton intakeButton = new JoystickButton(operatorConsole, 1);
     private static final JoystickButton gripperButton = new JoystickButton(operatorConsole, 9);
     private static final JoystickButton intakeOpenButton = new JoystickButton(operatorConsole, 2);
     private static final JoystickButton intakeCloseButton = new JoystickButton(operatorConsole, 3);

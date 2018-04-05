@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2928.Command.Chassis.JoystickDrive;
 import org.usfirst.frc.team2928.MotionProfiling.Profile;
 import org.usfirst.frc.team2928.MotionProfiling.ProfileFollower;
+import org.usfirst.frc.team2928.Robot;
 import org.usfirst.frc.team2928.RobotConstants;
 import org.usfirst.frc.team2928.RobotMap;
 
@@ -47,7 +48,6 @@ public class Drivetrain extends Subsystem {
 
         for (VikingSRX v : new VikingSRX[] {left, right}) {
             v.setGains(new SRXGains(RobotConstants.TALON_P, RobotConstants.TALON_I, RobotConstants.TALON_D, RobotConstants.TALON_F));
-
             // We use quad encoders on this years robot
             v.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, RobotConstants.CAN_TIMEOUT_MS);
             // Invert the encoder readings so a forward move on the robot is a positive change in the encoder reading
@@ -56,8 +56,18 @@ public class Drivetrain extends Subsystem {
             v.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, (int)RobotConstants.PROFILE_TICK_MS, RobotConstants.CAN_TIMEOUT_MS);
             // Default is 4% deadband, we want less.
             v.configNeutralDeadband(0.01, RobotConstants.CAN_TIMEOUT_MS);
+            // Our profiles have their own period set
             v.configMotionProfileTrajectoryPeriod(0, RobotConstants.CAN_TIMEOUT_MS);
+            // Make it harder for Jett to tip it over, rapid acceleration is BAD with a tall robot.
             v.configOpenloopRamp(0.3, RobotConstants.CAN_TIMEOUT_MS);
+            // Set our motion magic velocity and acceleration
+            v.configMotionCruiseVelocity(RobotConstants.TALON_CRUISE_VELOCITY, RobotConstants.CAN_TIMEOUT_MS);
+            v.configMotionAcceleration(RobotConstants.TALON_MAX_ACCELERATION, RobotConstants.CAN_TIMEOUT_MS);
+            // These are the default values but we're supposed to set them anyways.
+            v.configNominalOutputForward(0, RobotConstants.CAN_TIMEOUT_MS);
+            v.configNominalOutputReverse(0, RobotConstants.CAN_TIMEOUT_MS);
+            v.configPeakOutputForward(1, RobotConstants.CAN_TIMEOUT_MS);
+            v.configPeakOutputReverse(-1, RobotConstants.CAN_TIMEOUT_MS);
         }
 
         drive = new DifferentialDrive(left, right);
@@ -68,6 +78,8 @@ public class Drivetrain extends Subsystem {
 
         profileFollower = new ProfileFollower(left, right);
         setMotorSafetyEnabled(true);
+
+        zeroSensors();
     }
 
     public void drive(double move, double rotate) {
@@ -150,5 +162,34 @@ public class Drivetrain extends Subsystem {
     public void setMotorSafetyEnabled(boolean safety)
     {
         drive.setSafetyEnabled(safety);
+    }
+
+    public boolean getMotorSafetyEnabled()
+    {
+        return drive.isSafetyEnabled();
+    }
+
+    public void setTalons(ControlMode mode, double value)
+    {
+        left.set(mode, value);
+        right.set(mode, value);
+    }
+
+    public void setTalons(ControlMode mode, double leftValue, double rightValue)
+    {
+        left.set(mode, leftValue);
+        right.set(mode, rightValue);
+    }
+
+    public void setTalons(double value)
+    {
+        left.set(value);
+        right.set(value);
+    }
+
+    public void setTalons(double leftValue, double rightValue)
+    {
+        left.set(leftValue);
+        right.set(rightValue);
     }
 }

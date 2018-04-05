@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2928.Autonomous.*;
 import org.usfirst.frc.team2928.Command.Arm.SetGrabber;
+import org.usfirst.frc.team2928.Command.Chassis.DistanceDrive;
 import org.usfirst.frc.team2928.Command.Chassis.ResetSensors;
+import org.usfirst.frc.team2928.Command.Chassis.Rotate;
 import org.usfirst.frc.team2928.Command.Chassis.Shift;
 import org.usfirst.frc.team2928.Subsystem.Arm.Arm;
 import org.usfirst.frc.team2928.Subsystem.Arm.Grabber;
@@ -39,12 +41,16 @@ public class Robot extends IterativeRobot {
 
         compressor.start();
         autoSelector = new SendableChooser<>();
-        autoSelector.addDefault("Do Nothing", Auto.NOTHING);
-        autoSelector.addObject("Switch from center", Auto.MID_SWITCH);
-        autoSelector.addObject("Switch and line from center", Auto.MID_SWITCH_LINE);
-        autoSelector.addObject("Switch from side (set starting position!)", Auto.SIDE_SWITCH);
-        autoSelector.addObject("Side of switch from side (set starting position)", Auto.SIDE_SWITCH_HOOK);
-        autoSelector.addObject("Line from side", Auto.LINE);
+        autoSelector.addDefault("Do Nothing [Works]", Auto.NOTHING);
+        autoSelector.addObject("Switch [Middle works, sides experimental]", Auto.SWITCH);
+        autoSelector.addObject("Side of switch [Middle works, sides experimental", Auto.SIDE_SWITCH_HOOK);
+        autoSelector.addObject("Cross line [From side][Works]", Auto.LINE);
+        autoSelector.addObject("Scale [From side][Experimental]", Auto.SCALE);
+        autoSelector.addObject("\"Magic\" scale [From side][Experimental]", Auto.MAGIC_SCALE);
+        autoSelector.addObject("Scale/Switch/Line [Middle works, sides experimental]", Auto.SCALE_SWITCH_LINE);
+        autoSelector.addObject("Switch/Scale/Line [Middle works, sides experimental]", Auto.SWITCH_SCALE_LINE);
+        autoSelector.addObject("Rotate 90 degrees CCW [Test]", Auto.TEST_ROTATION);
+        autoSelector.addObject("Drive 5 feet forward [Test]", Auto.TEST_DISTANCE);
         SmartDashboard.putData("Auto Chooser", autoSelector);
 
         startingPositionSelector = new SendableChooser<>();
@@ -83,26 +89,81 @@ public class Robot extends IterativeRobot {
         new Shift(Transmission.GearState.LOW).start();
 
         Auto auto = autoSelector.getSelected();
+        Field.FieldPosition startingPosition = startingPositionSelector.getSelected();
         switch (auto) {
-            case MID_SWITCH: {
-                new MidSwitchAuto(Field.getInstance().getNearSwitch(), false).start();
-                break;
-            }
-            case MID_SWITCH_LINE: {
-                new MidSwitchAuto(Field.getInstance().getNearSwitch(), true).start();
-                break;
-            }
-            case SIDE_SWITCH: {
-                new SideSwitchAuto(Field.getInstance().getNearSwitch(), startingPositionSelector.getSelected()).start();
-                break;
-            }
-            case SIDE_SWITCH_HOOK: {
-                new SideSwitchHookAuto(Field.getInstance().getNearSwitch(), startingPositionSelector.getSelected()).start();
+            case SWITCH: {
+                if (startingPosition == Field.FieldPosition.MIDDLE)
+                {
+                    new MidSwitchAuto(Field.getInstance().getNearSwitch()).start();
+                } else if (startingPosition == Field.getInstance().getNearSwitch())
+                {
+                    new SideSwitchAuto(Field.getInstance().getNearSwitch(), startingPosition).start();
+                } else
+                {
+                    new CrossLine().start();
+                }
                 break;
             }
             case LINE: {
                 new CrossLine().start();
                 break;
+            }
+            case SCALE: {
+                new ScaleAuto(Field.getInstance().getScale(), startingPosition).start();
+                break;
+            }
+            case MAGIC_SCALE: {
+                new MagicScaleAuto(Field.getInstance().getScale(), startingPosition).start();
+                break;
+            }
+            case SCALE_SWITCH_LINE:
+            {
+                if (startingPosition == Field.FieldPosition.MIDDLE)
+                {
+                    new MidSwitchAuto(Field.getInstance().getNearSwitch()).start();
+                } else if (startingPosition == Field.getInstance().getScale())
+                {
+                    new MagicScaleAuto(Field.getInstance().getScale(), startingPosition).start();
+                } else if (startingPosition == Field.getInstance().getNearSwitch())
+                {
+                    new SideSwitchAuto(Field.getInstance().getNearSwitch(), startingPosition).start();
+                } else
+                {
+                    new CrossLine().start();
+                }
+                break;
+            }
+            case SWITCH_SCALE_LINE:
+            {
+                if (startingPosition == Field.FieldPosition.MIDDLE)
+                {
+                    new MidSwitchAuto(Field.getInstance().getNearSwitch()).start();
+                } else if (startingPosition == Field.getInstance().getNearSwitch())
+                {
+                    new SideSwitchAuto(Field.getInstance().getNearSwitch(), startingPosition).start();
+                } else if (startingPosition == Field.getInstance().getScale())
+                {
+                    new MagicScaleAuto(Field.getInstance().getScale(), startingPosition).start();
+                } else
+                {
+                    new CrossLine().start();
+                }
+                break;
+            }
+
+            case TEST_ROTATION:
+            {
+                new Rotate(90).start();
+                break;
+            }
+            case TEST_DISTANCE:
+            {
+                new DistanceDrive(5);
+                break;
+            }
+            case SIDE_SWITCH_HOOK:
+            {
+                new SideSwitchAuto(Field.getInstance().getNearSwitch(), startingPosition).start();
             }
             case NOTHING:
             default: {
