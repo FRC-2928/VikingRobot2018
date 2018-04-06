@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2928;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -163,7 +165,7 @@ public class Robot extends IterativeRobot {
             }
             case TEST_DISTANCE:
             {
-                new DistanceDrive(5);
+                new DistanceDrive(5).start();
                 break;
             }
             case SIDE_SWITCH_HOOK:
