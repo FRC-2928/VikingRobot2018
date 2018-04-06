@@ -22,12 +22,16 @@ public class ScaleAuto extends CommandGroup {
             {
                 case LEFT:
                 {
-                    driveCommand.addSequential(new FollowProfile("leftScaleFromLeftSide"), 7.35);
+                    driveCommand
+                            .addSequential(new FollowProfile("leftSideToScale"), 8)
+                            .addSequential(new FollowProfile("90Right"), 0.6);
                     break;
                 }
                 case RIGHT:
                 {
-                    driveCommand.addSequential(new FollowProfile("rightScaleFromRightSide"), 7.35);
+                    driveCommand
+                            .addSequential(new FollowProfile("rightSideToScale"), 8)
+                            .addSequential(new FollowProfile("90Left"), 0.6);
                     break;
                 }
                 default:
@@ -37,9 +41,10 @@ public class ScaleAuto extends CommandGroup {
             driveCommand.addSequential(new FollowProfile("crossLineFromSide"));
         }
         driveCommand.delay(0.2).addSequential(new FollowProfile("reverseFiveFeet"));
-        armCommand
+        if(start==target)
+            armCommand
                 .delay(3)
-                .addSequential(new RunShoulder(0.8), 4)
+                .addSequential(new RunShoulder(0.8), 5)
                 .delay(0.2)
                 .addSequential(new SetGrabber(Grabber.GrabberState.OPEN))
                 .delay(0.2)
@@ -49,6 +54,8 @@ public class ScaleAuto extends CommandGroup {
                 .addSequential(new RunAngle(-1), 1.5)
                 .addParallel(new SetClamp(Clamp.ClampState.CLOSE))
                 .addSequential(new RunShoulder(-0.5), 2);
+        else
+            armCommand.addSequential(new Unfold());
 
         addParallel(driveCommand.build());
         addParallel(armCommand.build());

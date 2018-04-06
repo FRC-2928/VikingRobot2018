@@ -16,6 +16,7 @@ import org.usfirst.frc.team2928.Command.Chassis.ResetSensors;
 import org.usfirst.frc.team2928.Command.Chassis.Rotate;
 import org.usfirst.frc.team2928.Command.Chassis.Shift;
 import org.usfirst.frc.team2928.Command.OneShotCommand;
+import org.usfirst.frc.team2928.MotionProfiling.FollowProfile;
 import org.usfirst.frc.team2928.Subsystem.Arm.Arm;
 import org.usfirst.frc.team2928.Subsystem.Arm.Grabber;
 import org.usfirst.frc.team2928.Subsystem.Chassis.Chassis;
@@ -160,7 +161,7 @@ public class Robot extends IterativeRobot {
 
             case TEST_ROTATION:
             {
-                new Rotate(90).start();
+                new FollowProfile("90Left").start();
                 break;
             }
             case TEST_DISTANCE:

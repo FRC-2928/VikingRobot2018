@@ -17,20 +17,18 @@ public class SideSwitchHookAuto extends CommandGroup {
         {
             CommandGroupBuilder driveCommand = new CommandGroupBuilder();
             CommandGroupBuilder armCommand = new CommandGroupBuilder();
-            String approachProfile;
-            if (target == Field.FieldPosition.LEFT)
-                approachProfile = "leftSideSwitchFromLeftSide";
-            else
-                approachProfile = "rightSideSwitchFromRightSide";
-            driveCommand.addSequential(new FollowProfile(approachProfile), 5.1)
+            FollowProfile rotateCommand = new FollowProfile(target== Field.FieldPosition.RIGHT? "90Left" : "90Right");
+            driveCommand.addSequential(new FollowProfile("StraightToSwitch"), 4.6)
                         .delay(0.25)
                         .addSequential(new OneShotCommand(Robot.chassis.drivetrain::stopProfileDrive))
+                        .addSequential(rotateCommand, 0.6)
+                        .delay(0.6)
                         .addSequential(new FollowProfile("reverseFiveFeet"), 2.3) // cut it off early
                         .addSequential(new OneShotCommand(Robot.chassis.drivetrain::stopProfileDrive));
             armCommand
                     .delay(2.1)
                     .addSequential(new RunShoulder(0.8), 1.9)
-                    .delay(0.7)
+                    .delay(0.3)
                     .addSequential(new SetGrabber(Grabber.GrabberState.OPEN))
                     .delay(0.1)
                     .addSequential(new RunShoulder(.8), 0.3);
