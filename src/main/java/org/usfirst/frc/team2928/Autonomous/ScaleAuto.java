@@ -6,8 +6,10 @@ import org.usfirst.frc.team2928.Command.Arm.SetGrabber;
 import org.usfirst.frc.team2928.Command.CommandGroupBuilder;
 import org.usfirst.frc.team2928.Command.Intake.RunAngle;
 import org.usfirst.frc.team2928.Command.Intake.SetClamp;
+import org.usfirst.frc.team2928.Command.OneShotCommand;
 import org.usfirst.frc.team2928.Field;
 import org.usfirst.frc.team2928.MotionProfiling.FollowProfile;
+import org.usfirst.frc.team2928.Robot;
 import org.usfirst.frc.team2928.Subsystem.Arm.Grabber;
 import org.usfirst.frc.team2928.Subsystem.Intake.Clamp;
 
@@ -24,14 +26,18 @@ public class ScaleAuto extends CommandGroup {
                 {
                     driveCommand
                             .addSequential(new FollowProfile("leftSideToScale"), 8)
-                            .addSequential(new FollowProfile("90Right"), 0.6);
+                            .addSequential(new FollowProfile("90Right"), 0.6)
+                            .addSequential(new OneShotCommand(() -> {Robot.chassis.drivetrain.setTalons(0.25, -0.25);}, Robot.chassis.drivetrain), 0.25)
+                            .addSequential(new OneShotCommand(Robot.chassis.drivetrain::resetTalons, Robot.chassis.drivetrain));
                     break;
                 }
                 case RIGHT:
                 {
                     driveCommand
                             .addSequential(new FollowProfile("rightSideToScale"), 8)
-                            .addSequential(new FollowProfile("90Left"), 0.6);
+                            .addSequential(new FollowProfile("90Left"), 0.6)
+                            .addSequential(new OneShotCommand(() -> {Robot.chassis.drivetrain.setTalons(-0.25, 0.25);}, Robot.chassis.drivetrain), 0.25)
+                            .addSequential(new OneShotCommand(Robot.chassis.drivetrain::resetTalons, Robot.chassis.drivetrain));
                     break;
                 }
                 default:
@@ -45,8 +51,9 @@ public class ScaleAuto extends CommandGroup {
             armCommand
                 .delay(3)
                 .addSequential(new RunShoulder(0.8), 5)
-                .delay(0.2)
+                .delay(0.7)
                 .addSequential(new SetGrabber(Grabber.GrabberState.OPEN))
+                .addParallel(new RunShoulder(0.6), 0.5)
                 .delay(0.2)
                 .addSequential(new SetGrabber(Grabber.GrabberState.CLOSE))
                 .delay(0.2)

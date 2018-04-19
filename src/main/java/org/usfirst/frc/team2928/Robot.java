@@ -15,6 +15,7 @@ import org.usfirst.frc.team2928.Command.Chassis.DistanceDrive;
 import org.usfirst.frc.team2928.Command.Chassis.ResetSensors;
 import org.usfirst.frc.team2928.Command.Chassis.Rotate;
 import org.usfirst.frc.team2928.Command.Chassis.Shift;
+import org.usfirst.frc.team2928.Command.CommandGroupBuilder;
 import org.usfirst.frc.team2928.Command.OneShotCommand;
 import org.usfirst.frc.team2928.MotionProfiling.FollowProfile;
 import org.usfirst.frc.team2928.Subsystem.Arm.Arm;
@@ -161,17 +162,22 @@ public class Robot extends IterativeRobot {
 
             case TEST_ROTATION:
             {
-                new FollowProfile("90Left").start();
+                new CommandGroupBuilder()
+                        .addSequential(new Rotate(100))
+                        .delay(0.5)
+                        .addSequential(new Rotate(210))
+                        .build().start();
                 break;
             }
             case TEST_DISTANCE:
             {
-                new DistanceDrive(5).start();
+                new CommandGroupBuilder().addSequential(new DistanceDrive(5)).addSequential(new Unfold()).build().start();
                 break;
             }
             case SIDE_SWITCH_HOOK:
             {
-                new SideSwitchAuto(Field.getInstance().getNearSwitch(), startingPosition).start();
+                new SideSwitchHookAuto(Field.getInstance().getNearSwitch(), startingPosition).start();
+                break;
             }
             case NOTHING:
             default: {

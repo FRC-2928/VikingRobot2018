@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2928.Command.Chassis;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2928.Robot;
@@ -8,7 +9,7 @@ public class JoystickDrive extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return !DriverStation.getInstance().isOperatorControl();
     }
 
     public JoystickDrive()

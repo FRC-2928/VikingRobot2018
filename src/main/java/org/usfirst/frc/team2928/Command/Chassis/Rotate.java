@@ -10,18 +10,17 @@ public class Rotate extends Command {
 
     private int setpoint; // For the right talon, left talon is -setpoint.
     private boolean motorSafetyBackup = true;
-
+    private double previousVelocity;
+    private int decelCounter;
+    private boolean hasStartedDecel;
     public Rotate(double degrees) {
         requires(Robot.chassis.drivetrain);
-        this.setpoint = (int)(degrees * Math.PI / 180 * (RobotConstants.AXLE_LENGTH_FEET/2));
+        this.setpoint = (int)(RobotConstants.DRIVE_TICKS_PER_FOOT * (degrees / 360 * Math.PI * RobotConstants.AXLE_LENGTH_FEET));
     }
 
     @Override
     protected boolean isFinished() {
-        double[] encoderVelocities = Robot.chassis.drivetrain.getEncoderVelocities();
-        double totalVelocityMagnitude = Math.abs(encoderVelocities[0]) + Math.abs(encoderVelocities[1]);
-        // Stop if our motors are turning less than 0.1 feet per second
-        return totalVelocityMagnitude < (RobotConstants.DRIVE_TICKS_PER_FOOT * 0.1 / 10);
+        return hasStartedDecel && Robot.chassis.drivetrain.getAverageVelocityMagnitude() < RobotConstants.TALON_CRUISE_VELOCITY * 0.02;
     }
 
     @Override
@@ -30,13 +29,28 @@ public class Rotate extends Command {
         // Safety has to be disabled whenever we use a mode that isn't
         Robot.chassis.drivetrain.setMotorSafetyEnabled(false);
         Robot.chassis.drivetrain.zeroEncoders();
-
-        // We can do this because we disable the motor safety.
+        previousVelocity = -1;
+        decelCounter = 0;
+        hasStartedDecel = false;
+        // We can do this because we disabled the motor safety.
         Robot.chassis.drivetrain.setTalons(ControlMode.MotionMagic, -setpoint, setpoint);
     }
 
     @Override
     public void execute(){
+        double velocity = Robot.chassis.drivetrain.getAverageVelocityMagnitude();
+        if (velocity < previousVelocity)
+        {
+            decelCounter++;
+        } else
+        {
+            decelCounter = 0;
+        }
+        if (decelCounter > 3)
+        {
+            hasStartedDecel = true;
+        }
+        previousVelocity = velocity;
     }
 
     @Override

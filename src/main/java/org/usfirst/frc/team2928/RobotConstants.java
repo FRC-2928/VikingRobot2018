@@ -11,13 +11,13 @@ public class RobotConstants {
     public static final int DRIVE_TICKS_PER_ROTATION_LOW = 4000; // TODO: set this
 
     public static final int DRIVE_TICKS_PER_FOOT = 4000;
-    public static final double TALON_P = 1.5;
-    public static final double TALON_I = 0;
-    public static final double TALON_D = 0.1;
+    public static final double TALON_P = 3; // Was 1.5
+    public static final double TALON_I = 0.001; // Was 0
+    public static final double TALON_D = 0;
     public static final double TALON_F = .616; // .616 is calculated kF
     public static final double PROFILE_TICK_MS = 50;
 
-    public static final double AXLE_LENGTH_FEET = 1.875;
+    public static final double AXLE_LENGTH_FEET = 2.042;
 
     public static final long SHIFT_DELAY_MS = 100;
 

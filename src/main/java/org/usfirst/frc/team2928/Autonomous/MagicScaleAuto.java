@@ -26,12 +26,12 @@ public class MagicScaleAuto extends CommandGroup {
             addSequential(new DistanceDrive(27 - 1.54));
             addParallel(new SetClamp(Clamp.ClampState.CLOSE));
             addSequential(new WaitCommand(0.2));
-            addSequential(new Rotate(target == Field.FieldPosition.LEFT ? -90 : 90));
+            addSequential(new Rotate(target == Field.FieldPosition.LEFT ? -100 : 100));
             addSequential(new WaitCommand(0.2));
             addSequential(new SetGrabber(Grabber.GrabberState.OPEN));
             addSequential(new WaitCommand(0.2));
             addSequential(new DistanceDrive(-3));
-            addSequential(new RunShoulder(-0.6), 3);
+            addSequential(new RunShoulder(-0.6), 2);
         } else if (start != Field.FieldPosition.MIDDLE)
         {
             addSequential(new CrossLine());

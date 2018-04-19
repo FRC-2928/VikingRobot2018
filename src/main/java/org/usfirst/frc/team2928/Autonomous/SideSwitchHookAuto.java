@@ -1,8 +1,10 @@
 package org.usfirst.frc.team2928.Autonomous;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc.team2928.Command.Arm.RunShoulder;
 import org.usfirst.frc.team2928.Command.Arm.SetGrabber;
+import org.usfirst.frc.team2928.Command.Chassis.Rotate;
 import org.usfirst.frc.team2928.Command.OneShotCommand;
 import org.usfirst.frc.team2928.Command.CommandGroupBuilder;
 import org.usfirst.frc.team2928.Field;
@@ -17,7 +19,7 @@ public class SideSwitchHookAuto extends CommandGroup {
         {
             CommandGroupBuilder driveCommand = new CommandGroupBuilder();
             CommandGroupBuilder armCommand = new CommandGroupBuilder();
-            FollowProfile rotateCommand = new FollowProfile(target== Field.FieldPosition.RIGHT? "90Left" : "90Right");
+            Command rotateCommand = new Rotate(target == Field.FieldPosition.RIGHT ? 100 : -100);
             driveCommand.addSequential(new FollowProfile("StraightToSwitch"), 4.6)
                         .delay(0.25)
                         .addSequential(new OneShotCommand(Robot.chassis.drivetrain::stopProfileDrive))

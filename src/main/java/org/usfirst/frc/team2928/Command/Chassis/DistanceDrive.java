@@ -7,6 +7,9 @@ import org.usfirst.frc.team2928.RobotConstants;
 
 public class DistanceDrive extends Command {
     private int setpoint;
+    private double previousVelocity;
+    private int decelCounter;
+    private boolean hasStartedDecel;
     private boolean motorSafetyBackup = true;
     public DistanceDrive(double feet) {
         requires(Robot.chassis.drivetrain);
@@ -18,19 +21,32 @@ public class DistanceDrive extends Command {
         motorSafetyBackup = Robot.chassis.drivetrain.getMotorSafetyEnabled();
         Robot.chassis.drivetrain.setMotorSafetyEnabled(false);
         Robot.chassis.drivetrain.zeroEncoders();
+        previousVelocity = -1;
+        decelCounter = 0;
+        hasStartedDecel = false;
         Robot.chassis.drivetrain.setTalons(ControlMode.MotionMagic, setpoint);
     }
 
     @Override
     protected void execute() {
+        double velocity = Robot.chassis.drivetrain.getAverageVelocityMagnitude();
+        if (velocity < previousVelocity)
+        {
+            decelCounter++;
+        } else
+        {
+            decelCounter = 0;
+        }
+        if (decelCounter > 3)
+        {
+            hasStartedDecel = true;
+        }
+        previousVelocity = velocity;
     }
 
     @Override
     protected boolean isFinished() {
-        double[] encoderVelocities = Robot.chassis.drivetrain.getEncoderVelocities();
-        double totalVelocityMagnitude = Math.abs(encoderVelocities[0]) + Math.abs(encoderVelocities[1]);
-        // Stop if our motors are turning less than 0.1 feet per second
-        return totalVelocityMagnitude < (RobotConstants.DRIVE_TICKS_PER_FOOT * 0.1 / 10);
+        return hasStartedDecel && Robot.chassis.drivetrain.getAverageVelocityMagnitude() < RobotConstants.TALON_CRUISE_VELOCITY * 0.02;
     }
 
     @Override

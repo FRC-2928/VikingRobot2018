@@ -50,7 +50,8 @@ public class MidSwitchAuto extends CommandGroup {
                 .delay(0.6)
                 .addSequential(new SetGrabber(Grabber.GrabberState.OPEN))
                 .delay(0.1)
-                .addSequential(new RunShoulder(.8), 0.3);
+                .addSequential(new RunShoulder(.8), 0.2)
+                .addSequential(new SetGrabber(Grabber.GrabberState.CLOSE));
 
 
         addParallel(driveCommandGroup.build());

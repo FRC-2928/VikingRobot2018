@@ -192,4 +192,10 @@ public class Drivetrain extends Subsystem {
         left.set(leftValue);
         right.set(rightValue);
     }
+
+    public double getAverageVelocityMagnitude()
+    {
+        double[] vels = getEncoderVelocities();
+        return (Math.abs(vels[0]) + Math.abs(vels[1]))/2d;
+    }
 }
