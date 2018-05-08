@@ -45,7 +45,7 @@ public class OperatorInterface {
     public static final JoystickButton angleIntakeUpButton = new JoystickButton(driveStick, 6);
     public static final JoystickButton angleIntakeDownButton = new JoystickButton(driveStick, 7);
     OperatorInterface() {
-        frontplateUpButton.whileHeld(new RunSlider(RobotConstants.SLIDER_POWER));
+        /*frontplateUpButton.whileHeld(new RunSlider(RobotConstants.SLIDER_POWER));
         frontplateDownButton.whileHeld(new RunSlider(-RobotConstants.SLIDER_POWER));
         fourbarUpButton.whileHeld(new RunShoulder(0.8));
         fourbarDownButton.whileHeld(new RunShoulder(-0.6));
@@ -63,6 +63,7 @@ public class OperatorInterface {
 
         angleIntakeUpButton.whileHeld(new RunAngle(1));
         angleIntakeDownButton.whileHeld(new RunAngle(-1));
+        */
     }
 
     //We're assuming same drive setup as last year.

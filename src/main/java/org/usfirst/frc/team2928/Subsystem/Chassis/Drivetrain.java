@@ -22,7 +22,7 @@ public class Drivetrain extends Subsystem {
     public final VikingSRX right;
     private final VikingSRX rightFollower;
 
-    private PigeonIMU pigeon;
+    //private PigeonIMU pigeon;
     private DifferentialDrive drive;
 
     public ProfileFollower profileFollower;
@@ -73,7 +73,7 @@ public class Drivetrain extends Subsystem {
         drive = new DifferentialDrive(left, right);
         drive.setSafetyEnabled(false);
 
-        pigeon = new PigeonIMU(RobotMap.PIGEON);
+        //pigeon = new PigeonIMU(RobotMap.PIGEON);
         setBrakeMode(false);
 
         profileFollower = new ProfileFollower(left, right);
@@ -99,8 +99,9 @@ public class Drivetrain extends Subsystem {
     }
 
     public double getYaw() {
+        System.out.println("getYaw called on Tyr, no gyro, returning 0 instead.");
         double[] angles = {0, 0, 0};
-        pigeon.getYawPitchRoll(angles);
+        //pigeon.getYawPitchRoll(angles);
         return angles[0];
     }
 
@@ -111,7 +112,8 @@ public class Drivetrain extends Subsystem {
 
     public void zeroGyro()
     {
-        pigeon.setYaw(0, RobotConstants.CAN_TIMEOUT_MS);
+        System.out.println("zeroGyro called on Tyr, no gyro to zero!");
+        return;
     }
 
     public void zeroEncoders()

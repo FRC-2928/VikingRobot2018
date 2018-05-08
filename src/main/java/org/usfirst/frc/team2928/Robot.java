@@ -41,14 +41,14 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
         compressor = new Compressor();
-        arm = new Arm();
+        //arm = new Arm();
         chassis = new Chassis();
-        intake = new Intake();
+        //intake = new Intake();
 
         compressor.start();
         autoSelector = new SendableChooser<>();
         autoSelector.addObject("Do Nothing [Works]", Auto.NOTHING);
-        autoSelector.addDefault("Switch [Middle works, sides experimental]", Auto.SWITCH);
+        /*autoSelector.addDefault("Switch [Middle works, sides experimental]", Auto.SWITCH);
         autoSelector.addObject("Side of switch [Middle works, sides experimental", Auto.SIDE_SWITCH_HOOK);
         autoSelector.addObject("Cross line [From side][Works]", Auto.LINE);
         autoSelector.addObject("Scale [From side][Experimental]", Auto.SCALE);
@@ -56,14 +56,14 @@ public class Robot extends IterativeRobot {
         autoSelector.addObject("Scale/Switch/Line [Middle works, sides experimental]", Auto.SCALE_SWITCH_LINE);
         autoSelector.addObject("Switch/Scale/Line [Middle works, sides experimental]", Auto.SWITCH_SCALE_LINE);
         autoSelector.addObject("Rotate 90 degrees CCW [Test]", Auto.TEST_ROTATION);
-        autoSelector.addObject("Drive 5 feet forward [Test]", Auto.TEST_DISTANCE);
+        autoSelector.addObject("Drive 5 feet forward [Test]", Auto.TEST_DISTANCE);*/
         SmartDashboard.putData("Auto Chooser", autoSelector);
 
-        startingPositionSelector = new SendableChooser<>();
+        /*startingPositionSelector = new SendableChooser<>();
         startingPositionSelector.addObject("Left", Field.FieldPosition.LEFT);
         startingPositionSelector.addDefault("Middle", Field.FieldPosition.MIDDLE);
         startingPositionSelector.addObject("Right", Field.FieldPosition.RIGHT);
-        SmartDashboard.putData("Starting Position", startingPositionSelector);
+        SmartDashboard.putData("Starting Position", startingPositionSelector);*/
         CameraServer.getInstance().startAutomaticCapture();
         oi = new OperatorInterface();
     }
@@ -86,7 +86,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-        Scheduler.getInstance().removeAll();
+        /*Scheduler.getInstance().removeAll();
         chassis.drivetrain.setMotorSafetyEnabled(false);
         new SetGrabber(Grabber.GrabberState.CLOSE).start();
         while (!Field.getInstance().update()) try {
@@ -185,7 +185,7 @@ public class Robot extends IterativeRobot {
             }
         }
 
-
+*/
     }
 
     @Override
