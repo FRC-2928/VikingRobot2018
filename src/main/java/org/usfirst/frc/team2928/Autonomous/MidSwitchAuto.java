@@ -49,7 +49,7 @@ public class MidSwitchAuto extends CommandGroup {
                 .addSequential(new RunShoulder(0.8), 1.8)
                 .delay(0.6)
                 .addSequential(new SetGrabber(Grabber.GrabberState.OPEN))
-                .delay(0.1)
+                .delay(0.2)
                 .addSequential(new RunShoulder(.8), 0.2)
                 .addSequential(new SetGrabber(Grabber.GrabberState.CLOSE));
 
