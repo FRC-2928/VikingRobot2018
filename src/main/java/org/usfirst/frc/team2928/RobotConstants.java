@@ -22,7 +22,6 @@ public class RobotConstants {
     public static final long SHIFT_DELAY_MS = 100;
 
     public static final double SLIDER_POWER = 0.8;
-
     public static final int TALON_CRUISE_VELOCITY = 5 * DRIVE_TICKS_PER_FOOT / 10; // 4 feet per 100ms
     public static final int TALON_MAX_ACCELERATION = 4 * DRIVE_TICKS_PER_FOOT / 10; // 3 ft/s^2 / 10 to get 100ms
 }

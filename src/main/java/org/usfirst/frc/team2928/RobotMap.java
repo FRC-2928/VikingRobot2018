@@ -5,6 +5,7 @@ public class RobotMap {
     //Talon SRX
     public static final int TALON_FRONT_LEFT = 15;
     public static final int TALON_FRONT_RIGHT = 0;
+<<<<<<< HEAD
     public static final int TALON_BACK_LEFT = 14;
     public static final int TALON_BACK_RIGHT = 1;
     public static final int TALON_4BAR = 10;
@@ -17,6 +18,13 @@ public class RobotMap {
 
 
     public static final int PIGEON = 3;
+=======
+    public static final int TALON_BACK_RIGHT = 1;
+    public static final int TALON_FRONT_LEFT = 14;
+    public static final int TALON_BACK_LEFT = 15;
+    public static final int TALON_LIFTER = 4;
+
+>>>>>>> 709e8be... Tyr updates, TODO: set motor ports
 
     //Solenoids
     public static final int SOLENOID_TRANSMISSION_LOW = 2;

@@ -16,6 +16,7 @@ public class Lifter extends Subsystem {
     public Lifter()
     {
         lifter = new VikingSRX(TALON_LIFTER);
+        lifter.setInverted(true);
     }
 
     public void set(double output)

@@ -19,19 +19,29 @@ public class Transmission extends Subsystem {
 
     public enum GearState
     {
-        HIGH,
-        LOW;
+        HIGH(false),
+        LOW(true);
+
+        private boolean booleanValue;
+        GearState(boolean booleanValue)
+        {
+            this.booleanValue = booleanValue;
+        }
 
         public GearState toggle()
         {
             return this.equals(HIGH) ? LOW : HIGH;
+        }
+        public boolean toBoolean()
+        {
+            return this.booleanValue;
         }
     }
 
     public Transmission()
     {
         shiftSolenoid = new Solenoid(RobotMap.SOLENOID_TRANSMISSION);
-        shiftSolenoid.set(false);
+        shiftSolenoid.set(LOW.toBoolean());
         currentState = LOW;
     }
 
@@ -40,18 +50,12 @@ public class Transmission extends Subsystem {
         long time = currentTimeMillis();
         if ((time - lastShift) > RobotConstants.SHIFT_DELAY_MS)
         {
-            if (state == HIGH)
-            {
-                shiftSolenoid.set(true);
-            }
-            else
-            {
-                shiftSolenoid.set(false);
-            }
+            System.out.println("Shifting");
+            shiftSolenoid.set(state.toBoolean());
             currentState = state;
             lastShift = time;
         }
-        SmartDashboard.putString("Gear", state == GearState.LOW ? "Low" : "High");
+        SmartDashboard.putString("Gear", state == GearState.HIGH ? "Low" : "High");
     }
 
     public void toggle()
