@@ -1,38 +1,14 @@
 package org.usfirst.frc.team2928.Command.Shooter;
 
-import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team2928.Robot;
-import org.usfirst.frc.team2928.Subsystem.Shooter.Flipper;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
-public class Shoot extends Command {
+public class Shoot extends CommandGroup {
 
-    public void Shoot()
+    public Shoot()
     {
-        requires(Robot.shooter.flipper);
-    }
-
-    public void initialize()
-    {
-        Robot.shooter.flipper.set(Flipper.FlipperState.OUT);
-    }
-
-    public void execute()
-    {
-
-    }
-
-    public void end()
-    {
-        Robot.shooter.flipper.set(Flipper.FlipperState.IN);
-    }
-
-    public void interrupted()
-    {
-        end();
-    }
-
-    public boolean isFinished()
-    {
-        return false;
+        addParallel(new RunWheels(1), 2.1);
+        addSequential(new WaitCommand(2));
+        addSequential(new Flip(), 0.1);
     }
 }

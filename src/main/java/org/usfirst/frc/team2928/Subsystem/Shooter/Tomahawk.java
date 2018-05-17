@@ -8,8 +8,8 @@ public class Tomahawk extends Subsystem {
     private Solenoid solenoid;
     public enum TomahawkState
     {
-        RAISE(true),
-        LOWER(false);
+        RAISE(false),
+        LOWER(true);
 
         private boolean booleanValue;
         TomahawkState(boolean booleanValue)
@@ -35,5 +35,10 @@ public class Tomahawk extends Subsystem {
     public void set(TomahawkState state)
     {
         solenoid.set(state.toBoolean());
+    }
+
+    public TomahawkState get()
+    {
+        return solenoid.get() ? TomahawkState.LOWER : TomahawkState.RAISE;
     }
 }

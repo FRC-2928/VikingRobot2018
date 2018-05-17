@@ -41,7 +41,7 @@ public class Drivetrain extends Subsystem {
         rightFollower = new VikingSRX(RobotMap.TALON_BACK_RIGHT);
         rightFollower.set(ControlMode.Follower, RobotMap.TALON_FRONT_RIGHT);
 
-        // Invert the right side of the drivetrain, so both sides go the same way
+        // Invert the left side of the drivetrain, so both sides go the same way
         left.setInverted(true);
         leftFollower.setInverted(true);
 

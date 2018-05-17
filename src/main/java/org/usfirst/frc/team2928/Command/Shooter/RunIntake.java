@@ -4,11 +4,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2928.Robot;
 
 public class RunIntake extends Command {
-    private double output;
-    public RunIntake(double output)
+    private double intake;
+    private double wheels;
+    public RunIntake(double intake, double wheels)
     {
         requires(Robot.shooter.intake);
-        this.output = output;
+        requires(Robot.shooter.wheels);
+        this.intake = intake;
+        this.wheels = wheels;
     }
 
     public void initialize()
@@ -18,12 +21,14 @@ public class RunIntake extends Command {
 
     public void execute()
     {
-        Robot.shooter.intake.set(output);
+        Robot.shooter.intake.set(intake);
+        Robot.shooter.wheels.set(wheels);
     }
 
     public void end()
     {
         Robot.shooter.intake.set(0);
+        Robot.shooter.wheels.set(0);
     }
 
     public void interupted()
