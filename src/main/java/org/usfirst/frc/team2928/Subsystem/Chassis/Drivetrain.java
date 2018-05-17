@@ -22,6 +22,7 @@ public class Drivetrain extends Subsystem {
     public final VikingSRX right;
     private final VikingSRX rightFollower;
 
+    private PigeonIMU pigeon;
     private DifferentialDrive drive;
 
     public ProfileFollower profileFollower;
@@ -72,6 +73,7 @@ public class Drivetrain extends Subsystem {
         drive = new DifferentialDrive(left, right);
         drive.setSafetyEnabled(false);
 
+        pigeon = new PigeonIMU(RobotMap.PIGEON);
         setBrakeMode(false);
 
         profileFollower = new ProfileFollower(left, right);
@@ -98,6 +100,7 @@ public class Drivetrain extends Subsystem {
 
     public double getYaw() {
         double[] angles = {0, 0, 0};
+        pigeon.getYawPitchRoll(angles);
         return angles[0];
     }
 
@@ -108,7 +111,7 @@ public class Drivetrain extends Subsystem {
 
     public void zeroGyro()
     {
-        return;
+        pigeon.setYaw(0, RobotConstants.CAN_TIMEOUT_MS);
     }
 
     public void zeroEncoders()

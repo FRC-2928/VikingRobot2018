@@ -12,7 +12,8 @@ import static org.usfirst.frc.team2928.Subsystem.Chassis.Transmission.GearState.
 
 public class Transmission extends Subsystem {
 
-    private final Solenoid shiftSolenoid;
+    private final Solenoid shiftSolenoidLow;
+    private final Solenoid shiftSolenoidHigh;
     private GearState currentState;
 
     private long lastShift = 0;
@@ -30,8 +31,10 @@ public class Transmission extends Subsystem {
 
     public Transmission()
     {
-        shiftSolenoid = new Solenoid(RobotMap.SOLENOID_TRANSMISSION);
-        shiftSolenoid.set(false);
+        shiftSolenoidLow = new Solenoid(RobotMap.SOLENOID_TRANSMISSION_LOW);
+        shiftSolenoidHigh = new Solenoid(RobotMap.SOLENOID_TRANSMISSION_HIGH);
+        shiftSolenoidLow.set(true);
+        shiftSolenoidHigh.set(false);
         currentState = LOW;
     }
 
@@ -42,11 +45,13 @@ public class Transmission extends Subsystem {
         {
             if (state == HIGH)
             {
-                shiftSolenoid.set(true);
+                shiftSolenoidHigh.set(true);
+                shiftSolenoidLow.set(false);
             }
             else
             {
-                shiftSolenoid.set(false);
+                shiftSolenoidHigh.set(false);
+                shiftSolenoidLow.set(true);
             }
             currentState = state;
             lastShift = time;
