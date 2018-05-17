@@ -25,6 +25,8 @@ public class JoystickDrive extends Command {
     public void execute() {
         double driveX = Robot.oi.getDriveX();
         double driveY = Robot.oi.getDriveY();
+
+        System.out.println("driving");
         Robot.chassis.drivetrain.drive(driveY, driveX);
     }
 }

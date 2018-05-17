@@ -3,11 +3,10 @@ package org.usfirst.frc.team2928;
 public class RobotMap {
     // CAN
     public static final int TALON_FRONT_RIGHT = 0;
-    public static final int TALON_BACK_RIGHT = 1;
-    public static final int TALON_FRONT_LEFT = 14;
-    public static final int TALON_BACK_LEFT = 15;
-    public static final int TALON_LIFTER = 4;
-
+    public static final int TALON_BACK_RIGHT = 0;
+    public static final int TALON_FRONT_LEFT = 0;
+    public static final int TALON_BACK_LEFT = 0;
+    public static final int TALON_LIFTER = 0;
 
     // PWM
     public static final int TALON_SHOOTER_LEFT = 0;
