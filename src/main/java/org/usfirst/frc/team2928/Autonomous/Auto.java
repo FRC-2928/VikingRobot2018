@@ -2,6 +2,7 @@ package org.usfirst.frc.team2928.Autonomous;
 
 public enum Auto {
     SWITCH,
+    TWO_CUBE,
     LINE,
     SCALE,
     MAGIC_SCALE,
