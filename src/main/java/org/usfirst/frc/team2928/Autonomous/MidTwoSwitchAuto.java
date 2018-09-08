@@ -55,7 +55,7 @@ public class MidTwoSwitchAuto extends CommandGroup {
                 .delay(0.1)
                 .addSequential(new FollowProfile(positioningProfile),2.1) //13.2 seconds in
                 .delay(0.1)
-                .addSequential(new FollowProfile("fowardEightFeet"), 4) //Won't make it, will trim down when after testing
+                .addSequential(new FollowProfile("forwardEightFeet"), 4) //Won't make it, will trim down when after testing
                 .addSequential(new OneShotCommand(Robot.chassis.drivetrain::stopProfileDrive, Robot.chassis.drivetrain))
                 .delay(0.25);
 
