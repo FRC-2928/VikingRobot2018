@@ -49,6 +49,7 @@ public class Robot extends IterativeRobot {
         autoSelector = new SendableChooser<>();
         autoSelector.addObject("Do Nothing [Works]", Auto.NOTHING);
         autoSelector.addDefault("Switch [Middle works, sides experimental]", Auto.SWITCH);
+        autoSelector.addObject("Two Cube Switch [Only from middle, no sides]", Auto.TWO_CUBE);
         autoSelector.addObject("Side of switch [Middle works, sides experimental", Auto.SIDE_SWITCH_HOOK);
         autoSelector.addObject("Cross line [From side][Works]", Auto.LINE);
         autoSelector.addObject("Scale [From side][Experimental]", Auto.SCALE);
@@ -58,13 +59,13 @@ public class Robot extends IterativeRobot {
         autoSelector.addObject("Rotate 90 degrees CCW [Test]", Auto.TEST_ROTATION);
         autoSelector.addObject("Drive 5 feet forward [Test]", Auto.TEST_DISTANCE);
         SmartDashboard.putData("Auto Chooser", autoSelector);
-
         startingPositionSelector = new SendableChooser<>();
         startingPositionSelector.addObject("Left", Field.FieldPosition.LEFT);
         startingPositionSelector.addDefault("Middle", Field.FieldPosition.MIDDLE);
         startingPositionSelector.addObject("Right", Field.FieldPosition.RIGHT);
         SmartDashboard.putData("Starting Position", startingPositionSelector);
-        CameraServer.getInstance().startAutomaticCapture();
+        CameraServer.getInstance().startAutomaticCapture(0);
+        CameraServer.getInstance().startAutomaticCapture(1);
         oi = new OperatorInterface();
     }
 
@@ -104,6 +105,19 @@ public class Robot extends IterativeRobot {
                 if (startingPosition == Field.FieldPosition.MIDDLE)
                 {
                     new MidSwitchAuto(Field.getInstance().getNearSwitch()).start();
+                } else if (startingPosition == Field.getInstance().getNearSwitch())
+                {
+                    new SideSwitchAuto(Field.getInstance().getNearSwitch(), startingPosition).start();
+                } else
+                {
+                    new CrossLine().start();
+                }
+                break;
+            }
+            case TWO_CUBE: {
+                if (startingPosition == Field.FieldPosition.MIDDLE)
+                {
+                    new MidTwoSwitchAuto(Field.getInstance().getNearSwitch()).start();
                 } else if (startingPosition == Field.getInstance().getNearSwitch())
                 {
                     new SideSwitchAuto(Field.getInstance().getNearSwitch(), startingPosition).start();
